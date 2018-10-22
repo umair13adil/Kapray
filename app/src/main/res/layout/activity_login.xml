@@ -19,7 +19,7 @@
             android:layout_marginBottom="@dimen/margin_100"
             android:src="@mipmap/ic_launcher" />
 
-        <com.facebook.login.widget.LoginButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_facebook"
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_55"

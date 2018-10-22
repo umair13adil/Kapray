@@ -31,14 +31,6 @@
 
             </com.google.android.material.appbar.AppBarLayout>
 
-            <fragment
-                android:id="@+id/all_posts_fragment"
-                android:name="androidx.navigation.fragment.NavHostFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:defaultNavHost="true"
-                app:navGraph="@navigation/nav_graph" />
-
         </LinearLayout>
 
         <com.google.android.material.navigation.NavigationView

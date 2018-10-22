@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "735899417655",
+    "firebase_url": "https://kapray-97d5a.firebaseio.com",
+    "project_id": "kapray-97d5a",
+    "storage_bucket": "kapray-97d5a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:735899417655:android:d769719841a3ddee",
+        "android_client_info": {
+          "package_name": "com.blackbox.apps.karay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "735899417655-jn0a195in0rb1eogvaqbdlkppfdo49kc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrcOMf8YtjzEaoRLZwbxeOCyjqkEwUSrg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

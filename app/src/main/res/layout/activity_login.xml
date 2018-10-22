@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context=".ui.activities.login.LoginActivity">
+
+    <RelativeLayout
+        android:layout_margin="@dimen/margin_16"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_above="@+id/btn_facebook"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/margin_100"
+            android:src="@mipmap/ic_launcher" />
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/btn_facebook"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_55"
+            android:paddingTop="@dimen/margin_15"
+            android:paddingBottom="@dimen/margin_15"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="@dimen/margin_100"
+            android:layout_alignParentLeft="true" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btn_google"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_55"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/margin_15"
+            android:layout_alignParentLeft="true" />
+
+
+        <ProgressBar
+            android:id="@+id/progress_bar1"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="@dimen/margin_100"
+            android:layout_height="@dimen/margin_100"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:indeterminate="true"
+            android:progress="@integer/anim_duration_long"
+            android:progressTint="@color/colorAccent"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_facebook"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/margin_40"
+            android:text="@string/app_name"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/txt_size_28"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

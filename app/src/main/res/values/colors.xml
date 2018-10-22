@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#e9005b</color>
+    <color name="colorPrimaryDark">#ba0049</color>
+    <color name="colorAccent">#ffffff</color>
+
+
+    <color name="colorTextLight">#dfdfe0</color>
+    <color name="colorTextLightDark">#cdcdd0</color>
+    <color name="colorTextDark">#333333</color>
+    <color name="colorTextEmpty">#787878</color>
+
+    <color name="colorWhiteTranslucent">#64ffffff</color>
+    <color name="translucentWhite">#4bffffff</color>
+    <color name="translucentBlack">#2d000000</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorGray">#555555</color>
+    <color name="colorGreen">#44b469</color>
+    <color name="colorLightBlue">#dce9f2</color>
+    <color name="colorRed">#de211e</color>
+    <color name="colorBlueGray">#455a64</color>
+    <color name="transparent_white">#00FFFFFF</color>
+    <color name="semi_transparent_white">#AAFFFFFF</color>
+
+
+    <color name="bright_pink">#a9225d</color>
+    <color name="red">#ab0a0a</color>
+    <color name="orange">#c96c11</color>
+    <color name="yellow">#bebe0a</color>
+    <color name="chartreuse">#60b110</color>
+    <color name="green">#087908</color>
+    <color name="spring_green">#318f60</color>
+    <color name="cyan">#0d9c9c</color>
+    <color name="azure">#0b5bac</color>
+    <color name="blue">#0000FF</color>
+    <color name="violet">#5c05b4</color>
+    <color name="magenta">#c708c7</color>
+</resources>

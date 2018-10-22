@@ -1,0 +1,166 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppThemeLogin" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+
+    <!-- ToolBar -->
+    <style name="ToolBarStyle" parent="AppTheme">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
+        <item name="colorControlNormal">@color/colorWhite</item>
+    </style>
+
+    <style name="TextTitleStyle">
+        <item name="android:textColor">@color/colorTextLight</item>
+        <item name="android:textSize">@dimen/txt_size_18</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="TextTitleStyle.Large">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">@dimen/txt_size_16</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextTitleStyle.Medium">
+        <item name="android:textColor">@color/colorTextDark</item>
+        <item name="android:textSize">@dimen/txt_size_12</item>
+        <item name="android:gravity">start</item>
+    </style>
+
+    <style name="TextTitleStyle.Medium.Heading">
+        <item name="android:textColor">@color/colorTextDark</item>
+        <item name="android:textSize">@dimen/txt_size_14</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextTitleStyle.Small">
+        <item name="android:textColor">@color/colorTextDark</item>
+        <item name="android:textSize">@dimen/txt_size_14</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextTitleStyle.Smaller">
+        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textSize">@dimen/txt_size_10</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextTitleStyle.Info">
+        <item name="android:textColor">@color/colorTextDark</item>
+        <item name="android:textSize">@dimen/txt_size_10</item>
+        <item name="android:gravity">start</item>
+        <item name="android:drawableTint" tools:targetApi="m">@color/colorTextDark</item>
+        <item name="android:drawablePadding">@dimen/margin_5</item>
+    </style>
+
+    <style name="TextSubTitleStyle">
+        <item name="android:textColor">@color/colorTextLight</item>
+        <item name="android:textSize">@dimen/txt_size_12</item>
+    </style>
+
+    <style name="TextListItemStyleDark">
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textSize">@dimen/txt_size_12</item>
+    </style>
+
+    <style name="TextEmptyStyle">
+        <item name="android:textColor">@color/colorTextEmpty</item>
+        <item name="android:textSize">@dimen/txt_size_14</item>
+    </style>
+
+    <style name="TextCounterStyle">
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">@dimen/txt_size_16</item>
+    </style>
+
+    <style name="ButtonStyle">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/bg_button_blue</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="Theme.Translucent" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/translucentWhite</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/translucentWhite
+        </item>
+    </style>
+
+    <style name="Theme.White" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/colorWhite</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/translucentWhite
+        </item>
+    </style>
+
+    <style name="Theme.Transparent" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <!--ProfileFragment-->
+
+    <style name="scrollbarStyleVertical">
+        <item name="android:scrollbarStyle">outsideInset</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:fadeScrollbars">true</item>
+        <item name="android:scrollbarThumbVertical">@drawable/scroll_bar_thumb</item>
+        <item name="android:scrollbarTrackVertical">@drawable/scroll_bar_track</item>
+        <item name="android:scrollbarSize">6dp</item>
+    </style>
+
+    <style name="AppTabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabMaxWidth">@dimen/margin_55</item>
+        <item name="tabIndicatorColor">?attr/colorAccent</item>
+        <item name="tabIndicatorHeight">4dp</item>
+        <item name="tabPaddingStart">6dp</item>
+        <item name="tabPaddingEnd">6dp</item>
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+        <item name="tabTextAppearance">@style/AppTabTextAppearance</item>
+        <item name="tabSelectedTextColor">@color/colorAccent</item>
+    </style>
+
+    <!-- for text -->
+    <style name="AppTabTextAppearance" parent="TextAppearance.MaterialComponents.Tab">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/orange</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+</resources>

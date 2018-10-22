@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/AppTheme">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:enabled="false">
+
+        <!-- This FrameLayout is still mandatory ONLY IF sticky header is enabled. This
+             layout will help to receive the inflated layout at runtime and to display the
+             Refresh circle AND the FastScroll on the top of sticky_header_layout.
+             If you need to drag items, SwipeRefreshLayout must be disabled! -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_list_post" />
+
+            <!-- NOT NEEDED ANYMORE!! This layout is generated at runtime when
+                 sticky headers are enabled. So you can safely remove it. -->
+            <!--<include layout="@layout/sticky_header_layout"/>-->
+
+        </FrameLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- Custom EmptyView for RV when empty-->
+    <include layout="@layout/empty_view" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:progressTint="@color/colorAccent"
+        android:layout_width="@dimen/margin_100"
+        android:layout_height="@dimen/margin_100"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:progress="@integer/anim_duration_long"
+        android:visibility="gone" />
+</FrameLayout>

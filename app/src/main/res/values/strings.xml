@@ -10,4 +10,8 @@
     <!--Navigation Drawer-->
     <string name="navigation_drawer_header_content_description">Navigation drawer header logo</string>
 
+    <!--Pages-->
+    <string name="page_in_closet">In Closet</string>
+    <string name="page_kept_away">Kept Away</string>
+
 </resources>

@@ -14,15 +14,10 @@
             android:id="@+id/sliding_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:clipToPadding="false"
-            app:tabBackground="@drawable/tab_background"
-            app:tabGravity="fill"
-            app:tabIndicatorHeight="0dp"
-            app:tabMode="scrollable"
-            app:tabPaddingEnd="10dp"
-            app:tabPaddingStart="10dp"
-            app:tabSelectedTextColor="#FFFFFF" />
+            app:tabIndicatorHeight="@dimen/margin_4"
+            app:tabIndicatorColor="@color/colorPrimaryDark"
+            app:tabIndicatorFullWidth="true"
+            style="@style/AppTabTextAppearance" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"

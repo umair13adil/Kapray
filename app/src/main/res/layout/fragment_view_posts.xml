@@ -11,11 +11,19 @@
         android:orientation="vertical">
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/multiTabMenu"
-            style="@style/AppTabLayout"
+            android:id="@+id/tab_seasons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabTextAppearance="@style/AppTabTextAppearance" />
+            android:layout_margin="@dimen/margin_5"
+            android:clipToPadding="false"
+            app:tabBackground="@drawable/tab_background"
+            app:tabGravity="fill"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="scrollable"
+            app:tabPaddingEnd="@dimen/margin_10"
+            app:tabPaddingStart="@dimen/margin_10"
+            app:tabSelectedTextColor="@color/colorWhite"
+            app:tabTextAppearance="@style/SeasonsTabTextAppearance"/>
 
         <include layout="@layout/fragment_recycler_view" />
 

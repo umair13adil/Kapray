@@ -6,8 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.blackbox.apps.karay.R
+import com.blackbox.apps.karay.models.Seasons
 import com.blackbox.apps.karay.models.post.Post
 import com.blackbox.apps.karay.ui.base.BaseFragment
+import com.blackbox.apps.karay.ui.fragments.seasons.SeasonsPagerAdapter
+import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.fragment_view_posts.*
 
 class KeptAwayFragment : BaseFragment() {
 
@@ -33,7 +38,7 @@ class KeptAwayFragment : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.detail_layout, container, false)
+        return inflater.inflate(R.layout.fragment_view_posts, container, false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +52,25 @@ class KeptAwayFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        for(item in Seasons.values()){
+            tab_seasons.addTab(tab_seasons.newTab().setText(item.value))
+        }
+
+        tab_seasons.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            override fun onTabReselected(p0: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabUnselected(p0: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabSelected(p0: TabLayout.Tab?) {
+
+            }
+
+        })
 
         setContent(post)
     }

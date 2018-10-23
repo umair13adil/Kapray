@@ -3,7 +3,10 @@ package com.blackbox.apps.karay.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.blackbox.apps.karay.ui.activities.login.LoginViewModel
+import com.blackbox.apps.karay.ui.fragments.PostViewModel
 import com.blackbox.apps.karay.ui.fragments.detail.DetailViewModel
+import com.blackbox.apps.karay.ui.fragments.main.MainViewModel
+import com.blackbox.apps.karay.ui.fragments.pages.PagesViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -25,6 +28,21 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(DetailViewModel::class)
     abstract fun bindDetailViewModel(viewModel: DetailViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainViewModel::class)
+    abstract fun bindMainViewModel(viewModel: MainViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PostViewModel::class)
+    abstract fun bindPostViewModel(viewModel: PostViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PagesViewModel::class)
+    abstract fun bindPagesViewModel(viewModel: PagesViewModel): ViewModel
 
 
     @Binds

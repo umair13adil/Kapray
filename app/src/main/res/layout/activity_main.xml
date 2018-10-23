@@ -31,6 +31,14 @@
 
             </com.google.android.material.appbar.AppBarLayout>
 
+            <fragment
+                android:id="@+id/main_fragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_graph" />
+
         </LinearLayout>
 
         <com.google.android.material.navigation.NavigationView
@@ -40,22 +48,10 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:headerLayout="@layout/nav_header"
-            app:menu="@menu/menu_navigation" />
+            app:menu="@menu/menu_navigation"
+            app:elevation="@dimen/margin_4"
+            android:forceHasOverlappingRendering="true" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom|right"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:tint="@android:color/white"
-        app:backgroundTint="@color/colorAccent"
-        app:elevation="0dp"
-        app:fabSize="normal"
-        app:srcCompat="@drawable/ic_add" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -2,13 +2,13 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    >
+    app:startDestination="@id/main_fragment">
 
-   <!-- <fragment
-        android:id="@+id/all_posts_fragment"
-        android:name="com.blackbox.apps.karay.ui.fragments.AllPostsFragment"
-        android:label="View Posts"
-        tools:layout="@layout/fragment_view_posts">
-    </fragment>-->
+    <fragment
+        android:id="@+id/main_fragment"
+        android:name="com.blackbox.apps.karay.ui.fragments.main.MainFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_main">
+    </fragment>
 
 </navigation>

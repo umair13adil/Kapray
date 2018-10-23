@@ -6,6 +6,9 @@ import com.blackbox.apps.karay.ui.activities.login.LoginActivity
 import com.blackbox.apps.karay.ui.base.BaseActivity
 import com.blackbox.apps.karay.ui.base.BaseFragment
 import com.blackbox.apps.karay.ui.fragments.detail.DetailFragment
+import com.blackbox.apps.karay.ui.fragments.main.MainFragment
+import com.blackbox.apps.karay.ui.fragments.pages.InClosetFragment
+import com.blackbox.apps.karay.ui.fragments.pages.KeptAwayFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -48,11 +51,22 @@ internal abstract class BindingModule {
     @ContributesAndroidInjector
     abstract fun detailFragment(): DetailFragment
 
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun mainFragment(): MainFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun inClosetFragment(): InClosetFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun keptAwayFragment(): KeptAwayFragment
+
 
     /****************************
      ** Dialogs
      ****************************/
-
 
 
     /****************************

@@ -5,27 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import com.blackbox.apps.karay.R
-import com.blackbox.apps.karay.models.post.Post
 import com.blackbox.apps.karay.ui.base.BaseFragment
+import com.blackbox.apps.karay.utils.setTypeface
 import kotlinx.android.synthetic.main.fragment_main.*
 
 
 class MainFragment : BaseFragment() {
 
     private lateinit var viewModel: MainViewModel
-    var post: Post? = null
-
-    companion object {
-
-        private const val ARG_MOVIE = "post"
-
-        fun bundleArgs(movie: Post?): Bundle {
-            return Bundle().apply {
-                this.putParcelable(ARG_MOVIE, movie)
-            }
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_main, container, false)
@@ -36,39 +25,40 @@ class MainFragment : BaseFragment() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
 
-        //Get parcelable post object here
-        post = arguments?.getParcelable(ARG_MOVIE)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setContent(post)
+        setEmptyContentLayout()
+    }
 
+    private fun setEmptyContentLayout(){
+
+        //Set Fonts
+        txt_h1.typeface = setTypeface(activity!!)
+        txt_b1.typeface = setTypeface(activity!!)
+        btn_add.typeface = setTypeface(activity!!)
+
+        //Show/Hide Views
+        content_empty.visibility = View.VISIBLE
+        content_main.visibility = View.GONE
+
+        btn_add.setOnClickListener {
+            Navigation.findNavController(view!!).navigate(R.id.action_MainFragment_to_AddNewFragment)
+        }
+    }
+
+    private fun setHomeLayout(){
         val adapter = MainPagerAdapter(activity!!, fragmentManager!!)
 
         // Set the adapter onto the view pager
         viewPager.adapter = adapter
 
         sliding_tabs.setupWithViewPager(viewPager)
+
+        //Show/Hide Views
+        content_empty.visibility = View.GONE
+        content_main.visibility = View.VISIBLE
     }
-
-    private fun setContent(movie: Post?) {
-
-        //Set content in Collapsing Toolbar
-        /*toolbar_layout?.title = post?.title
-        toolbar_layout?.setCollapsedTitleTextAppearance(R.style.collapsedAppBar)
-        toolbar_layout?.setExpandedTitleTextAppearance(R.style.expandedAppBar)
-        toolbar_layout?.setContentScrimColor(ContextCompat.getColor(activity!!, R.color.colorPrimaryDark))
-        toolbar_layout.setExpandedTitleColor(ContextCompat.getColor(activity!!, android.R.color.transparent))
-        toolbar_layout.setStatusBarScrimColor(ContextCompat.getColor(activity!!, android.R.color.transparent))
-
-
-        Picasso.with(activity).load(Constants.BASE_URL_IMAGE + post?.posterPath).into(img_header)
-
-        //Set content in details section
-        txt_title?.text = post?.title
-        txt_description?.text = post?.overview*/
-    }
-
 }

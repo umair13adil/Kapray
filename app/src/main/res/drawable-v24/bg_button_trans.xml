@@ -4,6 +4,6 @@
         android:radius="@dimen/margin_5"
         />
     <solid
-        android:color="@color/colorPrimaryDark"
+        android:color="@color/translucentWhite"
         />
 </shape>

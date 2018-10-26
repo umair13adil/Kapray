@@ -2,6 +2,7 @@ package com.blackbox.apps.karay.ui.activities
 
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,6 +13,14 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.blackbox.apps.karay.R
 import com.blackbox.apps.karay.ui.base.BaseActivity
+import com.blackbox.apps.karay.ui.fragments.add.AddNewFragment
+import com.blackbox.apps.karay.utils.createImageDirectories
+import com.blackbox.apps.karay.utils.helpers.CompressionHelper
+import com.blackbox.apps.karay.utils.helpers.PermissionsHelper
+import com.michaelflisar.rxbus2.RxBus
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
@@ -19,6 +28,12 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //Request for storage permissions
+        PermissionsHelper.requestStoragePermissions(this)
+
+        //Create App Directories
+        createImageDirectories()
 
         val navController = Navigation.findNavController(this, R.id.main_fragment)
 
@@ -142,4 +157,30 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
     }
+
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        if (resultCode != RESULT_CANCELED) {
+            if (requestCode == AddNewFragment.CAPTURE_PHOTO && resultCode == RESULT_OK) {
+                showLoading(getString(R.string.txt_preparing_image))
+
+                CompressionHelper.compressImage(this)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeBy(
+                                onNext = { imageCaptured ->
+                                    hideLoading()
+                                    //Send result here
+                                    RxBus.get().send(imageCaptured)
+                                },
+                                onError = {
+                                    hideLoading()
+                                }
+                        )
+
+            }
+        }
+
+    }
+
 }

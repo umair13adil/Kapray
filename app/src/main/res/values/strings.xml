@@ -7,11 +7,23 @@
     <string name="endless_cancel">Cancelled by the user.</string>
     <string name="endless_error">An error occurred while loading more items.</string>
 
+    <!--GeneralText-->
+    <string name="txt_awesome">Awesome!</string>
+    <string name="txt_add">Add</string>
+
     <!--Navigation Drawer-->
     <string name="navigation_drawer_header_content_description">Navigation drawer header logo</string>
 
     <!--Pages-->
     <string name="page_in_closet">In Closet</string>
     <string name="page_kept_away">Kept Away</string>
+
+    <!--EmptyContent-->
+    <string name="txt_account_created">You have successfully created your account, now let\'s add your first clothing from your wardrobe.</string>
+
+    <!--AddNewFragment-->
+    <string name="txt_add_image">Add your dress\'s photo</string>
+    <string name="txt_take_photo">Take Photo</string>
+    <string name="txt_preparing_image">Preparing image..</string>
 
 </resources>

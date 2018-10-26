@@ -8,21 +8,55 @@
         android:id="@+id/content_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/sliding_tabs"
+            style="@style/AppTabTextAppearance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorHeight="@dimen/margin_4"
             app:tabIndicatorColor="@color/colorPrimaryDark"
             app:tabIndicatorFullWidth="true"
-            style="@style/AppTabTextAppearance" />
+            app:tabIndicatorHeight="@dimen/margin_4" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/content_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_35">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txt_h1"
+            style="@style/TextTitleStyle.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_awesome" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txt_b1"
+            style="@style/TextTitleStyle.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:text="@string/txt_account_created" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_add"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_40"
+            android:text="@string/txt_add" />
 
     </LinearLayout>
 
@@ -33,7 +67,7 @@
         android:layout_margin="@dimen/margin_16"
         android:clickable="true"
         android:scaleType="center"
-        android:visibility="visible"
+        android:visibility="gone"
         app:backgroundTint="@color/colorPrimaryDark"
         app:borderWidth="0dp"
         app:elevation="6dp"

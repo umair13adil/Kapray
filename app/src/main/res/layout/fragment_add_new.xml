@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_h1"
+        style="@style/TextTitleStyle.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_45"
+        android:text="@string/txt_add_image" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_preview"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_400"
+            android:layout_margin="@dimen/margin_25"
+            android:background="@drawable/bg_dashed_border" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_add_photo"
+            style="@style/ButtonStyle.Transparent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_take_photo"
+            android:layout_marginLeft="@dimen/margin_55"
+            android:layout_marginRight="@dimen/margin_55"
+            android:layout_gravity="center"
+            />
+
+    </FrameLayout>
+
+</LinearLayout>

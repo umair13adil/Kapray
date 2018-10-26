@@ -9,6 +9,21 @@
         android:name="com.blackbox.apps.karay.ui.fragments.main.MainFragment"
         android:label="Home"
         tools:layout="@layout/fragment_main">
+
+        <action
+            android:id="@+id/action_MainFragment_to_AddNewFragment"
+            app:destination="@id/add_new_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
     </fragment>
+
+    <fragment
+        android:id="@+id/add_new_fragment"
+        android:name="com.blackbox.apps.karay.ui.fragments.add.AddNewFragment"
+        android:label="Movie Detail"
+        tools:layout="@layout/fragment_add_new" />
 
 </navigation>

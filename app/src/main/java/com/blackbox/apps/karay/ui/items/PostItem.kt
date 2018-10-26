@@ -14,7 +14,6 @@ import com.blackbox.apps.karay.R
 import com.blackbox.apps.karay.models.post.Post
 import com.blackbox.apps.karay.utils.Constants
 import com.blackbox.apps.karay.utils.DateTimeUtils
-import com.blackbox.apps.karay.utils.Utils
 import com.squareup.picasso.Picasso
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.helpers.AnimatorHelper

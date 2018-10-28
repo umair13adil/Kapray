@@ -6,6 +6,7 @@ import com.blackbox.apps.karay.ui.activities.login.LoginActivity
 import com.blackbox.apps.karay.ui.base.BaseActivity
 import com.blackbox.apps.karay.ui.base.BaseFragment
 import com.blackbox.apps.karay.ui.fragments.add.AddNewFragment
+import com.blackbox.apps.karay.ui.fragments.add.AdditionalInfoFragment
 import com.blackbox.apps.karay.ui.fragments.detail.DetailFragment
 import com.blackbox.apps.karay.ui.fragments.main.MainFragment
 import com.blackbox.apps.karay.ui.fragments.pages.InClosetFragment
@@ -67,6 +68,10 @@ internal abstract class BindingModule {
     @FragmentScope
     @ContributesAndroidInjector
     abstract fun addNewFragment(): AddNewFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun additionalInfoFragment(): AdditionalInfoFragment
 
 
     /****************************

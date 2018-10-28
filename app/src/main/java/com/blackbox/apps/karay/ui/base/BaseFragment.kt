@@ -18,18 +18,24 @@ import com.blackbox.apps.karay.models.post.Post
 import com.blackbox.apps.karay.ui.fragments.detail.DetailFragment
 import com.blackbox.apps.karay.ui.items.PostItem
 import com.blackbox.apps.karay.ui.items.ProgressItem
+import com.michaelflisar.rxbus2.interfaces.IRxBusQueue
+import com.michaelflisar.rxbus2.rx.RxDisposableManager
 import dagger.android.support.AndroidSupportInjection
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.SelectableAdapter
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.items.IFlexible
+import io.reactivex.processors.BehaviorProcessor
 import kotlinx.android.synthetic.main.progress_item.*
+import org.reactivestreams.Publisher
 import javax.inject.Inject
 
 
 abstract class BaseFragment : Fragment(),
         FlexibleAdapter.OnItemClickListener,
-        FlexibleAdapter.OnItemSwipeListener {
+        FlexibleAdapter.OnItemSwipeListener, IRxBusQueue {
+
+    private val mResumedProcessor = BehaviorProcessor.createDefault(false)
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -270,5 +276,45 @@ abstract class BaseFragment : Fragment(),
                         progress_bar.visibility = View.GONE
                     }
                 })
+    }
+
+    fun hideViewWithDelay(view: View?){
+        //Hide Layout
+        view?.animate()
+                ?.translationY(view.height.toFloat())
+                ?.alpha(0.0f)
+                ?.setDuration(resources.getInteger(R.integer.anim_duration_long).toLong())
+                ?.setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        view.visibility = View.GONE
+                    }
+                })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mResumedProcessor.onNext(true)
+    }
+
+    override fun onPause() {
+        mResumedProcessor.onNext(false)
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        RxDisposableManager.unsubscribe(this)
+        super.onDestroy()
+    }
+
+    // --------------
+    // Interface RxBus
+    // --------------
+
+    override fun isBusResumed(): Boolean {
+        return mResumedProcessor.value!!
+    }
+
+    override fun getResumeObservable(): Publisher<Boolean> {
+        return mResumedProcessor
     }
 }

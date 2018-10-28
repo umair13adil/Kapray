@@ -16,7 +16,6 @@ import com.blackbox.apps.karay.ui.base.BaseActivity
 import com.blackbox.apps.karay.ui.fragments.add.AddNewFragment
 import com.blackbox.apps.karay.utils.createImageDirectories
 import com.blackbox.apps.karay.utils.helpers.CompressionHelper
-import com.blackbox.apps.karay.utils.helpers.PermissionsHelper
 import com.michaelflisar.rxbus2.RxBus
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
@@ -28,9 +27,6 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        //Request for storage permissions
-        PermissionsHelper.requestStoragePermissions(this)
 
         //Create App Directories
         createImageDirectories()

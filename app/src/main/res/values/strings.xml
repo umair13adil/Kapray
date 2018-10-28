@@ -1,15 +1,26 @@
 <resources>
     <string name="app_name">Karay</string>
 
+    <!--ScreenNames-->
+    <string name="screen_home">Home</string>
+    <string name="screen_add_new">Add Clothing Photo</string>
+    <string name="screen_additional_info">Add Additional Info</string>
+
     <!--General-->
     <string name="no_more_load_retry">No more items to load. Refresh to retry.</string>
     <string name="endless_disabled">No more items to load (max reached).</string>
     <string name="endless_cancel">Cancelled by the user.</string>
     <string name="endless_error">An error occurred while loading more items.</string>
 
+    <!--Errors-->
+    <string name="error_camera_permissions">Camera permissions are required!</string>
+
     <!--GeneralText-->
     <string name="txt_awesome">Awesome!</string>
     <string name="txt_add">Add</string>
+    <string name="txt_next">Next</string>
+    <string name="txt_skip">Skip</string>
+    <string name="txt_save">Save</string>
 
     <!--Navigation Drawer-->
     <string name="navigation_drawer_header_content_description">Navigation drawer header logo</string>
@@ -24,6 +35,12 @@
     <!--AddNewFragment-->
     <string name="txt_add_image">Add your dress\'s photo</string>
     <string name="txt_take_photo">Take Photo</string>
+    <string name="txt_retake_photo">Re-Take Photo</string>
     <string name="txt_preparing_image">Preparing image..</string>
+
+
+    <!--AddAdditionalInfoFragment-->
+    <string name="txt_add_additional_info">Add your dress\'s brand, date purchase, season info</string>
+
 
 </resources>

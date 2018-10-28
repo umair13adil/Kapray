@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import io.reactivex.annotations.NonNull
 import java.io.File
 
@@ -36,8 +37,12 @@ fun createDirIfNotExists(@NonNull path: String): Boolean {
     return ret
 }
 
-fun createImageDirectories(){
+fun createImageDirectories() {
     createDirIfNotExists(Constants.appStoragePath)
     createDirIfNotExists(Constants.imagesPath)
     createDirIfNotExists(Constants.imagesCapturedPath)
+}
+
+fun showToast(message: String, activity: Activity) {
+    Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
 }

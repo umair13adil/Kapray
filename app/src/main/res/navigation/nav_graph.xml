@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/main_fragment"
         android:name="com.blackbox.apps.karay.ui.fragments.main.MainFragment"
-        android:label="Home"
+        android:label="@string/screen_home"
         tools:layout="@layout/fragment_main">
 
         <action
@@ -21,9 +21,25 @@
     </fragment>
 
     <fragment
+        android:id="@+id/add_additional_info_fragment"
+        android:name="com.blackbox.apps.karay.ui.fragments.add.AdditionalInfoFragment"
+        android:label="@string/screen_additional_info"
+        tools:layout="@layout/fragment_additional_info"/>
+
+    <fragment
         android:id="@+id/add_new_fragment"
         android:name="com.blackbox.apps.karay.ui.fragments.add.AddNewFragment"
-        android:label="Movie Detail"
-        tools:layout="@layout/fragment_add_new" />
+        android:label="@string/screen_add_new"
+        tools:layout="@layout/fragment_add_new">
+
+        <action
+            android:id="@+id/action_AddNewFragment_to_AdditionalInfoFragment"
+            app:destination="@id/add_additional_info_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+    </fragment>
 
 </navigation>

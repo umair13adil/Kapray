@@ -9,6 +9,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import io.fabric.sdk.android.Fabric
+import io.realm.Realm
 import io.realm.RealmConfiguration
 import javax.inject.Inject
 
@@ -28,8 +29,8 @@ class App : Application(), HasActivityInjector {
 
         Fabric.with(this, Crashlytics())
 
-        //Realm.init(this)
-        //Realm.setDefaultConfiguration(realmConfig)
+        Realm.init(this)
+        Realm.setDefaultConfiguration(realmConfig)
 
         DaggerAppComponent
                 .builder()
@@ -46,7 +47,7 @@ class App : Application(), HasActivityInjector {
 
     val realmConfig: RealmConfiguration
         get() = RealmConfiguration.Builder()
-                .name("KaprayDB")
+                .name("Kapray.realm")
                 .deleteRealmIfMigrationNeeded()
                 .schemaVersion(1)
                 .build()

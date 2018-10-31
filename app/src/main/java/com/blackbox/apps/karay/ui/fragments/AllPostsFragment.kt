@@ -98,8 +98,8 @@ class AllPostsFragment : BaseFragment() {
 
         mAdapter!!.withOnClickListener(FastAdapter.OnClickListener<PostItem> { v, adapter, item, position ->
             try {
-                val post = mAdapter!!.getAdapterItem(position)
-                var route = post.route + getString(R.string.google_maps_key)
+                val womenLocal = mAdapter!!.getAdapterItem(position)
+                var route = womenLocal.route + getString(R.string.google_maps_key)
                 val sendLocationToMap = Intent(Intent.ACTION_VIEW,
                         Uri.parse(route))
                 startActivity(sendLocationToMap)

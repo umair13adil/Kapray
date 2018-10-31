@@ -23,7 +23,7 @@ class Constants {
         //Firebase
         val TABLE_REQUESTS = "requests"
         val TABLE_ADMIN_CONTACT = "admin_contact"
-        val TABLE_ROUTE = "post"
+        val TABLE_ROUTE = "womenLocal"
         val TABLE_CATEGORY = "category"
         val TABLE_SUB_CATEGORY = "subCategory"
         val TABLE_PHOTOS = "feed_photos"

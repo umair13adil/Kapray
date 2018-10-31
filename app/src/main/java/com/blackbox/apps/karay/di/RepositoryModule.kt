@@ -13,13 +13,13 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun providePostRepository(context: Context, db: RealmHelper): PostRepository {
-        return PostRepository(context,db)
+    fun providePostRepository(db: RealmHelper): PostRepository {
+        return PostRepository(db)
     }
 
     @Provides
     @Singleton
-    fun provideMainDataSource(context: Context, db: RealmHelper): MainRepository {
-        return MainRepository(context, db)
+    fun provideMainDataSource(db: RealmHelper): MainRepository {
+        return MainRepository(db)
     }
 }

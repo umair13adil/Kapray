@@ -32,6 +32,9 @@ class PostItem(val post: Post) : AbstractFlexibleItem<PostItem.ParentViewHolder>
         isSelectable = true
     }
 
+    //Boolean flags
+    var isSelected = false
+
     /**
      * When an item is equals to another?
      * Write your own concept of equals, mandatory to implement.
@@ -53,8 +56,8 @@ class PostItem(val post: Post) : AbstractFlexibleItem<PostItem.ParentViewHolder>
     }
 
     override fun filter(constraint: String?): Boolean {
-        /*return post.originalTitle != null && post.originalTitle?.toLowerCase()?.trim()?.contains(constraint!!)!! ||
-                post.overview != null && post.overview?.toLowerCase()?.trim()?.contains(constraint!!)!!*/
+        /*return womenLocal.originalTitle != null && womenLocal.originalTitle?.toLowerCase()?.trim()?.contains(constraint!!)!! ||
+                womenLocal.overview != null && womenLocal.overview?.toLowerCase()?.trim()?.contains(constraint!!)!!*/
         return true
     }
 

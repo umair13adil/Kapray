@@ -125,7 +125,7 @@ class PostViewModel @Inject constructor(private var app: Application) : ViewMode
                     postItem.name = item.name
                     postItem.text = item.text
                     postItem.time = item.time
-                    postItem.post = item.route
+                    postItem.womenLocal = item.route
                     postItem.points = item.points*/
 
                         //mAdapter!!.add(postItem)

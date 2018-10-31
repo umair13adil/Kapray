@@ -1,6 +1,7 @@
 package com.blackbox.apps.karay.utils
 
 import android.content.Context
+import com.blackbox.apps.karay.models.brands.WomenLocalBrand
 import io.realm.Realm
 
 /**
@@ -14,12 +15,10 @@ object RealmImporter {
         realm.executeTransaction { realm1 ->
             val am = context.assets
             try {
-                val inputStream = am.open("sample.json")
-                //realm1.createAllFromJson(Job::class.java, inputStream)
+                val inputStream = am.open("women_brands.json")
+                realm1.createAllFromJson(WomenLocalBrand::class.java, inputStream)
             } catch (e: Exception) {
                 e.printStackTrace()
-            } finally {
-                realm1.close()
             }
         }
     }

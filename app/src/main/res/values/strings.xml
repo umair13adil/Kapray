@@ -41,6 +41,6 @@
 
     <!--AddAdditionalInfoFragment-->
     <string name="txt_add_additional_info">Add your dress\'s brand, date purchase, season info</string>
-
+    <string name="txt_enter_brand_name">Enter brand name here</string>
 
 </resources>

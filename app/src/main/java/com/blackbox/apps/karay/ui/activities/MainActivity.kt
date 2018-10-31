@@ -14,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.blackbox.apps.karay.R
 import com.blackbox.apps.karay.ui.base.BaseActivity
 import com.blackbox.apps.karay.ui.fragments.add.AddNewFragment
+import com.blackbox.apps.karay.utils.RealmImporter
 import com.blackbox.apps.karay.utils.createImageDirectories
 import com.blackbox.apps.karay.utils.helpers.CompressionHelper
 import com.michaelflisar.rxbus2.RxBus
@@ -48,6 +49,8 @@ class MainActivity : BaseActivity() {
                 showToolBarOption(true)
             }*/
         }
+
+        RealmImporter.importFromJson(this)
     }
 
     override fun onSupportNavigateUp(): Boolean {

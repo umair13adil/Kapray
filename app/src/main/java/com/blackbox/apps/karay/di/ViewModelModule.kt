@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.blackbox.apps.karay.ui.activities.login.LoginViewModel
 import com.blackbox.apps.karay.ui.fragments.PostViewModel
+import com.blackbox.apps.karay.ui.fragments.add.AddNewViewModel
 import com.blackbox.apps.karay.ui.fragments.detail.DetailViewModel
 import com.blackbox.apps.karay.ui.fragments.main.MainViewModel
 import com.blackbox.apps.karay.ui.fragments.pages.PagesViewModel
@@ -43,6 +44,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(PagesViewModel::class)
     abstract fun bindPagesViewModel(viewModel: PagesViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AddNewViewModel::class)
+    abstract fun bindAddNewViewModel(viewModel: AddNewViewModel): ViewModel
 
 
     @Binds

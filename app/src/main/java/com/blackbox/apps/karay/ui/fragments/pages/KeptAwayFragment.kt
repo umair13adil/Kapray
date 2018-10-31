@@ -21,7 +21,7 @@ class KeptAwayFragment : BaseFragment() {
 
     companion object {
 
-        private const val ARG_MOVIE = "post"
+        private const val ARG_MOVIE = "womenLocal"
 
         fun newInstance(): KeptAwayFragment {
             val fragment = KeptAwayFragment()
@@ -46,7 +46,7 @@ class KeptAwayFragment : BaseFragment() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(PagesViewModel::class.java)
 
-        //Get parcelable post object here
+        //Get parcelable womenLocal object here
         post = arguments?.getParcelable(ARG_MOVIE)
     }
 
@@ -78,7 +78,7 @@ class KeptAwayFragment : BaseFragment() {
     private fun setContent(movie: Post?) {
 
         //Set content in Collapsing Toolbar
-        /*toolbar_layout?.title = post?.title
+        /*toolbar_layout?.title = womenLocal?.title
         toolbar_layout?.setCollapsedTitleTextAppearance(R.style.collapsedAppBar)
         toolbar_layout?.setExpandedTitleTextAppearance(R.style.expandedAppBar)
         toolbar_layout?.setContentScrimColor(ContextCompat.getColor(activity!!, R.color.colorPrimaryDark))
@@ -86,11 +86,11 @@ class KeptAwayFragment : BaseFragment() {
         toolbar_layout.setStatusBarScrimColor(ContextCompat.getColor(activity!!, android.R.color.transparent))
 
 
-        Picasso.with(activity).load(Constants.BASE_URL_IMAGE + post?.posterPath).into(img_header)
+        Picasso.with(activity).load(Constants.BASE_URL_IMAGE + womenLocal?.posterPath).into(img_header)
 
         //Set content in details section
-        txt_title?.text = post?.title
-        txt_description?.text = post?.overview*/
+        txt_title?.text = womenLocal?.title
+        txt_description?.text = womenLocal?.overview*/
     }
 
 }

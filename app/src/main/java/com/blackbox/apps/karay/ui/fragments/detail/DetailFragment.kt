@@ -16,7 +16,7 @@ class DetailFragment : BaseFragment() {
 
     companion object {
 
-        private const val ARG_MOVIE = "womenLocal"
+        private const val ARG_MOVIE = "womenClothing"
 
         fun bundleArgs(movie: Post?): Bundle {
             return Bundle().apply {
@@ -34,7 +34,7 @@ class DetailFragment : BaseFragment() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DetailViewModel::class.java)
 
-        //Get parcelable womenLocal object here
+        //Get parcelable womenClothing object here
         post = arguments?.getParcelable(ARG_MOVIE)
     }
 
@@ -47,7 +47,7 @@ class DetailFragment : BaseFragment() {
     private fun setContent(movie: Post?) {
 
         //Set content in Collapsing Toolbar
-        /*toolbar_layout?.title = womenLocal?.title
+        /*toolbar_layout?.title = womenClothing?.title
         toolbar_layout?.setCollapsedTitleTextAppearance(R.style.collapsedAppBar)
         toolbar_layout?.setExpandedTitleTextAppearance(R.style.expandedAppBar)
         toolbar_layout?.setContentScrimColor(ContextCompat.getColor(activity!!, R.color.colorPrimaryDark))
@@ -55,11 +55,11 @@ class DetailFragment : BaseFragment() {
         toolbar_layout.setStatusBarScrimColor(ContextCompat.getColor(activity!!, android.R.color.transparent))
 
 
-        Picasso.with(activity).load(Constants.BASE_URL_IMAGE + womenLocal?.posterPath).into(img_header)
+        Picasso.with(activity).load(Constants.BASE_URL_IMAGE + womenClothing?.posterPath).into(img_header)
 
         //Set content in details section
-        txt_title?.text = womenLocal?.title
-        txt_description?.text = womenLocal?.overview*/
+        txt_title?.text = womenClothing?.title
+        txt_description?.text = womenClothing?.overview*/
     }
 
 }

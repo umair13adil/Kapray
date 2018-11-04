@@ -6,7 +6,7 @@ import io.realm.RealmObject
 
 class RealmHelper {
 
-    private fun getRealmInstance(): Realm {
+    fun getRealmInstance(): Realm {
         try {
             return Realm.getDefaultInstance()
         } catch (e: Exception) {

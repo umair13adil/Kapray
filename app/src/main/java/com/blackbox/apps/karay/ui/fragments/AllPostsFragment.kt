@@ -27,7 +27,7 @@ class AllPostsFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_view_posts, container, false)
+        return inflater.inflate(R.layout.fragment_view_clothings, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -98,8 +98,8 @@ class AllPostsFragment : BaseFragment() {
 
         mAdapter!!.withOnClickListener(FastAdapter.OnClickListener<PostItem> { v, adapter, item, position ->
             try {
-                val womenLocal = mAdapter!!.getAdapterItem(position)
-                var route = womenLocal.route + getString(R.string.google_maps_key)
+                val womenClothing = mAdapter!!.getAdapterItem(position)
+                var route = womenClothing.route + getString(R.string.google_maps_key)
                 val sendLocationToMap = Intent(Intent.ACTION_VIEW,
                         Uri.parse(route))
                 startActivity(sendLocationToMap)

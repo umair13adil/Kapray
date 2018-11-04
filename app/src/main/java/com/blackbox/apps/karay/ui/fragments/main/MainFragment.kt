@@ -1,7 +1,6 @@
 package com.blackbox.apps.karay.ui.fragments.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,39 +31,51 @@ class MainFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setEmptyContentLayout()
+        val listOfClothing = viewModel.getListOfWomenClothing()
 
-        viewModel.getListOfWomenClothing().forEach {
-            Log.i(TAG,it.toString())
+        if (listOfClothing.isEmpty()) {
+            setEmptyContentLayout()
+        } else {
+            setHomeLayout()
         }
     }
 
-    private fun setEmptyContentLayout(){
+    override fun onResume() {
+        super.onResume()
+    }
+
+    private fun setEmptyContentLayout() {
 
         //Set Fonts
-        txt_h1.typeface = setTypeface(activity!!)
-        txt_b1.typeface = setTypeface(activity!!)
-        btn_add.typeface = setTypeface(activity!!)
+        txt_h1?.typeface = setTypeface(activity!!)
+        txt_b1?.typeface = setTypeface(activity!!)
+        btn_add?.typeface = setTypeface(activity!!)
 
         //Show/Hide Views
-        content_empty.visibility = View.VISIBLE
-        content_main.visibility = View.GONE
+        content_empty?.visibility = View.VISIBLE
+        content_main?.visibility = View.GONE
+        fab_add?.visibility = View.GONE
 
-        btn_add.setOnClickListener {
+        btn_add?.setOnClickListener {
             Navigation.findNavController(view!!).navigate(R.id.action_MainFragment_to_AddNewFragment)
         }
     }
 
-    private fun setHomeLayout(){
+    private fun setHomeLayout() {
         val adapter = MainPagerAdapter(activity!!, fragmentManager!!)
 
         // Set the adapter onto the view pager
-        viewPager.adapter = adapter
+        viewPager?.adapter = adapter
 
-        sliding_tabs.setupWithViewPager(viewPager)
+        sliding_tabs?.setupWithViewPager(viewPager)
 
         //Show/Hide Views
-        content_empty.visibility = View.GONE
-        content_main.visibility = View.VISIBLE
+        content_empty?.visibility = View.GONE
+        content_main?.visibility = View.VISIBLE
+        fab_add?.visibility = View.VISIBLE
+
+        fab_add?.setOnClickListener {
+            Navigation.findNavController(view!!).navigate(R.id.action_MainFragment_to_AddNewFragment)
+        }
     }
 }

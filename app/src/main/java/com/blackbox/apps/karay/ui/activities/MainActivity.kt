@@ -12,6 +12,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.blackbox.apps.karay.R
+import com.blackbox.apps.karay.models.brands.WomenLocalBrand
 import com.blackbox.apps.karay.ui.base.BaseActivity
 import com.blackbox.apps.karay.ui.fragments.add.AddNewFragment
 import com.blackbox.apps.karay.utils.RealmImporter
@@ -21,6 +22,7 @@ import com.michaelflisar.rxbus2.RxBus
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
@@ -50,7 +52,13 @@ class MainActivity : BaseActivity() {
             }*/
         }
 
-        RealmImporter.importFromJson(this)
+        val realm = Realm.getDefaultInstance()
+        val list = realm.where(WomenLocalBrand::class.java).findAll()
+        list?.let {
+            if (it.isNotEmpty()) {
+                RealmImporter.importFromJson(this)
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

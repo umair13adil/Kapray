@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/sliding_tabs"
@@ -33,7 +33,8 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="@dimen/margin_35">
+        android:padding="@dimen/margin_35"
+        android:visibility="gone">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txt_h1"
@@ -67,7 +68,7 @@
         android:layout_margin="@dimen/margin_16"
         android:clickable="true"
         android:scaleType="center"
-        android:visibility="gone"
+        android:visibility="visible"
         app:backgroundTint="@color/colorPrimaryDark"
         app:borderWidth="0dp"
         app:elevation="6dp"

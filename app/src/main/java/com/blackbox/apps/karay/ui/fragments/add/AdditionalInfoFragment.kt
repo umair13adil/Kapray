@@ -146,6 +146,12 @@ class AdditionalInfoFragment : BaseFragment(), DatePickerDialog.OnDateSetListene
             val brandName = tv.text.toString()
             input_women_brand_name.setText(brandName)
             womenClothing.brand_name = brandName
+
+            val url = viewModel.getLogoURL(brandName)
+            url?.let {
+                womenClothing.brand_logo_url = it
+                Log.i(TAG, "Logo URL: $it")
+            }
         }
 
         // add the listener so it will tries to suggest while the user types

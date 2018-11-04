@@ -5,6 +5,7 @@ import io.realm.RealmObject
 open class WomenClothing(
         /*@PrimaryKey*/ var id_local: Int = 0,
         var brand_name: String = "",
+        var brand_logo_url: String = "",
         var image: String = "",
         var date_purchased: String = "",
         var season_info: String = "",

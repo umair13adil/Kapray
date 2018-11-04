@@ -7,9 +7,11 @@ import android.view.animation.AccelerateInterpolator
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.blackbox.apps.karay.models.enums.AdapterActions
+import com.blackbox.apps.karay.utils.GridDividerDecoration
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.SelectableAdapter
-import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
+import eu.davidea.flexibleadapter.common.SmoothScrollGridLayoutManager
+import eu.davidea.flexibleadapter.common.SmoothScrollStaggeredLayoutManager
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -29,7 +31,7 @@ object ListHelper : FlexibleAdapter.OnActionStateListener, FlexibleAdapter.OnIte
     var adapterActions: AdapterActions? = null
 
     //List Adapter
-    private fun setUpAdapter(mItems: ArrayList<IFlexible<*>>?, recyclerView: RecyclerView, context: Context): FlexibleAdapter<*> {
+    fun setUpAdapter(mItems: ArrayList<IFlexible<*>>?, recyclerView: RecyclerView, context: Context): FlexibleAdapter<*> {
 
         this.adapter = FlexibleAdapter(mItems, this, true)
         this.mItems = mItems!!
@@ -45,10 +47,11 @@ object ListHelper : FlexibleAdapter.OnActionStateListener, FlexibleAdapter.OnIte
                 ?.setAnimationDuration(1)
                 ?.setAnimationEntryStep(true)
 
-        val layoutManager = SmoothScrollLinearLayoutManager(context)
+        val layoutManager = SmoothScrollStaggeredLayoutManager(context, 1)
         recyclerView.layoutManager = layoutManager as RecyclerView.LayoutManager?
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
+        recyclerView.addItemDecoration(GridDividerDecoration(context))
         recyclerView.itemAnimator = DefaultItemAnimator() as RecyclerView.ItemAnimator?
         adapter.setSwipeEnabled(true)
                 ?.setAnimateChangesWithDiffUtil(true)

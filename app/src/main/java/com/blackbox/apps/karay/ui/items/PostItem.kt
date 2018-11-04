@@ -55,8 +55,8 @@ class PostItem(val post: Post) : AbstractFlexibleItem<PostItem.ParentViewHolder>
     }
 
     override fun filter(constraint: String?): Boolean {
-        /*return womenLocal.originalTitle != null && womenLocal.originalTitle?.toLowerCase()?.trim()?.contains(constraint!!)!! ||
-                womenLocal.overview != null && womenLocal.overview?.toLowerCase()?.trim()?.contains(constraint!!)!!*/
+        /*return womenClothing.originalTitle != null && womenClothing.originalTitle?.toLowerCase()?.trim()?.contains(constraint!!)!! ||
+                womenClothing.overview != null && womenClothing.overview?.toLowerCase()?.trim()?.contains(constraint!!)!!*/
         return true
     }
 

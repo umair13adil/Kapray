@@ -20,6 +20,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
+                style="@style/scrollbarStyleVertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:listitem="@layout/item_list_post" />
@@ -38,11 +39,11 @@
     <ProgressBar
         android:id="@+id/progress_bar"
         style="@style/Widget.AppCompat.ProgressBar"
-        android:progressTint="@color/colorAccent"
         android:layout_width="@dimen/margin_100"
         android:layout_height="@dimen/margin_100"
         android:layout_gravity="center"
         android:indeterminate="true"
         android:progress="@integer/anim_duration_long"
+        android:progressTint="@color/colorAccent"
         android:visibility="gone" />
 </FrameLayout>

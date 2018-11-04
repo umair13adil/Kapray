@@ -6,22 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.blackbox.apps.karay.R
-import com.blackbox.apps.karay.models.Seasons
-import com.blackbox.apps.karay.models.post.Post
+import com.blackbox.apps.karay.models.enums.AdapterActions
 import com.blackbox.apps.karay.ui.base.BaseFragment
-import com.blackbox.apps.karay.ui.fragments.seasons.SeasonsPagerAdapter
-import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.fragment_main.*
-import kotlinx.android.synthetic.main.fragment_view_posts.*
+import com.blackbox.apps.karay.ui.fragments.main.MainViewModel
+import eu.davidea.flexibleadapter.items.IFlexible
+import kotlinx.android.synthetic.main.fragment_recycler_view.*
+import kotlinx.android.synthetic.main.fragment_view_clothings.*
 
-class KeptAwayFragment : BaseFragment() {
+class KeptAwayFragment : BaseFragment(), AdapterActions {
 
-    private lateinit var viewModel: PagesViewModel
-    var post: Post? = null
+    private lateinit var viewModel: MainViewModel
 
     companion object {
-
-        private const val ARG_MOVIE = "womenLocal"
 
         fun newInstance(): KeptAwayFragment {
             val fragment = KeptAwayFragment()
@@ -29,68 +25,37 @@ class KeptAwayFragment : BaseFragment() {
             fragment.arguments = args
             return fragment
         }
-
-        fun bundleArgs(movie: Post?): Bundle {
-            return Bundle().apply {
-                this.putParcelable(ARG_MOVIE, movie)
-            }
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_view_posts, container, false)
+        return inflater.inflate(R.layout.fragment_view_clothings, container, false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(PagesViewModel::class.java)
-
-        //Get parcelable womenLocal object here
-        post = arguments?.getParcelable(ARG_MOVIE)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        for(item in Seasons.values()){
-            tab_seasons.addTab(tab_seasons.newTab().setText(item.value))
-        }
+        viewModel.setupTabs(tab_seasons)
 
-        tab_seasons.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
-            override fun onTabReselected(p0: TabLayout.Tab?) {
-
-            }
-
-            override fun onTabUnselected(p0: TabLayout.Tab?) {
-
-            }
-
-            override fun onTabSelected(p0: TabLayout.Tab?) {
-
-            }
-
-        })
-
-        setContent(post)
+        viewModel.setUpListAdapter(recycler_view, activity!!)
     }
 
-    private fun setContent(movie: Post?) {
+    override fun onTaskClick(view: View?, position: Int) {
 
-        //Set content in Collapsing Toolbar
-        /*toolbar_layout?.title = womenLocal?.title
-        toolbar_layout?.setCollapsedTitleTextAppearance(R.style.collapsedAppBar)
-        toolbar_layout?.setExpandedTitleTextAppearance(R.style.expandedAppBar)
-        toolbar_layout?.setContentScrimColor(ContextCompat.getColor(activity!!, R.color.colorPrimaryDark))
-        toolbar_layout.setExpandedTitleColor(ContextCompat.getColor(activity!!, android.R.color.transparent))
-        toolbar_layout.setStatusBarScrimColor(ContextCompat.getColor(activity!!, android.R.color.transparent))
-
-
-        Picasso.with(activity).load(Constants.BASE_URL_IMAGE + womenLocal?.posterPath).into(img_header)
-
-        //Set content in details section
-        txt_title?.text = womenLocal?.title
-        txt_description?.text = womenLocal?.overview*/
     }
 
+    override fun onListLoaded(mItems: ArrayList<IFlexible<*>>) {
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.refreshAdapter()
+    }
 }

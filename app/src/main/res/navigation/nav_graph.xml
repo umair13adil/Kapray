@@ -49,6 +49,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_add_new_fragment_to_main_fragment"
+            app:destination="@id/main_fragment" />
 
     </fragment>
 

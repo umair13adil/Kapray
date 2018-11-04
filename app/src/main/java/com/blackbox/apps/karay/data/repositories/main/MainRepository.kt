@@ -20,4 +20,9 @@ class MainRepository @Inject constructor(private var db: RealmHelper) : MainData
     fun getListOfWomenClothing(): List<WomenClothing> {
         return db.findAll(WomenClothing::class.java)
     }
+
+    fun getBrandLogoURLByName(brandName: String): String? {
+        val realm = db.getRealmInstance()
+        return realm.where(WomenLocalBrand::class.java).contains("brand", brandName).findFirst()?.logo_url
+    }
 }

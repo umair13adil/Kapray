@@ -12,7 +12,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.blackbox.apps.karay.R
-import com.blackbox.apps.karay.models.Seasons
+import com.blackbox.apps.karay.models.enums.Seasons
 import com.blackbox.apps.karay.models.brands.WomenLocalBrand
 import com.blackbox.apps.karay.models.clothing.WomenClothing
 import com.blackbox.apps.karay.models.rxbus.UserInput

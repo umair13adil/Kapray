@@ -49,4 +49,13 @@ class RealmHelper {
         return getRealmInstance().where(clazz).findAll()
     }
 
+    fun <T : RealmObject> copyFromRealm(clazz: List<T>): List<T> {
+        return getRealmInstance().copyFromRealm(clazz)
+    }
+
+    fun <T : RealmObject> copyFromRealm(model: T): T {
+        val realm = getRealmInstance()
+        return realm.copyFromRealm(model)
+    }
+
 }

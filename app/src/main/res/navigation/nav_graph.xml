@@ -24,6 +24,7 @@
         android:id="@+id/add_additional_info_fragment"
         android:name="com.blackbox.apps.karay.ui.fragments.add.AdditionalInfoFragment"
         android:label="@string/screen_additional_info"
+        app:popUpToInclusive="true"
         tools:layout="@layout/fragment_additional_info">
 
         <action
@@ -40,6 +41,7 @@
         android:id="@+id/add_new_fragment"
         android:name="com.blackbox.apps.karay.ui.fragments.add.AddNewFragment"
         android:label="@string/screen_add_new"
+        app:popUpToInclusive="true"
         tools:layout="@layout/fragment_add_new">
 
         <action

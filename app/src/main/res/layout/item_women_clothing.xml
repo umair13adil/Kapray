@@ -42,7 +42,7 @@
                 android:scaleType="fitCenter"
                 app:srcCompat="@mipmap/ic_launcher"
                 android:layout_gravity="start"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
         </LinearLayout>
 

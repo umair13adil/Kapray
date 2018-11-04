@@ -198,4 +198,6 @@ object ListHelper : FlexibleAdapter.OnActionStateListener, FlexibleAdapter.OnIte
     fun refreshItem(position: Int) {
         adapter.notifyItemChanged(position)
     }
+
+
 }

@@ -1,4 +1,4 @@
-package com.blackbox.apps.karay.models
+package com.blackbox.apps.karay.models.user
 
 import androidx.annotation.Keep
 

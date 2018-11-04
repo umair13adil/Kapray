@@ -53,12 +53,10 @@ class WomenClothingItem(val womenClothing: WomenClothing) : AbstractFlexibleItem
     }
 
     override fun filter(constraint: String?): Boolean {
-        /*return womenClothing.originalTitle != null && womenClothing.originalTitle?.toLowerCase()?.trim()?.contains(constraint!!)!! ||
-                womenClothing.overview != null && womenClothing.overview?.toLowerCase()?.trim()?.contains(constraint!!)!!*/
-        return true
+        return womenClothing.season_info.toLowerCase() == constraint?.toLowerCase()!!
     }
 
-    override fun createViewHolder(view: View?, adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?): ViewHolder {
+    override fun createViewHolder(view: View?, adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?): ViewHolder? {
         return ViewHolder(view!!, adapter!!)
     }
 

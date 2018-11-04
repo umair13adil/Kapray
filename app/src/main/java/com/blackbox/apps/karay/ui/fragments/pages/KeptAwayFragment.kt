@@ -42,7 +42,8 @@ class KeptAwayFragment : BaseFragment(), AdapterActions {
 
         viewModel.setupTabs(tab_seasons)
 
-        viewModel.setUpListAdapter(recycler_view, activity!!)
+        val clothings = viewModel.getListOfWomenClothing(false)
+        viewModel.setUpListAdapter(clothings, recycler_view, activity!!)
     }
 
     override fun onTaskClick(view: View?, position: Int) {
@@ -51,11 +52,5 @@ class KeptAwayFragment : BaseFragment(), AdapterActions {
 
     override fun onListLoaded(mItems: ArrayList<IFlexible<*>>) {
 
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        viewModel.refreshAdapter()
     }
 }

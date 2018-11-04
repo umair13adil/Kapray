@@ -5,24 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
-import com.blackbox.apps.karay.models.post.Post
-import com.blackbox.apps.karay.ui.base.BaseFragment
 import com.blackbox.apps.karay.R
+import com.blackbox.apps.karay.ui.base.BaseFragment
 
 class DetailFragment : BaseFragment() {
 
     private lateinit var viewModel: DetailViewModel
-    var post: Post? = null
 
     companion object {
 
         private const val ARG_MOVIE = "womenClothing"
 
-        fun bundleArgs(movie: Post?): Bundle {
+        /*fun bundleArgs(movie: Post?): Bundle {
             return Bundle().apply {
                 this.putParcelable(ARG_MOVIE, movie)
             }
-        }
+        }*/
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -34,17 +32,14 @@ class DetailFragment : BaseFragment() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DetailViewModel::class.java)
 
-        //Get parcelable womenClothing object here
-        post = arguments?.getParcelable(ARG_MOVIE)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setContent(post)
     }
 
-    private fun setContent(movie: Post?) {
+    private fun setContent() {
 
         //Set content in Collapsing Toolbar
         /*toolbar_layout?.title = womenClothing?.title

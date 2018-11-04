@@ -42,13 +42,8 @@ class InClosetFragment : BaseFragment() {
 
         viewModel.setupTabs(tab_seasons)
 
-        viewModel.setUpListAdapter(recycler_view, activity!!)
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        viewModel.refreshAdapter()
+        val clothings = viewModel.getListOfWomenClothing(true)
+        viewModel.setUpListAdapter(clothings, recycler_view, activity!!)
     }
 
 }

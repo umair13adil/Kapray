@@ -2,11 +2,12 @@ package com.blackbox.apps.karay.ui.fragments.main
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.blackbox.apps.karay.data.repositories.main.MainRepository
-import com.blackbox.apps.karay.models.Seasons
 import com.blackbox.apps.karay.models.clothing.WomenClothing
+import com.blackbox.apps.karay.models.enums.Seasons
 import com.blackbox.apps.karay.ui.items.WomenClothingItem
 import com.blackbox.apps.karay.utils.helpers.ListHelper
 import com.google.android.material.tabs.TabLayout
@@ -16,7 +17,12 @@ import javax.inject.Inject
 
 class MainViewModel @Inject constructor(private var app: Application, private var mainRepository: MainRepository) : ViewModel() {
 
+    private val TAG = "MainViewModel"
     private var adapter: FlexibleAdapter<*>? = null
+
+    fun getListOfWomenClothing(inCloset: Boolean): List<WomenClothing> {
+        return mainRepository.getListOfWomenClothing(inCloset)
+    }
 
     fun getListOfWomenClothing(): List<WomenClothing> {
         return mainRepository.getListOfWomenClothing()
@@ -38,17 +44,20 @@ class MainViewModel @Inject constructor(private var app: Application, private va
             }
 
             override fun onTabSelected(p0: TabLayout.Tab?) {
+                Log.i(TAG, "${p0?.text}")
 
+                if (p0?.text!! == Seasons.ALL.value) {
+                    filter("")
+                } else
+                    filter(p0.text.toString())
             }
 
         })
     }
 
-    fun setUpListAdapter(recycler_view: RecyclerView, context: Context) {
+    fun setUpListAdapter(clothings: List<WomenClothing>, recycler_view: RecyclerView, context: Context) {
 
         val mItems = arrayListOf<IFlexible<*>>()
-
-        val clothings = getListOfWomenClothing()
 
         try {
             var isSelected = true
@@ -70,6 +79,11 @@ class MainViewModel @Inject constructor(private var app: Application, private va
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    private fun filter(constraint: String) {
+        adapter?.setFilter(constraint)
+        adapter?.filterItems()
     }
 
     fun refreshAdapter() {

@@ -24,7 +24,7 @@
                 style="@style/scrollbarStyleVertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:listitem="@layout/item_list_post" />
+                tools:listitem="@layout/item_women_clothing" />
 
             <!-- NOT NEEDED ANYMORE!! This layout is generated at runtime when
                  sticky headers are enabled. So you can safely remove it. -->

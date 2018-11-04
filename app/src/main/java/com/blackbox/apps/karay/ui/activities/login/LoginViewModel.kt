@@ -2,7 +2,7 @@ package com.blackbox.apps.karay.ui.activities.login
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
-import com.blackbox.apps.karay.models.User
+import com.blackbox.apps.karay.models.user.User
 import com.blackbox.apps.karay.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase

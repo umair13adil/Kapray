@@ -3,7 +3,7 @@ package com.blackbox.apps.karay.ui.fragments.seasons
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
-import com.blackbox.apps.karay.models.Seasons
+import com.blackbox.apps.karay.models.enums.Seasons
 
 class SeasonsPagerAdapter() : PagerAdapter() {
 

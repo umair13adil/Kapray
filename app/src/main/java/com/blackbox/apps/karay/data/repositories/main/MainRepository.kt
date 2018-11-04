@@ -17,8 +17,16 @@ class MainRepository @Inject constructor(private var db: RealmHelper) : MainData
         db.add(womenClothing)
     }
 
+    fun getListOfWomenClothing(inCloset: Boolean): List<WomenClothing> {
+        val list = db.findAll(WomenClothing::class.java).filter {
+            it.kept_away == !inCloset
+        }
+        return db.copyFromRealm(list)
+    }
+
     fun getListOfWomenClothing(): List<WomenClothing> {
-        return db.findAll(WomenClothing::class.java)
+        val list = db.findAll(WomenClothing::class.java)
+        return db.copyFromRealm(list)
     }
 
     fun getBrandLogoURLByName(brandName: String): String? {

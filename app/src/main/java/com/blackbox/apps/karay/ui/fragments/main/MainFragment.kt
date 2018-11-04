@@ -1,6 +1,7 @@
 package com.blackbox.apps.karay.ui.fragments.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : BaseFragment() {
 
+    private val TAG = "MainFragment"
     private lateinit var viewModel: MainViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -31,6 +33,10 @@ class MainFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setEmptyContentLayout()
+
+        viewModel.getListOfWomenClothing().forEach {
+            Log.i(TAG,it.toString())
+        }
     }
 
     private fun setEmptyContentLayout(){

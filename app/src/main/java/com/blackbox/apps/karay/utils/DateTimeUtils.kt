@@ -1,22 +1,10 @@
 package com.blackbox.apps.karay.utils
 
-import android.content.Context
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DateTimeUtils {
-
-    var context: Context? = null
-
-    companion object {
-        fun create(context: Context): DateTimeUtils = DateTimeUtils(context)
-    }
-
-    constructor(context: Context)
-    {
-        this.context = context
-    }
+object DateTimeUtils {
 
     private val TAG = DateTimeUtils::class.java.simpleName
     private val DATE_FORMAT_DEFAULT = "MM/dd/yyyy"

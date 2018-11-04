@@ -21,6 +21,7 @@
     <string name="txt_next">Next</string>
     <string name="txt_skip">Skip</string>
     <string name="txt_save">Save</string>
+    <string name="txt_optional">(Optional)</string>
 
     <!--Navigation Drawer-->
     <string name="navigation_drawer_header_content_description">Navigation drawer header logo</string>
@@ -42,5 +43,11 @@
     <!--AddAdditionalInfoFragment-->
     <string name="txt_add_additional_info">Add your dress\'s brand, date purchase, season info</string>
     <string name="txt_enter_brand_name">Enter brand name here</string>
+    <string name="txt_enter_date_purchased">Enter date purchased</string>
+    <string name="txt_enter_season">Enter season info</string>
+    <string name="txt_is_kept_away">Is Kept Away?</string>
+    <string name="txt_is_un_stitched">Is Un-stitched?</string>
+    <string name="txt_add_info_later">You can always update info later.</string>
+    <string name="txt_skip_save">Skip and Save</string>
 
 </resources>

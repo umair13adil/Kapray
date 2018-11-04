@@ -26,6 +26,7 @@ class AddNewFragment : BaseFragment() {
 
     var storagePermissionsAllowed = false
     var cameraPermissionsAllowed = false
+    var image_path = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_add_new, container, false)
@@ -66,11 +67,15 @@ class AddNewFragment : BaseFragment() {
         }
 
         btn_next.setOnClickListener {
-            Navigation.findNavController(view!!).navigate(R.id.action_AddNewFragment_to_AdditionalInfoFragment)
+            val args = AdditionalInfoFragment.bundleArgs(image_path)
+            Navigation.findNavController(view!!).navigate(R.id.add_additional_info_fragment, args)
         }
     }
 
     private fun setPhotoCapturedLayout(image: ImageCaptured) {
+
+        //Set image path
+        image_path = image.filePath
 
         img_preview?.let {
             Picasso.with(activity).load(File(image.filePath)).into(it)
@@ -91,7 +96,7 @@ class AddNewFragment : BaseFragment() {
                 .debounce(1, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onNext = { callback ->
-                            if(callback){
+                            if (callback) {
                                 storagePermissionsAllowed = true
                             }
                         }
@@ -106,21 +111,21 @@ class AddNewFragment : BaseFragment() {
                 .debounce(1, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onNext = { callback ->
-                            if(callback){
+                            if (callback) {
                                 cameraPermissionsAllowed = true
                             }
                         }
                 )
     }
 
-    private fun openCamera(){
+    private fun openCamera() {
 
-        if(!storagePermissionsAllowed){
+        if (!storagePermissionsAllowed) {
             checkStoragePermissions()
             return
         }
 
-        if(!cameraPermissionsAllowed){
+        if (!cameraPermissionsAllowed) {
             checkCameraPermissions()
             return
         }

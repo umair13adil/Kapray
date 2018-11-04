@@ -24,7 +24,17 @@
         android:id="@+id/add_additional_info_fragment"
         android:name="com.blackbox.apps.karay.ui.fragments.add.AdditionalInfoFragment"
         android:label="@string/screen_additional_info"
-        tools:layout="@layout/fragment_additional_info"/>
+        tools:layout="@layout/fragment_additional_info">
+
+        <action
+            android:id="@+id/action_AdditionalInfoFragment_to_MainFragment"
+            app:destination="@id/main_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+    </fragment>
 
     <fragment
         android:id="@+id/add_new_fragment"

@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.blackbox.apps.karay.R
 import com.blackbox.apps.karay.models.post.Post
-import com.blackbox.apps.karay.utils.Constants
 import com.blackbox.apps.karay.utils.DateTimeUtils
 import com.squareup.picasso.Picasso
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -67,8 +66,6 @@ class PostItem(val post: Post) : AbstractFlexibleItem<PostItem.ParentViewHolder>
 
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>, viewHolder: ParentViewHolder, position: Int, payloads: MutableList<Any>?) {
 
-        val dateTimeUtils = DateTimeUtils.create(viewHolder.userImage.context)
-
         Picasso.with(viewHolder.userImage.context)
                 .load(post.photoAvatar)
                 .centerCrop()
@@ -78,7 +75,7 @@ class PostItem(val post: Post) : AbstractFlexibleItem<PostItem.ParentViewHolder>
 
         viewHolder.description.text = post.text
         viewHolder.postTitle.text = post.title
-        viewHolder.time.text = dateTimeUtils.getFullDateTimeString(post.time!!)
+        viewHolder.time.text = DateTimeUtils.getFullDateTimeString(post.time!!)
         viewHolder.userName.text = "Posted By: ${post.name}"
 
         viewHolder.shareButton.setOnClickListener {

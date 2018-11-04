@@ -5,14 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_skip"
-        style="@style/TextTitleStyle.Transparent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:text="@string/txt_skip" />
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -22,23 +14,92 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/margin_35"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="@dimen/margin_10">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txt_h1"
                 style="@style/TextTitleStyle.Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_45"
                 android:text="@string/txt_add_additional_info" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txt_h2"
+                style="@style/TextTitleStyle.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:gravity="start"
+                android:text="@string/txt_add_info_later" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextTitleStyle.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_enter_brand_name" />
 
             <com.blackbox.apps.karay.utils.autoComplete.CustomAutoCompleteView
                 android:id="@+id/input_women_brand_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/txt_enter_brand_name"
+                android:hint="@string/txt_optional"
                 android:imeOptions="actionNext" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextTitleStyle.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_enter_date_purchased" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_date_purchased"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/txt_optional"
+                android:imeOptions="actionNext" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextTitleStyle.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_enter_season" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/input_season"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/txt_optional" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/input_kept_away"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/txt_is_kept_away"
+                android:checked="false" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/input_unstitched"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:checked="false"
+                android:text="@string/txt_is_un_stitched" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_skip"
+                style="@style/TextTitleStyle.Transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_25"
+                android:text="@string/txt_skip_save" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_2"
+                android:layout_marginTop="@dimen/margin_5"
+                android:layout_marginBottom="@dimen/margin_5"
+                android:background="@color/colorAccent" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_save"
@@ -49,7 +110,8 @@
                 android:layout_marginLeft="@dimen/margin_55"
                 android:layout_marginRight="@dimen/margin_55"
                 android:text="@string/txt_save"
-                android:visibility="visible" />
+                android:visibility="visible"
+                android:layout_marginBottom="@dimen/margin_25"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </FrameLayout>

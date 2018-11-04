@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="@dimen/margin_2"
     app:cardElevation="@dimen/margin_4"
-    app:cardPreventCornerOverlap="true"
+    android:layout_marginLeft="@dimen/margin_3"
+    android:layout_marginBottom="@dimen/margin_3"
     app:cardUseCompatPadding="true">
 
     <LinearLayout
@@ -16,46 +17,54 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/img_cloth"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_300"
-            android:minWidth="@dimen/margin_200"
-            android:scaleType="centerCrop"
+            android:layout_height="@dimen/margin_165"
+            android:scaleType="fitCenter"
             android:src="@color/colorAccent" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/margin_5">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txt_brand_name"
-                style="@style/TextTitleStyle.Small"
-                android:layout_width="wrap_content"
+                style="@style/TextTitleStyle.Medium"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="start"/>
+                android:gravity="center"
+                android:text="Brand" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/img_brand_logo"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/margin_55"
-                android:scaleType="centerInside"
-                android:src="@color/colorAccent"
-                android:visibility="gone"/>
+                android:scaleType="fitCenter"
+                app:srcCompat="@mipmap/ic_launcher"
+                android:layout_gravity="start"
+                android:visibility="visible" />
 
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txt_date_purchased"
             style="@style/TextTitleStyle.Small"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="start" />
+            android:gravity="center"
+            android:text="Date" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txt_season"
             style="@style/TextTitleStyle.Small"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="start" />
+            android:gravity="end"
+            android:text="Season"
+            android:textStyle="italic"
+            android:layout_marginTop="@dimen/margin_5"
+            app:textAllCaps="false"
+            android:textColor="@color/colorPrimaryDark" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

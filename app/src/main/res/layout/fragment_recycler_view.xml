@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mdtp_line_background"
     android:theme="@style/AppTheme">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

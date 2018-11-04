@@ -1,5 +1,6 @@
 package com.blackbox.apps.karay.ui.fragments.main
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +32,12 @@ class MainFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
         val listOfClothing = viewModel.getListOfWomenClothing()
 
         if (listOfClothing.isEmpty()) {
@@ -40,10 +47,7 @@ class MainFragment : BaseFragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
+    @SuppressLint("RestrictedApi")
     private fun setEmptyContentLayout() {
 
         //Set Fonts
@@ -62,7 +66,8 @@ class MainFragment : BaseFragment() {
     }
 
     private fun setHomeLayout() {
-        val adapter = MainPagerAdapter(activity!!, fragmentManager!!)
+
+        val adapter = MainPagerAdapter(activity!!, childFragmentManager)
 
         // Set the adapter onto the view pager
         viewPager?.adapter = adapter
@@ -72,7 +77,6 @@ class MainFragment : BaseFragment() {
         //Show/Hide Views
         content_empty?.visibility = View.GONE
         content_main?.visibility = View.VISIBLE
-        fab_add?.visibility = View.VISIBLE
 
         fab_add?.setOnClickListener {
             Navigation.findNavController(view!!).navigate(R.id.action_MainFragment_to_AddNewFragment)

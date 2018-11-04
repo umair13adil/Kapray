@@ -4,6 +4,7 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
@@ -12,20 +13,20 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.blackbox.apps.karay.R
-import com.blackbox.apps.karay.models.brands.WomenLocalBrand
 import com.blackbox.apps.karay.ui.base.BaseActivity
 import com.blackbox.apps.karay.ui.fragments.add.AddNewFragment
-import com.blackbox.apps.karay.utils.RealmImporter
 import com.blackbox.apps.karay.utils.createImageDirectories
 import com.blackbox.apps.karay.utils.helpers.CompressionHelper
 import com.michaelflisar.rxbus2.RxBus
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
-import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
+
+    private val TAG = "MainActivity"
+    private var showMenu = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,20 +46,20 @@ class MainActivity : BaseActivity() {
 
         navController.addOnNavigatedListener { controller, destination ->
 
-            /*if (destination.id == R.id.edit_post_details) {
-                showToolBarOption(false)
-            } else {
-                showToolBarOption(true)
-            }*/
-        }
+            Log.i(TAG, "${controller.currentDestination?.label} , ${destination.label}")
 
-        val realm = Realm.getDefaultInstance()
-        val list = realm.where(WomenLocalBrand::class.java).findAll()
-        list?.let {
-            if (it.isNotEmpty()) {
-                RealmImporter.importFromJson(this)
+            if (controller.currentDestination?.id == R.id.main_fragment) {
+                showMenu = true
+                invalidateOptionsMenu()
+            }else{
+                showMenu = false
+                invalidateOptionsMenu()
             }
         }
+
+
+        //Add Local Brands Data
+        addLocalBrandsData()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -80,7 +81,7 @@ class MainActivity : BaseActivity() {
         val searchItem = menu.findItem(R.id.action_search)
         val filterItem = menu.findItem(R.id.action_search)
 
-        searchItem.isVisible = true
+        searchItem.isVisible = showMenu
 
         searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionCollapse(item: MenuItem): Boolean {

@@ -70,15 +70,17 @@ class WomenClothingItem(val womenClothing: WomenClothing) : AbstractFlexibleItem
                 .load(File(womenClothing.image))
                 .into(viewHolder.clothingImage)
 
-        Picasso.with(mContext).load(womenClothing.brand_logo_url).into(viewHolder.brandLogo, object : com.squareup.picasso.Callback {
-            override fun onSuccess() {
-                viewHolder.brandLogo.visibility = View.VISIBLE
-            }
+        if (womenClothing.brand_logo_url.isNotEmpty()) {
+            Picasso.with(mContext).load(womenClothing.brand_logo_url).into(viewHolder.brandLogo, object : com.squareup.picasso.Callback {
+                override fun onSuccess() {
+                    viewHolder.brandLogo.visibility = View.VISIBLE
+                }
 
-            override fun onError() {
+                override fun onError() {
 
-            }
-        })
+                }
+            })
+        }
 
         showTextOrHide(viewHolder.brandName, womenClothing.brand_name)
         showTextOrHide(viewHolder.datePurchased, womenClothing.date_purchased)

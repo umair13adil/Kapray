@@ -50,6 +50,13 @@ class AddNewFragment : BaseFragment() {
                 }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        //Show Buttons
+        btn_add_photo.visibility = View.VISIBLE
+    }
+
     private fun setAddPhotoContentLayout() {
 
         //Set Fonts

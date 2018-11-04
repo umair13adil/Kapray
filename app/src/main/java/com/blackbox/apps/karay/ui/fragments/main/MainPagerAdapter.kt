@@ -31,7 +31,7 @@ class MainPagerAdapter(private val mContext: Context, fm: FragmentManager) : Fra
         return when (position) {
             0 -> mContext.getString(R.string.page_in_closet)
             1 -> mContext.getString(R.string.page_kept_away)
-            else -> null
+            else -> mContext.getString(R.string.page_in_closet)
         }
     }
 

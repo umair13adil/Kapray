@@ -3,7 +3,6 @@ package com.blackbox.apps.karay.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.blackbox.apps.karay.ui.activities.login.LoginViewModel
-import com.blackbox.apps.karay.ui.fragments.PostViewModel
 import com.blackbox.apps.karay.ui.fragments.add.AddNewViewModel
 import com.blackbox.apps.karay.ui.fragments.detail.DetailViewModel
 import com.blackbox.apps.karay.ui.fragments.main.MainViewModel
@@ -34,11 +33,6 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MainViewModel::class)
     abstract fun bindMainViewModel(viewModel: MainViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(PostViewModel::class)
-    abstract fun bindPostViewModel(viewModel: PostViewModel): ViewModel
 
     @Binds
     @IntoMap

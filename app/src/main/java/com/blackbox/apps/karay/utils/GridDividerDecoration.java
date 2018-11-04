@@ -31,7 +31,7 @@ public class GridDividerDecoration extends RecyclerView.ItemDecoration {
     public GridDividerDecoration(Context context) {
         TypedArray a = context.obtainStyledAttributes(ATTRS);
         mDivider = a.getDrawable(0);
-        mDivider.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+        mDivider.setColorFilter(ContextCompat.getColor(context, R.color.colorBlueGray), PorterDuff.Mode.SRC_ATOP);
         a.recycle();
 
         mInsets = context.getResources().getDimensionPixelSize(R.dimen.margin_2);
@@ -40,7 +40,7 @@ public class GridDividerDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         drawVertical(c, parent);
-        drawHorizontal(c, parent);
+        //drawHorizontal(c, parent);
     }
 
     /**

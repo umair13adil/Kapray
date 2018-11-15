@@ -57,7 +57,8 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha07"
 
     //Image Loader
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
     //Flexible Adapter
     implementation 'eu.davidea:flexible-adapter:5.1.0'

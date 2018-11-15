@@ -6,7 +6,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.blackbox.apps.karay.R
 import com.blackbox.apps.karay.models.brands.WomenLocalBrand
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFilterable
@@ -53,17 +53,9 @@ class WomenLocalBrandItem(val womenLocal: WomenLocalBrand) : AbstractFlexibleIte
 
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>, viewHolder: ViewHolder, position: Int, payloads: MutableList<Any>?) {
 
-        Picasso.with(viewHolder.brandLogo.context)
+        Glide.with(viewHolder.brandLogo.context)
                 .load(womenLocal.logo_url)
-                .into(viewHolder.brandLogo, object : com.squareup.picasso.Callback {
-                    override fun onSuccess() {
-                        viewHolder.brandLogo.visibility = View.VISIBLE
-                    }
-
-                    override fun onError() {
-
-                    }
-                })
+                .into(viewHolder.brandLogo)
 
         viewHolder.brandName.text = womenLocal.brand
     }

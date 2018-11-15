@@ -12,9 +12,9 @@ import com.blackbox.apps.karay.utils.helpers.ImageCaptureHelper
 import com.blackbox.apps.karay.utils.helpers.PermissionsHelper
 import com.blackbox.apps.karay.utils.helpers.PermissionsHelper.requestCameraPermissions
 import com.blackbox.apps.karay.utils.setTypeface
+import com.bumptech.glide.Glide
 import com.michaelflisar.rxbus2.RxBusBuilder
 import com.michaelflisar.rxbus2.rx.RxBusMode
-import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_add_new.*
@@ -85,7 +85,7 @@ class AddNewFragment : BaseFragment() {
         image_path = image.filePath
 
         img_preview?.let {
-            Picasso.with(activity).load(File(image.filePath)).into(it)
+            Glide.with(activity!!).load(File(image.filePath)).into(it)
         }
 
         //Show/Hide Views

@@ -2,24 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_view"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/margin_75"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/img_brand_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/margin_55"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="@dimen/margin_125"
         android:scaleType="centerInside"
-        app:srcCompat="@color/colorWhite"
-        android:visibility="gone"/>
+        android:adjustViewBounds="true"
+        android:visibility="visible"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txt_brand_name"
         style="@style/TextTitleStyle.Small"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/txt_skip" />
 

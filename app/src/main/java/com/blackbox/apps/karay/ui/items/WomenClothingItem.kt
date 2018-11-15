@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.blackbox.apps.karay.R
 import com.blackbox.apps.karay.models.clothing.WomenClothing
 import com.blackbox.apps.karay.utils.setTypeface
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFilterable
@@ -59,23 +59,15 @@ class WomenClothingItem(val womenClothing: WomenClothing) : AbstractFlexibleItem
 
         val mContext = viewHolder.brandLogo.context
 
-        Picasso.with(mContext)
+        Glide.with(mContext)
                 .load(File(womenClothing.image))
                 .into(viewHolder.clothingImage)
 
         if (womenClothing.brand_logo_url.isNotEmpty()) {
 
-            Picasso.with(viewHolder.brandLogo.context)
+            Glide.with(viewHolder.brandLogo.context)
                     .load(womenClothing.brand_logo_url)
-                    .into(viewHolder.brandLogo, object : com.squareup.picasso.Callback {
-                        override fun onSuccess() {
-                            viewHolder.brandLogo.visibility = View.VISIBLE
-                        }
-
-                        override fun onError() {
-
-                        }
-                    })
+                    .into(viewHolder.brandLogo)
         }
 
         showTextOrHide(viewHolder.brandName, womenClothing.brand_name)

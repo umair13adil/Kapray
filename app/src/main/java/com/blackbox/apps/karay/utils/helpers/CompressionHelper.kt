@@ -6,7 +6,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import com.blackbox.apps.karay.models.images.ImageCaptured
-import com.blackbox.apps.karay.utils.Constants
+import com.blackbox.apps.karay.utils.commons.Constants
 import id.zelory.compressor.Compressor
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

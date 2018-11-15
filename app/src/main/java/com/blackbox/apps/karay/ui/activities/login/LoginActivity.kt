@@ -2,35 +2,34 @@ package com.blackbox.apps.karay.ui.activities.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.blackbox.apps.karay.R
 import com.blackbox.apps.karay.ui.activities.MainActivity
 import com.blackbox.apps.karay.ui.base.BaseActivity
-import com.blackbox.apps.karay.utils.Constants
-import com.blackbox.apps.karay.utils.FacebookSign
-import com.blackbox.apps.karay.utils.GoogleSign
-import com.blackbox.apps.karay.utils.Preferences
-import com.facebook.FacebookException
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.common.ConnectionResult
+import com.blackbox.apps.karay.utils.commons.Constants
+import com.blackbox.apps.karay.utils.commons.Preferences
+import com.blackbox.apps.karay.utils.platforms.FacebookSign
+import com.blackbox.apps.karay.utils.platforms.GoogleSign
+import com.blackbox.apps.karay.utils.platforms.LoginRequestResult
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : BaseActivity(), GoogleSign.OnInfoLoginGoogleCallback, FacebookSign.InfoLoginFaceCallback {
+class LoginActivity : BaseActivity(), GoogleSign.GoogleSignInCallBack {
 
     val TAG: String = "LoginActivity"
 
-    private var mGoogleSign: GoogleSign? = null
-    private var mFacebookSign: FacebookSign? = null
+    private lateinit var mGoogleSign: GoogleSign
+    private lateinit var mFacebookSign: FacebookSign
 
     private lateinit var viewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        //generateKeyHash(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(LoginViewModel::class.java)
 
@@ -56,50 +55,43 @@ class LoginActivity : BaseActivity(), GoogleSign.OnInfoLoginGoogleCallback, Face
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        mGoogleSign!!.onActivityResult(requestCode, resultCode, data!!) // Google Login
-        mFacebookSign!!.onActivityResult(requestCode, resultCode, data!!)// Facebook Login
-    }
-
-    override fun getInfoLoginGoogle(account: GoogleSignInAccount) {
-        signIn()
-    }
-
-    override fun connectionFailedApiClient(connectionResult: ConnectionResult) {
-        toast("Error PlayServices cod =" + connectionResult)
-    }
-
-    override fun loginFailed() {
-        toast("Login Failed, try again.")
-    }
-
-    override fun getInfoFace() {
-        Toast.makeText(this, "Logged in with facebook..please wait...", Toast.LENGTH_SHORT).show()
-        signIn()
-    }
-
-    override fun cancelLoginFace() {
-        toast("Login Failed, try again.")
-    }
-
-    override fun errorLoginFace(e: FacebookException) {
-        toast("Error Facebook Exception message =" + e.message)
+        mGoogleSign.onActivityResult(requestCode, resultCode, data!!) // Google Login
+        mFacebookSign.onActivityResult(requestCode, resultCode, data)// Facebook Login
     }
 
     private fun initViews() {
-        mFacebookSign = FacebookSign(this, this)
+        mFacebookSign = FacebookSign(this)
         mGoogleSign = GoogleSign(this, this)
     }
 
     private fun signInGoogle() {
-        mGoogleSign!!.signIn()
+        mGoogleSign.signIn()
     }
 
     private fun signInFacebook() {
-        mFacebookSign!!.signIn()
+        mFacebookSign.signIn()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(
+                        onNext = {
+                            if (it == LoginRequestResult.LOGIN_SUCCESS) {
+                                signIn()
+                            } else if (it == LoginRequestResult.LOGIN_FAILED) {
+
+                            }
+                        },
+                        onError = {
+                            it.printStackTrace()
+                        }
+                )
     }
 
-    private fun toast(mensage: String) {
-        Toast.makeText(this, mensage, Toast.LENGTH_LONG).show()
+    override fun onLoginSuccess() {
+        signIn()
+    }
+
+    override fun onLoginFailed() {
+
     }
 
     private fun signIn() {
@@ -109,17 +101,12 @@ class LoginActivity : BaseActivity(), GoogleSign.OnInfoLoginGoogleCallback, Face
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onNext = {
-
-                            if (it == Constants.QUERY_SUCCESS) {
-                                Preferences.getInstance().save(Constants.KEY_LOGIN, true)
-                                startActivity(Intent(this, MainActivity::class.java))
-                                finish()
-                            } else {
-                                toast("Login Failed Send User, try again.")
-                            }
+                            Preferences.getInstance().save(Constants.KEY_LOGIN, true)
+                            startActivity(Intent(this, MainActivity::class.java))
+                            finish()
                         },
                         onError = {
-                            it.printStackTrace()
+                            toast("Login Failed Send User, try again.")
                         },
                         onComplete = {}
                 )

@@ -167,7 +167,7 @@
         <item name="android:fadeScrollbars">true</item>
         <item name="android:scrollbarThumbVertical">@drawable/scroll_bar_thumb</item>
         <item name="android:scrollbarTrackVertical">@drawable/scroll_bar_track</item>
-        <item name="android:scrollbarSize">6dp</item>
+        <item name="android:scrollbarSize">@dimen/margin_2</item>
     </style>
 
     <style name="AppTabLayout" parent="Widget.MaterialComponents.TabLayout">

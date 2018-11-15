@@ -2,11 +2,12 @@ package com.blackbox.apps.karay.ui.base
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.blackbox.apps.karay.models.brands.WomenLocalBrand
-import com.blackbox.apps.karay.utils.RealmImporter
+import com.blackbox.apps.karay.utils.commons.RealmImporter
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -75,7 +76,7 @@ abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector {
         }
     }
 
-    fun addLocalBrandsData(){
+    fun addLocalBrandsData() {
         val realm = Realm.getDefaultInstance()
         val list = realm.where(WomenLocalBrand::class.java).findAll()
         list?.let {
@@ -83,5 +84,9 @@ abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 RealmImporter.importFromJson(this)
             }
         }
+    }
+
+    fun toast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 }

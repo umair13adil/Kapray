@@ -25,15 +25,7 @@ class WomenBrandsLocalAdapter(internal var mContext: Context, internal var layou
         val womenLocalBrand = data.get(position)
 
         val image = listItem!!.findViewById<View>(R.id.img_brand_logo) as ImageView
-        Picasso.with(mContext).load(womenLocalBrand.logo_url).into(image, object : com.squareup.picasso.Callback {
-            override fun onSuccess() {
-                image.visibility = View.VISIBLE
-            }
-
-            override fun onError() {
-
-            }
-        })
+        Picasso.with(mContext).load(womenLocalBrand.logo_url).into(image)
 
         val name = listItem.findViewById<View>(R.id.txt_brand_name) as TextView
         name.text = womenLocalBrand.brand

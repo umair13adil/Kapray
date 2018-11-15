@@ -3,8 +3,9 @@ package com.blackbox.apps.karay
 import android.app.Activity
 import android.app.Application
 import com.blackbox.apps.karay.di.DaggerAppComponent
-import com.blackbox.apps.karay.utils.Preferences
+import com.blackbox.apps.karay.utils.commons.Preferences
 import com.crashlytics.android.Crashlytics
+import com.google.firebase.FirebaseApp
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
@@ -12,6 +13,10 @@ import io.fabric.sdk.android.Fabric
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import javax.inject.Inject
+
+
+
+
 
 /**
  * Created by umair on 17/07/2017.
@@ -25,6 +30,7 @@ class App : Application(), HasActivityInjector {
     override fun onCreate() {
         super.onCreate()
 
+        FirebaseApp.initializeApp(this)
         Preferences.init(this)
 
         Fabric.with(this, Crashlytics())
@@ -36,9 +42,7 @@ class App : Application(), HasActivityInjector {
                 .builder()
                 .application(this)
                 .build()
-                .inject(this);
-
-
+                .inject(this)
     }
 
     override fun activityInjector(): AndroidInjector<Activity> {

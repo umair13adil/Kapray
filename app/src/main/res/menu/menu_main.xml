@@ -8,6 +8,6 @@
         android:icon="@android:drawable/ic_menu_search"
         app:showAsAction="always|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        android:title="Search Shortcuts"/>
+        android:title="@string/search"/>
 
 </menu>

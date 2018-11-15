@@ -1,4 +1,4 @@
-package com.blackbox.apps.karay.utils
+package com.blackbox.apps.karay.utils.commons
 
 import java.text.ParseException
 import java.text.SimpleDateFormat

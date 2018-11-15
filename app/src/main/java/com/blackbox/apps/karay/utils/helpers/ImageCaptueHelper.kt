@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
-import com.blackbox.apps.karay.utils.Constants
+import com.blackbox.apps.karay.utils.commons.Constants
 import com.blackbox.apps.karay.utils.createImageDirectories
 import java.io.File
 import java.io.IOException

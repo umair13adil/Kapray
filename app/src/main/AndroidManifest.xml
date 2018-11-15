@@ -26,7 +26,7 @@
         android:theme="@style/AppTheme">
 
         <provider
-            android:name=".utils.GenericFileProvider"
+            android:name=".utils.commons.GenericFileProvider"
             android:authorities="com.blackbox.apps.karay.provider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -36,10 +36,9 @@
         </provider>
 
         <activity android:name=".ui.activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
 
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -49,12 +48,38 @@
                 android:resource="@xml/searchable" />
         </activity>
 
-        <activity android:name=".ui.activities.login.LoginActivity">
+        <activity
+            android:name=".ui.activities.login.LoginActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="f152fdf54efc5a1c4ea7f5d4068150941fde0311" />
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

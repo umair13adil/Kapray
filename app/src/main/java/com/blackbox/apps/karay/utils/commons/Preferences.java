@@ -1,4 +1,4 @@
-package com.blackbox.apps.karay.utils;
+package com.blackbox.apps.karay.utils.commons;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,11 +16,9 @@ public final class Preferences {
 
     private static Preferences mInstance = null;
     private SharedPreferences sharedPreferences;
-    private Editor prefsEditor;
 
     private Preferences(Context context) {
         sharedPreferences = context.getSharedPreferences("sp_kapray", Activity.MODE_PRIVATE);
-        prefsEditor = sharedPreferences.edit();
     }
 
     public static void init(Context context) {

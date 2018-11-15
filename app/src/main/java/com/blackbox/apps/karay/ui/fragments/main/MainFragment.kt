@@ -57,7 +57,7 @@ class MainFragment : BaseFragment() {
 
         //Show/Hide Views
         content_empty?.visibility = View.VISIBLE
-        content_main?.visibility = View.GONE
+        viewPager?.visibility = View.GONE
         fab_add?.visibility = View.GONE
 
         btn_add?.setOnClickListener {
@@ -72,11 +72,9 @@ class MainFragment : BaseFragment() {
         // Set the adapter onto the view pager
         viewPager?.adapter = adapter
 
-        sliding_tabs?.setupWithViewPager(viewPager)
-
         //Show/Hide Views
         content_empty?.visibility = View.GONE
-        content_main?.visibility = View.VISIBLE
+        viewPager?.visibility = View.VISIBLE
 
         fab_add?.setOnClickListener {
             Navigation.findNavController(view!!).navigate(R.id.action_MainFragment_to_AddNewFragment)

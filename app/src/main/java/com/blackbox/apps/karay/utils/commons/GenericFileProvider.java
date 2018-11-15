@@ -1,4 +1,4 @@
-package com.blackbox.apps.karay.utils;
+package com.blackbox.apps.karay.utils.commons;
 
 
 import androidx.core.content.FileProvider;

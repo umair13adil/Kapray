@@ -58,4 +58,29 @@
 
     </fragment>
 
+    <fragment
+        android:id="@+id/fragment_in_closet"
+        android:name="com.blackbox.apps.karay.ui.fragments.pages.InClosetFragment"
+        android:label="@string/page_in_closet"
+        app:popUpToInclusive="true"
+        tools:layout="@layout/fragment_view_clothings">
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_kept_away"
+        android:name="com.blackbox.apps.karay.ui.fragments.pages.KeptAwayFragment"
+        android:label="@string/page_kept_away"
+        app:popUpToInclusive="true"
+        tools:layout="@layout/fragment_view_clothings">
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/fragment_brands_list"
+        android:name="com.blackbox.apps.karay.ui.fragments.pages.BrandsListFragment"
+        android:label="@string/page_brands_list"
+        app:popUpToInclusive="true"
+        tools:layout="@layout/fragment_view_clothings">
+    </fragment>
+
 </navigation>

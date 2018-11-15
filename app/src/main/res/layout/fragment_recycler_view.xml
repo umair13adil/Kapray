@@ -1,41 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mdtp_line_background"
-    android:theme="@style/AppTheme">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:enabled="false">
 
-        <!-- This FrameLayout is still mandatory ONLY IF sticky header is enabled. This
-             layout will help to receive the inflated layout at runtime and to display the
-             Refresh circle AND the FastScroll on the top of sticky_header_layout.
-             If you need to drag items, SwipeRefreshLayout must be disabled! -->
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:theme="@style/AppTheme">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 style="@style/scrollbarStyleVertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:listitem="@layout/item_women_clothing" />
-
-            <!-- NOT NEEDED ANYMORE!! This layout is generated at runtime when
-                 sticky headers are enabled. So you can safely remove it. -->
-            <!--<include layout="@layout/sticky_header_layout"/>-->
+                tools:listitem="@layout/item_women_clothing"
+                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                app:spanCount="2" />
 
         </FrameLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <!-- Custom EmptyView for RV when empty-->
-    <include layout="@layout/empty_view" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -45,6 +36,6 @@
         android:layout_gravity="center"
         android:indeterminate="true"
         android:progress="@integer/anim_duration_long"
-        android:progressTint="@color/colorAccent"
         android:visibility="gone" />
-</FrameLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

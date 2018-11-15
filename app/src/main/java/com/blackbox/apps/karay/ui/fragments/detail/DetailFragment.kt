@@ -50,7 +50,7 @@ class DetailFragment : BaseFragment() {
         toolbar_layout.setStatusBarScrimColor(ContextCompat.getColor(activity!!, android.R.color.transparent))
 
 
-        Picasso.with(activity).load(Constants.BASE_URL_IMAGE + womenClothing?.posterPath).into(img_header)
+       SmartLoader().withContext(activity).load(Constants.BASE_URL_IMAGE + womenClothing?.posterPath).into(img_header)
 
         //Set content in details section
         txt_title?.text = womenClothing?.title

@@ -1,4 +1,4 @@
-package com.blackbox.apps.karay.utils;
+package com.blackbox.apps.karay.utils.recyclerViewUtils;
 
 import android.content.Context;
 import android.content.res.TypedArray;

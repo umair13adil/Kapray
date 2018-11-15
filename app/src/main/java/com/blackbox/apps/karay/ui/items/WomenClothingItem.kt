@@ -1,22 +1,17 @@
 package com.blackbox.apps.karay.ui.items
 
-import android.animation.Animator
-import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.blackbox.apps.karay.R
 import com.blackbox.apps.karay.models.clothing.WomenClothing
 import com.blackbox.apps.karay.utils.setTypeface
 import com.squareup.picasso.Picasso
 import eu.davidea.flexibleadapter.FlexibleAdapter
-import eu.davidea.flexibleadapter.helpers.AnimatorHelper
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFilterable
 import eu.davidea.flexibleadapter.items.IFlexible
-import eu.davidea.flexibleadapter.utils.DrawableUtils
 import eu.davidea.viewholders.FlexibleViewHolder
 import kotlinx.android.synthetic.main.item_women_clothing.view.*
 import java.io.File
@@ -69,27 +64,23 @@ class WomenClothingItem(val womenClothing: WomenClothing) : AbstractFlexibleItem
                 .into(viewHolder.clothingImage)
 
         if (womenClothing.brand_logo_url.isNotEmpty()) {
-            Picasso.with(mContext).load(womenClothing.brand_logo_url).into(viewHolder.brandLogo, object : com.squareup.picasso.Callback {
-                override fun onSuccess() {
-                    viewHolder.brandLogo.visibility = View.VISIBLE
-                }
 
-                override fun onError() {
+            Picasso.with(viewHolder.brandLogo.context)
+                    .load(womenClothing.brand_logo_url)
+                    .into(viewHolder.brandLogo, object : com.squareup.picasso.Callback {
+                        override fun onSuccess() {
+                            viewHolder.brandLogo.visibility = View.VISIBLE
+                        }
 
-                }
-            })
+                        override fun onError() {
+
+                        }
+                    })
         }
 
         showTextOrHide(viewHolder.brandName, womenClothing.brand_name)
         showTextOrHide(viewHolder.datePurchased, womenClothing.date_purchased)
         showTextOrHide(viewHolder.season, womenClothing.season_info)
-
-        val context = viewHolder.itemView.context
-        val drawable: Drawable = DrawableUtils.getSelectableBackgroundCompat(
-                ContextCompat.getColor(context, R.color.colorWhite),
-                ContextCompat.getColor(context, R.color.colorAccent), // pressed background
-                ContextCompat.getColor(context, R.color.colorPrimaryDark)) // ripple color
-        DrawableUtils.setBackgroundCompat(viewHolder.frontView, drawable)
     }
 
     private fun showTextOrHide(view: AppCompatTextView, text: String) {
@@ -116,14 +107,6 @@ class WomenClothingItem(val womenClothing: WomenClothing) : AbstractFlexibleItem
             this.season = view.txt_season
             this.brandLogo = view.img_brand_logo
             this.clothingImage = view.img_cloth
-        }
-
-        override fun scrollAnimators(animators: List<Animator>, position: Int, isForward: Boolean) {
-            AnimatorHelper.slideInFromTopAnimator(animators, itemView, mAdapter.recyclerView)
-        }
-
-        override fun getActivationElevation(): Float {
-            return 1.5f
         }
     }
 

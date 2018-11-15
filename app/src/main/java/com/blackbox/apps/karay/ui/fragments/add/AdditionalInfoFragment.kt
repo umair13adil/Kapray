@@ -17,7 +17,7 @@ import com.blackbox.apps.karay.models.brands.WomenLocalBrand
 import com.blackbox.apps.karay.models.clothing.WomenClothing
 import com.blackbox.apps.karay.models.rxbus.UserInput
 import com.blackbox.apps.karay.ui.base.BaseFragment
-import com.blackbox.apps.karay.utils.DateTimeUtils
+import com.blackbox.apps.karay.utils.commons.DateTimeUtils
 import com.blackbox.apps.karay.utils.autoComplete.CustomAutoCompleteTextChangedListener
 import com.blackbox.apps.karay.utils.autoComplete.WomenBrandsLocalAdapter
 import com.blackbox.apps.karay.utils.setTypeface

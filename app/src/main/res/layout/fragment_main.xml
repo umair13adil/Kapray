@@ -4,28 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/content_main"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="visible">
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/sliding_tabs"
-            style="@style/AppTabTextAppearance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabIndicatorColor="@color/colorPrimaryDark"
-            app:tabIndicatorFullWidth="true"
-            app:tabIndicatorHeight="@dimen/margin_4" />
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:id="@+id/content_empty"

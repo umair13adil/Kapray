@@ -6,9 +6,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.blackbox.apps.karay.data.repositories.main.MainRepository
-import com.blackbox.apps.karay.models.clothing.WomenClothing
 import com.blackbox.apps.karay.models.enums.Seasons
 import com.blackbox.apps.karay.ui.items.WomenClothingItem
+import com.blackbox.apps.karay.ui.items.WomenLocalBrandItem
 import com.blackbox.apps.karay.utils.helpers.ListHelper
 import com.google.android.material.tabs.TabLayout
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -20,12 +20,49 @@ class MainViewModel @Inject constructor(private var app: Application, private va
     private val TAG = "MainViewModel"
     private var adapter: FlexibleAdapter<*>? = null
 
-    fun getListOfWomenClothing(inCloset: Boolean): List<WomenClothing> {
-        return mainRepository.getListOfWomenClothing(inCloset)
+    fun getListOfWomenClothing(inCloset: Boolean): ArrayList<IFlexible<*>> {
+        val list = mainRepository.getListOfWomenClothing(inCloset)
+
+        val mItems = arrayListOf<IFlexible<*>>()
+
+        list.forEach {
+            val item1 = WomenClothingItem(it)
+
+            //Add Item to List
+            mItems.add(item1)
+        }
+
+        return mItems
     }
 
-    fun getListOfWomenClothing(): List<WomenClothing> {
-        return mainRepository.getListOfWomenClothing()
+    fun getListOfWomenClothing(): ArrayList<IFlexible<*>> {
+        val list = mainRepository.getListOfWomenClothing()
+
+        val mItems = arrayListOf<IFlexible<*>>()
+
+        list.forEach {
+            val item1 = WomenClothingItem(it)
+
+            //Add Item to List
+            mItems.add(item1)
+        }
+
+        return mItems
+    }
+
+    fun getListOfWomenClothingBrands(): ArrayList<IFlexible<*>> {
+        val list = mainRepository.getListOfWomenLocalBrands()
+
+        val mItems = arrayListOf<IFlexible<*>>()
+
+        list.forEach {
+            val item1 = WomenLocalBrandItem(it)
+
+            //Add Item to List
+            mItems.add(item1)
+        }
+
+        return mItems
     }
 
     fun setupTabs(tab_seasons: TabLayout) {
@@ -55,30 +92,9 @@ class MainViewModel @Inject constructor(private var app: Application, private va
         })
     }
 
-    fun setUpListAdapter(clothings: List<WomenClothing>, recycler_view: RecyclerView, context: Context) {
-
-        val mItems = arrayListOf<IFlexible<*>>()
-
-        try {
-            var isSelected = true
-
-            for (clothing in clothings) {
-
-                val jobTaskItem = WomenClothingItem(clothing)
-                jobTaskItem.isSelected = isSelected
-                isSelected = false
-
-                //Add Item to List
-                mItems.add(jobTaskItem)
-            }
-
-            adapter = ListHelper.setUpAdapter(mItems, recycler_view, context)
-            adapter?.notifyItemRangeInserted(0, mItems.size)
-
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+    fun setUpListAdapter(mItems: ArrayList<IFlexible<*>>, recycler_view: RecyclerView, context: Context) {
+        adapter = ListHelper.setUpAdapter(mItems, recycler_view, context)
+        adapter?.notifyItemRangeInserted(0, mItems.size)
     }
 
     private fun filter(constraint: String) {

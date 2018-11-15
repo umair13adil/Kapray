@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Karay</string>
 
+    <!--Facebook-->
+    <string name="facebook_app_id">665464957180840</string>
+    <string name="fb_login_protocol_scheme">fb665464957180840</string>
+
     <!--ScreenNames-->
     <string name="screen_home">Home</string>
     <string name="screen_add_new">Add Clothing Photo</string>
@@ -11,6 +15,7 @@
     <string name="endless_disabled">No more items to load (max reached).</string>
     <string name="endless_cancel">Cancelled by the user.</string>
     <string name="endless_error">An error occurred while loading more items.</string>
+    <string name="search">Search</string>
 
     <!--Errors-->
     <string name="error_camera_permissions">Camera permissions are required!</string>
@@ -39,6 +44,8 @@
     <string name="txt_retake_photo">Re-Take Photo</string>
     <string name="txt_preparing_image">Preparing image..</string>
 
+    <!--BrandsList-->
+    <string name="page_brands_list">Brands List</string>
 
     <!--AddAdditionalInfoFragment-->
     <string name="txt_add_additional_info">Add your dress\'s brand, date purchase, season info</string>

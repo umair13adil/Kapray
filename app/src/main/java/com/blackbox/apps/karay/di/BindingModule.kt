@@ -9,6 +9,7 @@ import com.blackbox.apps.karay.ui.fragments.add.AddNewFragment
 import com.blackbox.apps.karay.ui.fragments.add.AdditionalInfoFragment
 import com.blackbox.apps.karay.ui.fragments.detail.DetailFragment
 import com.blackbox.apps.karay.ui.fragments.main.MainFragment
+import com.blackbox.apps.karay.ui.fragments.pages.BrandsListFragment
 import com.blackbox.apps.karay.ui.fragments.pages.InClosetFragment
 import com.blackbox.apps.karay.ui.fragments.pages.KeptAwayFragment
 import dagger.Module
@@ -64,6 +65,10 @@ internal abstract class BindingModule {
     @FragmentScope
     @ContributesAndroidInjector
     abstract fun keptAwayFragment(): KeptAwayFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun brandsListFragment(): BrandsListFragment
 
     @FragmentScope
     @ContributesAndroidInjector

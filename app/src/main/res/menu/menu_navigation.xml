@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/all_movies_fragment"
-        android:title="1" />
+        android:id="@+id/fragment_in_closet"
+        android:title="@string/page_in_closet" />
     <item
-        android:id="@+id/fav_movies_fragment"
-        android:title="2" />
+        android:id="@+id/fragment_kept_away"
+        android:title="@string/page_kept_away" />
     <item
-        android:id="@+id/fav_suggested_fragment"
-        android:title="3" />
+        android:id="@+id/fragment_brands_list"
+        android:title="@string/page_brands_list" />
 
 </menu>

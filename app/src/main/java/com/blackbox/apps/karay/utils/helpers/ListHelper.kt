@@ -3,11 +3,11 @@ package com.blackbox.apps.karay.utils.helpers
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
-import android.view.animation.AccelerateInterpolator
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.blackbox.apps.karay.models.enums.AdapterActions
+import com.blackbox.apps.karay.utils.recyclerViewUtils.SpacesItemDecoration
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.SelectableAdapter
 import eu.davidea.flexibleadapter.common.SmoothScrollStaggeredLayoutManager
@@ -39,24 +39,26 @@ object ListHelper : FlexibleAdapter.OnActionStateListener, FlexibleAdapter.OnIte
         adapter.setMode(SelectableAdapter.Mode.SINGLE)
 
         adapter.setOnlyEntryAnimation(false)
-                ?.setAnimationInterpolator(AccelerateInterpolator())
-                ?.setAnimationDelay(0L)
-                ?.setAnimationOnForwardScrolling(false)
-                ?.setAnimationOnReverseScrolling(false)
-                ?.setAnimationDuration(1)
+                ?.setAnimationInterpolator(AccelerateDecelerateInterpolator())
+                ?.setAnimationDelay(1000L)
+                ?.setAnimationOnForwardScrolling(true)
+                ?.setAnimationOnReverseScrolling(true)
+                ?.setAnimationDuration(100)
                 ?.setAnimationEntryStep(true)
 
-        val layoutManager = SmoothScrollStaggeredLayoutManager(context, 2, LinearLayoutManager.VERTICAL)
-        recyclerView.layoutManager = layoutManager as RecyclerView.LayoutManager?
+        val layoutManager = SmoothScrollStaggeredLayoutManager(context, 2, StaggeredGridLayoutManager.VERTICAL)
+        //layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
+
+        recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
-        //recyclerView.setHasFixedSize(true)
-        //recyclerView.addItemDecoration(GridDividerDecoration(context))
-        recyclerView.itemAnimator = DefaultItemAnimator() as RecyclerView.ItemAnimator?
-        adapter.setSwipeEnabled(true)
-                ?.setAnimateChangesWithDiffUtil(true)
+
+        val decoration = SpacesItemDecoration(16)
+        recyclerView.addItemDecoration(decoration)
+
+        adapter.setAnimateChangesWithDiffUtil(true)
                 ?.setAnimateToLimit(10)
                 ?.setNotifyMoveOfFilteredItems(true)
-                ?.setAutoCollapseOnExpand(false)
+                ?.setNotifyChangeOfUnfilteredItems(true)
 
         return adapter
     }

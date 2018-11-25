@@ -1,22 +1,22 @@
 package com.blackbox.apps.karay.ui.fragments.add
 
 import androidx.lifecycle.ViewModel
-import com.blackbox.apps.karay.data.repositories.main.MainRepository
+import com.blackbox.apps.karay.data.repositories.main.PostRepository
 import com.blackbox.apps.karay.models.brands.WomenLocalBrand
 import com.blackbox.apps.karay.models.clothing.WomenClothing
 import javax.inject.Inject
 
-class AddNewViewModel @Inject constructor(private var mainRepository: MainRepository) : ViewModel() {
+class AddNewViewModel @Inject constructor(private var postRepository: PostRepository) : ViewModel() {
 
     fun getListOfWomenLocalBrands(): List<WomenLocalBrand> {
-        return mainRepository.getListOfWomenLocalBrands()
+        return postRepository.getListOfWomenLocalBrands()
     }
 
     fun saveWomenClothingInfo(womenClothing: WomenClothing) {
-        return mainRepository.addNewWomenClothing(womenClothing)
+        return postRepository.addNewWomenClothing(womenClothing)
     }
 
     fun getLogoURL(name: String): String? {
-        return mainRepository.getBrandLogoURLByName(name)
+        return postRepository.getBrandLogoURLByName(name)
     }
 }

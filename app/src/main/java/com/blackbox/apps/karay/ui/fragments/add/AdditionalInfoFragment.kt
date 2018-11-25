@@ -12,14 +12,14 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.blackbox.apps.karay.R
-import com.blackbox.apps.karay.models.enums.Seasons
 import com.blackbox.apps.karay.models.brands.WomenLocalBrand
 import com.blackbox.apps.karay.models.clothing.WomenClothing
+import com.blackbox.apps.karay.models.enums.Seasons
 import com.blackbox.apps.karay.models.rxbus.UserInput
 import com.blackbox.apps.karay.ui.base.BaseFragment
-import com.blackbox.apps.karay.utils.commons.DateTimeUtils
 import com.blackbox.apps.karay.utils.autoComplete.CustomAutoCompleteTextChangedListener
 import com.blackbox.apps.karay.utils.autoComplete.WomenBrandsLocalAdapter
+import com.blackbox.apps.karay.utils.commons.DateTimeUtils
 import com.blackbox.apps.karay.utils.setTypeface
 import com.michaelflisar.rxbus2.RxBusBuilder
 import com.michaelflisar.rxbus2.rx.RxBusMode
@@ -27,7 +27,6 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_additional_info.*
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 class AdditionalInfoFragment : BaseFragment(), DatePickerDialog.OnDateSetListener {
@@ -142,8 +141,9 @@ class AdditionalInfoFragment : BaseFragment(), DatePickerDialog.OnDateSetListene
 
         input_women_brand_name.setOnItemClickListener { parent, arg1, pos, id ->
             val rl = arg1 as LinearLayout
-            val tv = rl.getChildAt(1) as AppCompatTextView
-            val brandName = tv.text.toString()
+            val tv = rl.getChildAt(0) as LinearLayout
+            val textView = tv.getChildAt(1) as AppCompatTextView
+            val brandName = textView.text.toString()
             input_women_brand_name.setText(brandName)
             womenClothing.brand_name = brandName
 
@@ -163,16 +163,24 @@ class AdditionalInfoFragment : BaseFragment(), DatePickerDialog.OnDateSetListene
 
     private fun refreshListSuggestions(input: String) {
         try {
-            Observable.just(input)
-                    .debounce(300, TimeUnit.MILLISECONDS)
-                    .doOnNext { value ->
-                        myAdapter.notifyDataSetChanged()
+            Log.i(TAG, "Input: ${input}")
 
-                        val listFiltered = listOfWomenLocalBrands.filter {
-                            it.brand.toLowerCase().contains(value)
+            Observable.fromIterable(listOfWomenLocalBrands)
+                    .filter {
+                        it.brand.startsWith(input, ignoreCase = true)
+                    }
+                    .toList()
+                    .map {
+
+                        setupAdapter(it)
+
+                        Log.i(TAG, "New\n Size: ${it.size}")
+
+                        it.forEach {
+                            Log.i(TAG, "Filtered: ${it.brand}\n")
                         }
 
-                        setupAdapter(listFiltered)
+                        myAdapter.notifyDataSetChanged()
                     }
                     .subscribe()
 
@@ -184,11 +192,9 @@ class AdditionalInfoFragment : BaseFragment(), DatePickerDialog.OnDateSetListene
     }
 
     private fun setupAdapter(listOfBrands: List<WomenLocalBrand>) {
-        val brandsList = arrayListOf<WomenLocalBrand>()
-        brandsList.addAll(listOfBrands)
 
         //set up custom ArrayAdapter
-        myAdapter = WomenBrandsLocalAdapter(activity!!, R.layout.item_women_brand_local, brandsList)
+        myAdapter = WomenBrandsLocalAdapter(activity!!, R.layout.item_women_brand_local_suggest, listOfBrands)
         input_women_brand_name.setAdapter(myAdapter)
     }
 

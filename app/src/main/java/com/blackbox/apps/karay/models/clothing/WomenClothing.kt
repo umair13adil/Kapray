@@ -7,6 +7,7 @@ open class WomenClothing(
         var brand_name: String = "",
         var brand_logo_url: String = "",
         var image: String = "",
+        var image_url: String = "",
         var date_purchased: String = "",
         var season_info: String = "",
         var kept_away: Boolean = false,

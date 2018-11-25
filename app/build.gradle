@@ -77,6 +77,7 @@ dependencies {
     //RxJava2
     implementation "io.reactivex.rxjava2:rxkotlin:2.2.0"
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation  'io.reactivex.rxjava2:rxkotlin:2.2.0'
 
     //kapt
     kapt "com.google.dagger:dagger-compiler:2.16"
@@ -86,12 +87,14 @@ dependencies {
     implementation 'com.wdullaer:materialdatetimepicker:4.0.1'
 
 
-
-    //Firebase
+    //FireBase
     implementation 'com.google.firebase:firebase-core:16.0.4'
     implementation 'com.google.firebase:firebase-auth:16.0.5'
     implementation 'com.google.firebase:firebase-database:16.0.5'
+    implementation 'com.google.firebase:firebase-storage:16.0.5'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.6'
+
+    //Login Platforms
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
     implementation 'com.facebook.android:facebook-login:4.38.1'
 

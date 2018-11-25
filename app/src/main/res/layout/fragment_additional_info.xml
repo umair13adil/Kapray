@@ -43,6 +43,8 @@
                 android:id="@+id/input_women_brand_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:completionThreshold="1"
+                android:completionHintView="@dimen/margin_125"
                 android:hint="@string/txt_optional"
                 android:imeOptions="actionNext" />
 
@@ -76,8 +78,8 @@
                 android:id="@+id/input_kept_away"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/txt_is_kept_away"
-                android:checked="false" />
+                android:checked="false"
+                android:text="@string/txt_is_kept_away" />
 
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/input_unstitched"
@@ -110,9 +112,9 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/margin_55"
                 android:layout_marginRight="@dimen/margin_55"
+                android:layout_marginBottom="@dimen/margin_25"
                 android:text="@string/txt_save"
-                android:visibility="visible"
-                android:layout_marginBottom="@dimen/margin_25"/>
+                android:visibility="visible" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </FrameLayout>

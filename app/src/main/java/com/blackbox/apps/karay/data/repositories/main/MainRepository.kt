@@ -7,14 +7,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MainRepository @Inject constructor(private var db: RealmHelper) : MainDataSource {
+class MainRepository @Inject constructor(private var db: RealmHelper) {
 
     fun getListOfWomenLocalBrands(): List<WomenLocalBrand> {
         return db.findAll(WomenLocalBrand::class.java)
-    }
-
-    fun addNewWomenClothing(womenClothing: WomenClothing) {
-        db.add(womenClothing)
     }
 
     fun getListOfWomenClothing(inCloset: Boolean): List<WomenClothing> {
@@ -27,10 +23,5 @@ class MainRepository @Inject constructor(private var db: RealmHelper) : MainData
     fun getListOfWomenClothing(): List<WomenClothing> {
         val list = db.findAll(WomenClothing::class.java)
         return db.copyFromRealm(list)
-    }
-
-    fun getBrandLogoURLByName(brandName: String): String? {
-        val realm = db.getRealmInstance()
-        return realm.where(WomenLocalBrand::class.java).contains("brand", brandName).findFirst()?.logo_url
     }
 }

@@ -64,7 +64,9 @@ class AdditionalInfoFragment : BaseFragment(), DatePickerDialog.OnDateSetListene
         arguments?.let {
             val image_path = it.getString(ARG_IMAGE_PATH)
             womenClothing.image = image_path
-            Log.i(TAG, "Path: $image_path")
+
+            //Set Temp Id, it will be updated once post is stored in FireBase
+            womenClothing.id = womenClothing.image.hashCode().toString()
         }
 
         setContent()

@@ -4,7 +4,7 @@ import android.app.Activity
 import android.app.SearchManager
 import android.content.Context
 import android.view.MenuItem
-import android.widget.SearchView
+import androidx.appcompat.widget.SearchView
 import com.blackbox.apps.karay.R
 import com.michaelflisar.rxbus2.RxBus
 
@@ -29,7 +29,7 @@ object SearchHelper {
             override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
 
                 //Send 'CLEAR SEARCH' value to clear filter
-                //RxBus.get().send(SearchQuery("", Constants.CLEAR_SEARCH))
+                RxBus.get().send(SearchQuery("", CLEAR_SEARCH))
 
                 return true
             }
@@ -41,7 +41,7 @@ object SearchHelper {
 
         searchItem.setOnMenuItemClickListener {
 
-            val searchView = searchItem.actionView.findViewById<SearchView>(R.id.action_search) as SearchView
+            val searchView = searchItem.actionView.findViewById(R.id.action_search) as SearchView
             val searchManager: SearchManager = activity.getSystemService(Context.SEARCH_SERVICE) as SearchManager
             searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.componentName))
 

@@ -29,6 +29,10 @@ object ListHelper : FlexibleAdapter.OnActionStateListener, FlexibleAdapter.OnIte
     private lateinit var recyclerView: RecyclerView
     var adapterActions: AdapterActions? = null
 
+    fun setAdapterListener(listener: AdapterActions?) {
+        adapterActions = listener
+    }
+
     //List Adapter
     fun setUpAdapter(mItems: ArrayList<IFlexible<*>>?, recyclerView: RecyclerView, context: Context): FlexibleAdapter<*> {
 

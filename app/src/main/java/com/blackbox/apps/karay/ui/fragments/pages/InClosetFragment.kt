@@ -5,14 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import com.blackbox.apps.karay.R
+import com.blackbox.apps.karay.models.enums.AdapterActions
 import com.blackbox.apps.karay.ui.base.BaseFragment
+import com.blackbox.apps.karay.ui.fragments.detail.DetailFragment
 import com.blackbox.apps.karay.ui.fragments.main.MainViewModel
+import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_recycler_view.*
 import kotlinx.android.synthetic.main.fragment_view_clothings.*
 
 
-class InClosetFragment : BaseFragment() {
+class InClosetFragment : BaseFragment(), AdapterActions {
 
     private lateinit var viewModel: MainViewModel
 
@@ -43,7 +47,16 @@ class InClosetFragment : BaseFragment() {
         viewModel.setupTabs(tab_seasons)
 
         val clothings = viewModel.getListOfWomenClothing(true)
-        viewModel.setUpListAdapter(clothings, recycler_view, activity!!)
+        viewModel.setUpListAdapter(clothings, recycler_view, activity!!, adapterActions = this)
+    }
+
+    override fun onTaskClick(view: View?, position: Int) {
+        val bundle = DetailFragment.bundleArgs(viewModel.getWomenClothingItem(position))
+        Navigation.findNavController(view!!).navigate(R.id.action_clothingListFragment_to_detailFragment, bundle)
+    }
+
+    override fun onListLoaded(mItems: ArrayList<IFlexible<*>>) {
+
     }
 
 }

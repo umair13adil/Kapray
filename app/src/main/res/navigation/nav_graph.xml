@@ -64,6 +64,14 @@
         android:label="@string/page_in_closet"
         app:popUpToInclusive="true"
         tools:layout="@layout/fragment_view_clothings">
+
+        <action
+            android:id="@+id/action_clothingListFragment_to_detailFragment"
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
     <fragment
@@ -72,6 +80,14 @@
         android:label="@string/page_kept_away"
         app:popUpToInclusive="true"
         tools:layout="@layout/fragment_view_clothings">
+
+        <action
+            android:id="@+id/action_clothingListFragment_to_detailFragment"
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
 
@@ -81,6 +97,13 @@
         android:label="@string/page_brands_list"
         app:popUpToInclusive="true"
         tools:layout="@layout/fragment_view_clothings">
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.blackbox.apps.karay.ui.fragments.detail.DetailFragment"
+        app:popUpToInclusive="true"
+        tools:layout="@layout/detail_layout">
     </fragment>
 
 </navigation>

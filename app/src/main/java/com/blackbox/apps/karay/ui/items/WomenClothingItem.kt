@@ -34,7 +34,7 @@ class WomenClothingItem(val womenClothing: WomenClothing) : AbstractFlexibleItem
     override fun equals(o: Any?): Boolean {
         if (o is WomenClothingItem) {
             val inItem = o as WomenClothingItem?
-            return this.womenClothing.id_local == inItem!!.womenClothing.id_local
+            return this.womenClothing.id == inItem!!.womenClothing.id
         }
         return false
     }

@@ -22,14 +22,6 @@ class RealmHelper {
         return model
     }
 
-    fun <T : RealmObject> addUpdate(model: T): T {
-        val realm = getRealmInstance()
-        realm.executeTransaction {
-            it.copyToRealmOrUpdate(model)
-        }
-        return model
-    }
-
     fun <T : RealmObject> update(model: T): T {
         val realm = getRealmInstance()
         realm.executeTransaction {

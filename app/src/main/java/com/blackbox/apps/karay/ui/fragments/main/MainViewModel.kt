@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.blackbox.apps.karay.data.repositories.main.MainRepository
+import com.blackbox.apps.karay.models.clothing.WomenClothing
+import com.blackbox.apps.karay.models.enums.AdapterActions
 import com.blackbox.apps.karay.models.enums.Seasons
 import com.blackbox.apps.karay.ui.items.WomenClothingItem
 import com.blackbox.apps.karay.ui.items.WomenLocalBrandItem
@@ -92,9 +94,10 @@ class MainViewModel @Inject constructor(private var app: Application, private va
         })
     }
 
-    fun setUpListAdapter(mItems: ArrayList<IFlexible<*>>, recycler_view: RecyclerView, context: Context) {
+    fun setUpListAdapter(mItems: ArrayList<IFlexible<*>>, recycler_view: RecyclerView, context: Context, adapterActions: AdapterActions? = null) {
         adapter = ListHelper.setUpAdapter(mItems, recycler_view, context)
         adapter?.notifyItemRangeInserted(0, mItems.size)
+        ListHelper.setAdapterListener(adapterActions)
     }
 
     private fun filter(constraint: String) {
@@ -104,5 +107,9 @@ class MainViewModel @Inject constructor(private var app: Application, private va
 
     fun refreshAdapter() {
         //adapter?.notifyDataSetChanged()
+    }
+
+    fun getWomenClothingItem(position: Int): WomenClothing? {
+        return ListHelper.getListItem<WomenClothingItem>(position)?.womenClothing
     }
 }

@@ -10,6 +10,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import io.reactivex.Observable
+import java.io.File
 
 
 object FireBaseHelper {
@@ -65,34 +66,70 @@ object FireBaseHelper {
     /**
      * Save Women's Clothing info in FireBase DB
      */
-    fun saveWomenClothingRefInFireBaseDB(womenClothing: WomenClothing) {
+    fun saveWomenClothingRefInFireBaseDB(womenClothing: WomenClothing): Observable<WomenClothing> {
 
-        val refWomenClothing = dbRef.child(WOMEN_CLOTHING_ROOT)
-        val fireBaseUser = getCurrentUser()
+        return Observable.create { emitter ->
 
-        if (fireBaseUser != null) {
-            val userId = fireBaseUser.uid
+            val refWomenClothing = dbRef.child(WOMEN_CLOTHING_ROOT)
+            val fireBaseUser = getCurrentUser()
 
-            refWomenClothing.child(userId).setValue(womenClothing).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Log.i(TAG, "Women clothing info updated in DB.")
-                } else {
-                    Log.e(TAG, "Unable to save info to FireBase DB.")
+            if (fireBaseUser != null) {
+                val userId = fireBaseUser.uid
+                womenClothing.userId = userId
+
+                val postId = refWomenClothing.push().key!!
+                womenClothing.id = postId
+
+                //Save Image to FireBase Storage
+                uploadImageToFireBase(womenClothing.image, postId)
+
+                refWomenClothing.child(postId).setValue(womenClothing).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Log.i(TAG, "Women clothing info updated in DB.")
+
+                        if (!emitter.isDisposed) {
+                            emitter.onNext(womenClothing)
+                            emitter.onComplete()
+                        }
+
+                    } else {
+                        Log.e(TAG, "Unable to save info to FireBase DB.")
+
+                        if (!emitter.isDisposed) {
+                            emitter.onError(Throwable("Unable to save info to FireBase DB."))
+                            emitter.onComplete()
+                        }
+                    }
                 }
             }
         }
     }
 
-    private fun updateImageURLInDB(imageDownloadPath: String) {
-        val user = getCurrentUser()
-        dbRef.child(WOMEN_CLOTHING_ROOT).child(user?.uid!!)
+    private fun uploadImageToFireBase(imagePath: String, postId: String) {
+        val userId = getCurrentUser()?.uid!!
+        val uri = Uri.fromFile(File(imagePath))
+
+        //Compose Reference
+        val reference = storageRef
+                .child(DIRECTORY_WOMEN_CLOTHING_IMAGES)
+                .child(userId)
+                .child(postId)
+                .child(uri.lastPathSegment)
+
+        savePhotoInFireBaseStorage(uri, reference, postId)
+    }
+
+    private fun updateImageURLInDB(imageDownloadPath: String, postId: String) {
+
+        dbRef.child(WOMEN_CLOTHING_ROOT)
+                .child(postId)
                 .child("image_url")
                 .setValue(imageDownloadPath)
 
         Log.i(TAG, "Updating image URL in firebase DB.")
     }
 
-    fun savePhotoInFireBaseStorage(uri: Uri, reference: StorageReference) {
+    private fun savePhotoInFireBaseStorage(uri: Uri, reference: StorageReference, postId: String) {
 
         val uploadTask = reference.putFile(uri)
 
@@ -107,7 +144,7 @@ object FireBaseHelper {
             if (task.isSuccessful) {
                 val downloadUri = task.result
                 downloadUri?.let {
-                    updateImageURLInDB(it.toString())
+                    updateImageURLInDB(it.toString(), postId)
                 }
             } else {
                 Log.e(TAG, "Unable to upload image to firebase storage.")

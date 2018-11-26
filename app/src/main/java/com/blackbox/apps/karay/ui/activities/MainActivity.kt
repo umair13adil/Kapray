@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -51,6 +52,15 @@ class MainActivity : BaseActivity() {
             if (controller.currentDestination?.id == R.id.main_fragment) {
                 showMenu = true
                 invalidateOptionsMenu()
+            } else if (controller.currentDestination?.id == R.id.fragment_brands_list) {
+                showMenu = false
+                invalidateOptionsMenu()
+
+                //TODO Hide Filter
+            } else if (controller.currentDestination?.id == R.id.detailFragment) {
+                showMenu = false
+                invalidateOptionsMenu()
+                actionBar?.setBackgroundDrawable(ContextCompat.getDrawable(this, android.R.drawable.screen_background_light_transparent))
             } else {
                 showMenu = false
                 invalidateOptionsMenu()
@@ -88,9 +98,9 @@ class MainActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         return when (item.itemId) {
-             R.id.fragment_in_closet -> doNavigation(item, R.id.fragment_in_closet)
-             R.id.fragment_kept_away -> doNavigation(item, R.id.fragment_kept_away)
-             R.id.fragment_brands_list -> doNavigation(item, R.id.fragment_brands_list)
+            R.id.fragment_in_closet -> doNavigation(item, R.id.fragment_in_closet)
+            R.id.fragment_kept_away -> doNavigation(item, R.id.fragment_kept_away)
+            R.id.fragment_brands_list -> doNavigation(item, R.id.fragment_brands_list)
             else -> super.onOptionsItemSelected(item)
         }
     }

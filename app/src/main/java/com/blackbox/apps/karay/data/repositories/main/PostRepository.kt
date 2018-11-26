@@ -10,14 +10,18 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PostRepository @Inject constructor(private var db: RealmHelper) {
+class PostRepository @Inject constructor(private var db: RealmHelper, private var fb: FireBaseHelper) {
 
     fun getListOfWomenLocalBrands(): List<WomenLocalBrand> {
         return db.findAll(WomenLocalBrand::class.java)
     }
 
     fun addNewWomenClothing(womenClothing: WomenClothing) {
+
         db.add(womenClothing)
+        fb.saveWomenClothingRefInFireBaseDB(womenClothing)
+
+        uploadImageToFireBase(womenClothing.image)
     }
 
     fun getBrandLogoURLByName(brandName: String): String? {
@@ -25,13 +29,10 @@ class PostRepository @Inject constructor(private var db: RealmHelper) {
         return realm.where(WomenLocalBrand::class.java).contains("brand", brandName).findFirst()?.logo_url
     }
 
-    fun uploadImageToFireBase(imagePath:String){
+    private fun uploadImageToFireBase(imagePath: String) {
+        val userId = fb.getCurrentUser()?.uid!!
         val uri = Uri.fromFile(File(imagePath))
-        val reference = FireBaseHelper.storageRef.child(DIRECTORY_WOMEN_CLOTHING_IMAGES).child("id").child("filename" + uri.lastPathSegment)
-
-    }
-
-    companion object {
-        private const val DIRECTORY_WOMEN_CLOTHING_IMAGES = "images_women_clothing/"
+        val reference = FireBaseHelper.storageRef.child(fb.DIRECTORY_WOMEN_CLOTHING_IMAGES).child(userId).child(uri.lastPathSegment)
+        fb.savePhotoInFireBaseStorage(uri, reference)
     }
 }

@@ -1,6 +1,8 @@
 package com.blackbox.apps.karay.data.repositories.network
 
 import android.net.Uri
+import android.util.Log
+import com.blackbox.apps.karay.models.clothing.WomenClothing
 import com.blackbox.apps.karay.models.user.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -12,10 +14,17 @@ import io.reactivex.Observable
 
 object FireBaseHelper {
 
-    //User Table
+    private val TAG = "FireBaseHelper"
+
+    //Firebase DB Tables
     private const val USER_ROOT = "user"
+    private const val WOMEN_CLOTHING_ROOT = "women_clothing"
+
+    //FireBase Storage Directories
+    const val DIRECTORY_WOMEN_CLOTHING_IMAGES = "WOMEN_CLOTHING_IMAGES/"
 
     val storageRef by lazy { FirebaseStorage.getInstance().reference }
+    val dbRef by lazy { FirebaseDatabase.getInstance().reference }
 
     /**
      * Save user's reference in FireBase DB
@@ -24,8 +33,8 @@ object FireBaseHelper {
 
         return Observable.create { emitter ->
 
-            val referenceUser = FirebaseDatabase.getInstance().reference.child(USER_ROOT)
-            val fireBaseUser = FirebaseAuth.getInstance().currentUser
+            val referenceUser = dbRef.child(USER_ROOT)
+            val fireBaseUser = getCurrentUser()
 
             if (fireBaseUser != null) {
                 val user = User()
@@ -53,11 +62,34 @@ object FireBaseHelper {
         }
     }
 
-    fun updateImageURLInDB(imageDownloadPath: String) {
+    /**
+     * Save Women's Clothing info in FireBase DB
+     */
+    fun saveWomenClothingRefInFireBaseDB(womenClothing: WomenClothing) {
+
+        val refWomenClothing = dbRef.child(WOMEN_CLOTHING_ROOT)
+        val fireBaseUser = getCurrentUser()
+
+        if (fireBaseUser != null) {
+            val userId = fireBaseUser.uid
+
+            refWomenClothing.child(userId).setValue(womenClothing).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.i(TAG, "Women clothing info updated in DB.")
+                } else {
+                    Log.e(TAG, "Unable to save info to FireBase DB.")
+                }
+            }
+        }
+    }
+
+    private fun updateImageURLInDB(imageDownloadPath: String) {
         val user = getCurrentUser()
-        FirebaseDatabase.getInstance().reference.child(user?.uid!!)
+        dbRef.child(WOMEN_CLOTHING_ROOT).child(user?.uid!!)
                 .child("image_url")
                 .setValue(imageDownloadPath)
+
+        Log.i(TAG, "Updating image URL in firebase DB.")
     }
 
     fun savePhotoInFireBaseStorage(uri: Uri, reference: StorageReference) {
@@ -74,19 +106,19 @@ object FireBaseHelper {
         }.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val downloadUri = task.result
-
+                downloadUri?.let {
+                    updateImageURLInDB(it.toString())
+                }
             } else {
-
+                Log.e(TAG, "Unable to upload image to firebase storage.")
             }
         }
-
-
     }
 
     /**
      * This will return current signed in 'FireBase User
      */
-    private fun getCurrentUser(): FirebaseUser? {
+    fun getCurrentUser(): FirebaseUser? {
         return FirebaseAuth.getInstance().currentUser
     }
 }

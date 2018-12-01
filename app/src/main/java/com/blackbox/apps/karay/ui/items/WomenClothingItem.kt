@@ -16,7 +16,7 @@ import eu.davidea.viewholders.FlexibleViewHolder
 import kotlinx.android.synthetic.main.item_women_clothing.view.*
 import java.io.File
 
-class WomenClothingItem(val womenClothing: WomenClothing, val headerItem:SeasonsHeaderItem) : AbstractSectionableItem<WomenClothingItem.ViewHolder, SeasonsHeaderItem>(headerItem), IFilterable<String> {
+class WomenClothingItem(val womenClothing: WomenClothing, val headerItem:SeasonsHeaderItem?) : AbstractSectionableItem<WomenClothingItem.ViewHolder, SeasonsHeaderItem>(headerItem), IFilterable<String> {
 
     init {
         this.header = headerItem

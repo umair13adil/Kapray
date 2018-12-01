@@ -53,7 +53,7 @@
 
         <action
             android:id="@+id/action_AdditionalInfoFragment_to_MainFragment"
-            app:destination="@id/main_fragment"
+            app:destination="@id/fragment_my_wardrobe"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -78,7 +78,7 @@
 
         <action
             android:id="@+id/action_add_new_fragment_to_main_fragment"
-            app:destination="@id/main_fragment" />
+            app:destination="@id/fragment_my_wardrobe" />
 
     </fragment>
 

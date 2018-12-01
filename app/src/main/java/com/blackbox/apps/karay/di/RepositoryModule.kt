@@ -13,8 +13,8 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideMainDataSource(db: RealmHelper): MainRepository {
-        return MainRepository(db)
+    fun provideMainDataSource(db: RealmHelper, fb: FireBaseHelper): MainRepository {
+        return MainRepository(db, fb)
     }
 
     @Provides

@@ -13,6 +13,7 @@ import com.blackbox.apps.karay.ui.fragments.detail.DetailFragment
 import com.blackbox.plog.pLogs.PLog
 import com.blackbox.plog.pLogs.models.LogLevel
 import eu.davidea.flexibleadapter.items.IFlexible
+import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_recycler_view.*
 
 
@@ -47,13 +48,20 @@ class MyWardrobeFragment : BaseFragment(), AdapterActions {
 
         val clothings = viewModel.getListOfWomenClothing()
         viewModel.setUpListAdapter(clothings, recycler_view, activity!!, adapterActions = this)
+
+        fab_add?.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_MainFragment_to_AddNewFragment)
+        }
     }
 
     override fun onTaskClick(view: View?, position: Int) {
         PLog.logThis(TAG,"onTaskClick","onTaskClick $position", LogLevel.INFO)
 
-        val bundle = DetailFragment.bundleArgs(viewModel.getWomenClothingItem(position))
-        Navigation.findNavController(view!!).navigate(R.id.action_MyWardrobeFragment_to_detailFragment, bundle)
+        viewModel.getWomenClothingItem(position)?.let {
+
+            val bundle = DetailFragment.bundleArgs(it)
+            Navigation.findNavController(view!!).navigate(R.id.action_MyWardrobeFragment_to_detailFragment, bundle)
+        }
     }
 
     override fun onListLoaded(mItems: ArrayList<IFlexible<*>>) {

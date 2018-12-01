@@ -6,7 +6,10 @@ import com.blackbox.apps.karay.models.clothing.WomenClothing
 import com.blackbox.apps.karay.models.user.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import io.reactivex.Observable
@@ -157,5 +160,44 @@ object FireBaseHelper {
      */
     fun getCurrentUser(): FirebaseUser? {
         return FirebaseAuth.getInstance().currentUser
+    }
+
+    /**
+     * This will retrieve data from FireBase database and sync with Realm DB.
+     */
+    fun syncWomenClothingData(): Observable<List<WomenClothing>> {
+
+        return Observable.create { emitter ->
+
+            val list = arrayListOf<WomenClothing>()
+            val refWomenClothing = dbRef.child(WOMEN_CLOTHING_ROOT)
+            val fireBaseUser = getCurrentUser()
+
+            fireBaseUser?.let {
+                refWomenClothing.orderByChild("userId").equalTo(it.uid).addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        for (data in dataSnapshot.children) {
+
+                            data.getValue(WomenClothing::class.java)?.let { dbData ->
+                                list.add(dbData)
+                            }
+                        }
+
+                        if (!emitter.isDisposed) {
+                            emitter.onNext(list)
+                            emitter.onComplete()
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+
+                        if (!emitter.isDisposed) {
+                            emitter.onError(databaseError.toException())
+                            emitter.onComplete()
+                        }
+                    }
+                })
+            }
+        }
     }
 }

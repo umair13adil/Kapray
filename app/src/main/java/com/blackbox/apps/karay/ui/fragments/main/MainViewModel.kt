@@ -9,4 +9,7 @@ class MainViewModel @Inject constructor(private var app: Application, private va
 
     private val TAG = "MainViewModel"
 
+    fun syncAll(){
+        mainRepository.syncAll()
+    }
 }

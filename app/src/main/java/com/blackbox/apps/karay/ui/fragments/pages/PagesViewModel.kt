@@ -42,13 +42,20 @@ class PagesViewModel @Inject constructor(private var app: Application, private v
 
         val mItems = arrayListOf<IFlexible<*>>()
 
+        var lastHeader = ""
         list.forEach {
 
-            val headerItem = SeasonsHeaderItem(it.season_info)
-            val item1 = WomenClothingItem(it, headerItem)
+            var headerItem: SeasonsHeaderItem? = null
 
+            if (lastHeader.isEmpty() || lastHeader != it.season_info) {
+                headerItem = SeasonsHeaderItem(it.season_info)
+            }
+
+            val item1 = WomenClothingItem(it, headerItem)
             //Add Item to List
             mItems.add(item1)
+
+            lastHeader = it.season_info
         }
 
         return mItems
@@ -81,6 +88,9 @@ class PagesViewModel @Inject constructor(private var app: Application, private v
     }
 
     fun getWomenClothingItem(position: Int): WomenClothing? {
-        return ListHelper.getListItem<WomenClothingItem>(position)?.womenClothing
+        if (ListHelper.getListItem<WomenClothingItem>(position) is WomenClothingItem) {
+            return ListHelper.getListItem<WomenClothingItem>(position)?.womenClothing
+        }
+        return null
     }
 }

@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
@@ -14,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.blackbox.apps.karay.R
 import com.blackbox.apps.karay.ui.base.BaseActivity
 import com.blackbox.apps.karay.ui.fragments.add.AddNewFragment
+import com.blackbox.apps.karay.ui.fragments.main.MainViewModel
 import com.blackbox.apps.karay.utils.createImageDirectories
 import com.blackbox.apps.karay.utils.helpers.CompressionHelper
 import com.blackbox.apps.karay.utils.helpers.SearchHelper
@@ -28,10 +29,16 @@ class MainActivity : BaseActivity() {
     private val TAG = "MainActivity"
     private var showMenu = false
     private lateinit var navController: NavController
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
+
+        //Sync all data between FireBase & local RealmDb
+        viewModel.syncAll()
 
         //Create App Directories
         createImageDirectories()
@@ -58,7 +65,6 @@ class MainActivity : BaseActivity() {
                 //TODO Hide Filter
             } else if (controller.currentDestination?.id == R.id.detailFragment) {
                 showMenu = false
-                appbar?.visibility = View.GONE
             } else {
                 showMenu = false
                 invalidateOptionsMenu()

@@ -47,9 +47,9 @@ object ListHelper : FlexibleAdapter.OnActionStateListener, FlexibleAdapter.OnIte
         adapter.setMode(SelectableAdapter.Mode.SINGLE)
 
         recyclerView.addItemDecoration(FlexibleItemDecoration(context)
-                .addItemViewType(R.layout.item_header_seasons, 0, 8, 0, 8)
-                .withSectionGapOffset(24)
-                .withEdge(true))
+                .addItemViewType(R.layout.item_header_seasons, 0, 0, 0, 0)
+                .withSectionGapOffset(0)
+                .withEdge(false))
 
         adapter.setOnlyEntryAnimation(false)
                 ?.setAnimationInterpolator(AccelerateDecelerateInterpolator())
@@ -73,8 +73,6 @@ object ListHelper : FlexibleAdapter.OnActionStateListener, FlexibleAdapter.OnIte
                 ?.setNotifyMoveOfFilteredItems(true)
                 ?.setNotifyChangeOfUnfilteredItems(true)
                 ?.setStickyHeaderElevation(5)
-                ?.setUnlinkAllItemsOnRemoveHeaders(true)
-                // Show Headers at startUp, 1st call, correctly executed, no warning log message!
                 ?.setDisplayHeadersAtStartUp(true)
                 ?.setStickyHeaders(true)
 
@@ -160,7 +158,7 @@ object ListHelper : FlexibleAdapter.OnActionStateListener, FlexibleAdapter.OnIte
     //List Adapter's Callback
     override fun onItemClick(view: View?, position: Int): Boolean {
         adapterActions?.onTaskClick(view, position)
-        PLog.logThis(TAG,"onItemClick","onTaskClick $position", LogLevel.INFO)
+        PLog.logThis(TAG, "onItemClick", "onTaskClick $position", LogLevel.INFO)
         return true
     }
 

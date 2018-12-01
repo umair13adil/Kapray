@@ -1,6 +1,5 @@
 package com.blackbox.apps.karay.ui.items
 
-import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
@@ -30,12 +29,7 @@ class SeasonsHeaderItem(private val title: String) : AbstractHeaderItem<SeasonsH
     }
 
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?, holder: HeaderViewHolder?, position: Int, payloads: MutableList<Any>?) {
-
-        if (payloads?.size!! > 0) {
-            Log.d(this.javaClass.simpleName, "Payload $payloads")
-        } else {
-            holder?.mTitle!!.text = title
-        }
+        holder?.mTitle!!.text = title
     }
 
     override fun hashCode(): Int {
@@ -48,6 +42,9 @@ class SeasonsHeaderItem(private val title: String) : AbstractHeaderItem<SeasonsH
 
         init {
             this.mTitle = view?.txt_title
+
+            // Support for StaggeredGridLayoutManager
+            setFullSpan(true)
         }
     }
 

@@ -10,19 +10,10 @@ import com.blackbox.apps.karay.ui.fragments.add.AdditionalInfoFragment
 import com.blackbox.apps.karay.ui.fragments.detail.DetailFragment
 import com.blackbox.apps.karay.ui.fragments.main.MainFragment
 import com.blackbox.apps.karay.ui.fragments.pages.BrandsListFragment
-import com.blackbox.apps.karay.ui.fragments.pages.InClosetFragment
-import com.blackbox.apps.karay.ui.fragments.pages.KeptAwayFragment
+import com.blackbox.apps.karay.ui.fragments.pages.MyWardrobeFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
-/**
- * All components (Activity, Fragment, Services) that have been injected, must be declared here,
- * otherwise app will give exception during run-time.
- *
- * App can give following exceptions during run-time:
- * 1. UninitializedPropertyAccessException: lateinit property has not been initialized
- * 2. IllegalArgumentException: No injector factory bound
- */
 @Module
 internal abstract class BindingModule {
 
@@ -60,11 +51,7 @@ internal abstract class BindingModule {
 
     @FragmentScope
     @ContributesAndroidInjector
-    abstract fun inClosetFragment(): InClosetFragment
-
-    @FragmentScope
-    @ContributesAndroidInjector
-    abstract fun keptAwayFragment(): KeptAwayFragment
+    abstract fun myWardrobeFragment(): MyWardrobeFragment
 
     @FragmentScope
     @ContributesAndroidInjector

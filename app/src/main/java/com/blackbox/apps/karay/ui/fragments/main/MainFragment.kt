@@ -38,13 +38,13 @@ class MainFragment : BaseFragment() {
     override fun onStart() {
         super.onStart()
 
-        val listOfClothing = viewModel.getListOfWomenClothing()
+        /*val listOfClothing = viewModel.getListOfWomenClothing()
 
         if (listOfClothing.isEmpty()) {
             setEmptyContentLayout()
         } else {
             setHomeLayout()
-        }
+        }*/
     }
 
     @SuppressLint("RestrictedApi")

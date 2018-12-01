@@ -10,20 +10,21 @@ import com.blackbox.apps.karay.R
 import com.blackbox.apps.karay.models.enums.AdapterActions
 import com.blackbox.apps.karay.ui.base.BaseFragment
 import com.blackbox.apps.karay.ui.fragments.detail.DetailFragment
-import com.blackbox.apps.karay.ui.fragments.main.MainViewModel
+import com.blackbox.plog.pLogs.PLog
+import com.blackbox.plog.pLogs.models.LogLevel
 import eu.davidea.flexibleadapter.items.IFlexible
 import kotlinx.android.synthetic.main.fragment_recycler_view.*
-import kotlinx.android.synthetic.main.fragment_view_clothings.*
 
 
-class InClosetFragment : BaseFragment(), AdapterActions {
+class MyWardrobeFragment : BaseFragment(), AdapterActions {
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: PagesViewModel
+    private val TAG = "MyWardrobeFragment"
 
     companion object {
 
-        fun newInstance(): InClosetFragment {
-            val fragment = InClosetFragment()
+        fun newInstance(): MyWardrobeFragment {
+            val fragment = MyWardrobeFragment()
             val args = Bundle()
             fragment.arguments = args
             return fragment
@@ -31,28 +32,28 @@ class InClosetFragment : BaseFragment(), AdapterActions {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_view_clothings, container, false)
+        return inflater.inflate(R.layout.fragment_my_wardrobe, container, false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(PagesViewModel::class.java)
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.setupTabs(tab_seasons)
-
-        val clothings = viewModel.getListOfWomenClothing(true)
+        val clothings = viewModel.getListOfWomenClothing()
         viewModel.setUpListAdapter(clothings, recycler_view, activity!!, adapterActions = this)
     }
 
     override fun onTaskClick(view: View?, position: Int) {
+        PLog.logThis(TAG,"onTaskClick","onTaskClick $position", LogLevel.INFO)
+
         val bundle = DetailFragment.bundleArgs(viewModel.getWomenClothingItem(position))
-        Navigation.findNavController(view!!).navigate(R.id.action_clothingListFragment_to_detailFragment, bundle)
+        Navigation.findNavController(view!!).navigate(R.id.action_MyWardrobeFragment_to_detailFragment, bundle)
     }
 
     override fun onListLoaded(mItems: ArrayList<IFlexible<*>>) {

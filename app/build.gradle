@@ -86,6 +86,9 @@ dependencies {
     //Calendar
     implementation 'com.wdullaer:materialdatetimepicker:4.0.1'
 
+    //Logging
+    implementation 'com.github.umair13adil:RxLogs:0.16'
+
     //FireBase
     implementation 'com.google.firebase:firebase-core:16.0.4'
     implementation 'com.google.firebase:firebase-auth:16.0.5'

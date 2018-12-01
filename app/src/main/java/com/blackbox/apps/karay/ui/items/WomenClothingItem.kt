@@ -9,16 +9,17 @@ import com.blackbox.apps.karay.models.clothing.WomenClothing
 import com.blackbox.apps.karay.utils.setTypeface
 import com.bumptech.glide.Glide
 import eu.davidea.flexibleadapter.FlexibleAdapter
-import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
+import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFilterable
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
 import kotlinx.android.synthetic.main.item_women_clothing.view.*
 import java.io.File
 
-class WomenClothingItem(val womenClothing: WomenClothing) : AbstractFlexibleItem<WomenClothingItem.ViewHolder>(), IFilterable<String> {
+class WomenClothingItem(val womenClothing: WomenClothing, val headerItem:SeasonsHeaderItem) : AbstractSectionableItem<WomenClothingItem.ViewHolder, SeasonsHeaderItem>(headerItem), IFilterable<String> {
 
     init {
+        this.header = headerItem
         isDraggable = false
         isSwipeable = true
         isSelectable = true

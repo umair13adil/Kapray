@@ -6,10 +6,14 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.blackbox.apps.karay.R
 import com.blackbox.apps.karay.models.enums.AdapterActions
 import com.blackbox.apps.karay.utils.recyclerViewUtils.SpacesItemDecoration
+import com.blackbox.plog.pLogs.PLog
+import com.blackbox.plog.pLogs.models.LogLevel
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.SelectableAdapter
+import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollStaggeredLayoutManager
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.reactivex.Observable
@@ -42,6 +46,11 @@ object ListHelper : FlexibleAdapter.OnActionStateListener, FlexibleAdapter.OnIte
 
         adapter.setMode(SelectableAdapter.Mode.SINGLE)
 
+        recyclerView.addItemDecoration(FlexibleItemDecoration(context)
+                .addItemViewType(R.layout.item_header_seasons, 0, 8, 0, 8)
+                .withSectionGapOffset(24)
+                .withEdge(true))
+
         adapter.setOnlyEntryAnimation(false)
                 ?.setAnimationInterpolator(AccelerateDecelerateInterpolator())
                 ?.setAnimationDelay(1000L)
@@ -63,6 +72,11 @@ object ListHelper : FlexibleAdapter.OnActionStateListener, FlexibleAdapter.OnIte
                 ?.setAnimateToLimit(10)
                 ?.setNotifyMoveOfFilteredItems(true)
                 ?.setNotifyChangeOfUnfilteredItems(true)
+                ?.setStickyHeaderElevation(5)
+                ?.setUnlinkAllItemsOnRemoveHeaders(true)
+                // Show Headers at startUp, 1st call, correctly executed, no warning log message!
+                ?.setDisplayHeadersAtStartUp(true)
+                ?.setStickyHeaders(true)
 
         return adapter
     }
@@ -146,6 +160,7 @@ object ListHelper : FlexibleAdapter.OnActionStateListener, FlexibleAdapter.OnIte
     //List Adapter's Callback
     override fun onItemClick(view: View?, position: Int): Boolean {
         adapterActions?.onTaskClick(view, position)
+        PLog.logThis(TAG,"onItemClick","onTaskClick $position", LogLevel.INFO)
         return true
     }
 

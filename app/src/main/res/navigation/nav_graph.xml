@@ -2,9 +2,33 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/main_fragment">
+    app:startDestination="@id/fragment_my_wardrobe">
 
     <fragment
+        android:id="@+id/fragment_my_wardrobe"
+        android:name="com.blackbox.apps.karay.ui.fragments.pages.MyWardrobeFragment"
+        android:label="@string/page_my_wardrobe"
+        app:popUpToInclusive="true"
+        tools:layout="@layout/fragment_my_wardrobe">
+
+        <action
+            android:id="@+id/action_MyWardrobeFragment_to_detailFragment"
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+        <action
+            android:id="@+id/action_MainFragment_to_AddNewFragment"
+            app:destination="@id/add_new_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <!--<fragment
         android:id="@+id/main_fragment"
         android:name="com.blackbox.apps.karay.ui.fragments.main.MainFragment"
         android:label="@string/screen_home"
@@ -18,7 +42,7 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
 
-    </fragment>
+    </fragment>-->
 
     <fragment
         android:id="@+id/add_additional_info_fragment"
@@ -58,45 +82,13 @@
 
     </fragment>
 
-    <fragment
-        android:id="@+id/fragment_in_closet"
-        android:name="com.blackbox.apps.karay.ui.fragments.pages.InClosetFragment"
-        android:label="@string/page_in_closet"
-        app:popUpToInclusive="true"
-        tools:layout="@layout/fragment_view_clothings">
-
-        <action
-            android:id="@+id/action_clothingListFragment_to_detailFragment"
-            app:destination="@id/detailFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
-    </fragment>
-
-    <fragment
-        android:id="@+id/fragment_kept_away"
-        android:name="com.blackbox.apps.karay.ui.fragments.pages.KeptAwayFragment"
-        android:label="@string/page_kept_away"
-        app:popUpToInclusive="true"
-        tools:layout="@layout/fragment_view_clothings">
-
-        <action
-            android:id="@+id/action_clothingListFragment_to_detailFragment"
-            app:destination="@id/detailFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
-    </fragment>
-
 
     <fragment
         android:id="@+id/fragment_brands_list"
         android:name="com.blackbox.apps.karay.ui.fragments.pages.BrandsListFragment"
         android:label="@string/page_brands_list"
         app:popUpToInclusive="true"
-        tools:layout="@layout/fragment_view_clothings">
+        tools:layout="@layout/fragment_my_wardrobe">
     </fragment>
 
     <fragment

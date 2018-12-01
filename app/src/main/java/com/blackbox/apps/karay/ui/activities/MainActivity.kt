@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import androidx.core.content.ContextCompat
+import android.view.View
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -55,12 +55,10 @@ class MainActivity : BaseActivity() {
             } else if (controller.currentDestination?.id == R.id.fragment_brands_list) {
                 showMenu = false
                 invalidateOptionsMenu()
-
                 //TODO Hide Filter
             } else if (controller.currentDestination?.id == R.id.detailFragment) {
                 showMenu = false
-                invalidateOptionsMenu()
-                actionBar?.setBackgroundDrawable(ContextCompat.getDrawable(this, android.R.drawable.screen_background_light_transparent))
+                appbar?.visibility = View.GONE
             } else {
                 showMenu = false
                 invalidateOptionsMenu()

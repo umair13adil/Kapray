@@ -9,15 +9,14 @@ object DateTimeUtils {
     private val TAG = DateTimeUtils::class.java.simpleName
     private val DATE_FORMAT_DEFAULT = "MM/dd/yyyy"
     private val TIME_FORMAT_DEFAULT = "hh:mm a"
-    private val TIME_FORMAT_FULL = "MM:dd:yyyy hh:mm:ss a"
+    private val TIME_FORMAT_FULL = "dd MMM yyyy"
 
     fun getFullDateString(year: Int, monthOfYear: Int, dayOfMonth: Int): String {
         try {
             val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
             val date = sdf.parse(String.format("%2d/%2d/%4d", dayOfMonth, monthOfYear, year))
 
-            val dayNumberSuffix = getDayOfMonthSuffix(dayOfMonth)
-            val f1 = SimpleDateFormat("d'$dayNumberSuffix' MMM yyyy", Locale.ENGLISH)
+            val f1 = SimpleDateFormat(TIME_FORMAT_FULL, Locale.ENGLISH)
             val formatted = f1.format(date)
             return formatted
         } catch (e: ParseException) {

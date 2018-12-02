@@ -4,8 +4,11 @@ import com.blackbox.apps.karay.data.repositories.local.RealmHelper
 import com.blackbox.apps.karay.data.repositories.network.FireBaseHelper
 import com.blackbox.apps.karay.models.brands.WomenLocalBrand
 import com.blackbox.apps.karay.models.clothing.WomenClothing
+import com.blackbox.apps.karay.models.enums.OrderBy
+import com.blackbox.apps.karay.models.enums.Sizes
 import com.blackbox.apps.karay.models.rxbus.AppEvents
 import com.blackbox.apps.karay.models.rxbus.EventData
+import com.blackbox.apps.karay.ui.base.FilterClothingData
 import com.blackbox.plog.pLogs.PLog
 import com.blackbox.plog.pLogs.models.LogLevel
 import com.michaelflisar.rxbus2.RxBus
@@ -25,6 +28,65 @@ class MainRepository @Inject constructor(private var db: RealmHelper, private va
     fun getListOfWomenLocalBrands(): List<WomenLocalBrand> {
         return db.findAll(WomenLocalBrand::class.java)
     }
+
+    fun getFilteredListOfWomenClothing(filterClothingData: FilterClothingData): Observable<List<WomenClothing>> {
+
+        return Observable.create { emitter ->
+
+            //Find all items, only if they are not deleted
+            val list = db.getRealmInstance().where(WomenClothing::class.java)
+                    .isEmpty("deletedOn")
+                    .findAll()
+
+            var copiedList = db.copyFromRealm(list)
+            PLog.logThis(TAG, "Filter1", "Size: ${copiedList.size}", LogLevel.INFO)
+
+            copiedList = if (filterClothingData.purchasedOrder == OrderBy.LATEST) {
+                copiedList.sortedByDescending {
+                    it.date_purchased
+                }
+            } else {
+                copiedList.sortedBy {
+                    it.date_purchased
+                }
+            }
+
+            PLog.logThis(TAG, "Filter2", "Size: ${copiedList.size}", LogLevel.INFO)
+
+            copiedList = if (filterClothingData.addedOrder == OrderBy.LATEST) {
+                copiedList.sortedByDescending {
+                    it.date_added
+                }
+            } else {
+                copiedList.sortedBy {
+                    it.date_added
+                }
+            }
+
+            PLog.logThis(TAG, "Filter3", "Size: ${copiedList.size}", LogLevel.INFO)
+
+            copiedList = copiedList.filter {
+                it.season_info == filterClothingData.season.value
+            }
+
+            if (copiedList.mapNotNull { it.size_info }.isNotEmpty()) {
+
+                if (filterClothingData.size != Sizes.NONE) {
+                    copiedList = copiedList.filter {
+                        it.size_info == filterClothingData.size.value
+                    }
+                }
+            }
+
+            PLog.logThis(TAG, "Filter4", "Size: ${copiedList.size}", LogLevel.INFO)
+
+            if (!emitter.isDisposed) {
+                emitter.onNext(copiedList)
+                emitter.onComplete()
+            }
+        }
+    }
+
 
     fun getListOfWomenClothing(inCloset: Boolean): Observable<List<WomenClothing>> {
 
@@ -122,5 +184,15 @@ class MainRepository @Inject constructor(private var db: RealmHelper, private va
                             it.printStackTrace()
                         }
                 )
+    }
+
+    fun deletePost(id: String) {
+        val item = db.findById(WomenClothing::class.java, "id", id)
+
+        item?.let {
+            db.removeFromRealm(it)
+        }
+
+        fb.deleteWomenClothingInfoById(id)
     }
 }

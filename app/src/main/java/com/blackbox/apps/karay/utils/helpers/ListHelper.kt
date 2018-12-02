@@ -32,24 +32,24 @@ object ListHelper : FlexibleAdapter.OnActionStateListener, FlexibleAdapter.OnIte
     private var mItems: ArrayList<IFlexible<*>> = arrayListOf()
     private lateinit var recyclerView: RecyclerView
     var adapterActions: AdapterActions? = null
+    private var decoration: SpacesItemDecoration? = null
 
     fun setAdapterListener(listener: AdapterActions?) {
         adapterActions = listener
     }
 
+    fun setSpacesDecorations() {
+        decoration = null
+    }
+
     //List Adapter
-    fun setUpAdapter(mItems: ArrayList<IFlexible<*>>?, recyclerView: RecyclerView, context: Context): FlexibleAdapter<*> {
+    fun setUpAdapter(mItems: ArrayList<IFlexible<*>>?, recyclerView: RecyclerView, context: Context, stickyHeadersEnabled: Boolean = false): FlexibleAdapter<*> {
 
         this.adapter = FlexibleAdapter(mItems, this, true)
         this.mItems = mItems!!
         this.recyclerView = recyclerView
 
         adapter.setMode(SelectableAdapter.Mode.SINGLE)
-
-        recyclerView.addItemDecoration(FlexibleItemDecoration(context)
-                .addItemViewType(R.layout.item_header_seasons, 0, 0, 0, 0)
-                .withSectionGapOffset(0)
-                .withEdge(false))
 
         adapter.setOnlyEntryAnimation(false)
                 ?.setAnimationInterpolator(AccelerateDecelerateInterpolator())
@@ -65,18 +65,33 @@ object ListHelper : FlexibleAdapter.OnActionStateListener, FlexibleAdapter.OnIte
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
 
-        val decoration = SpacesItemDecoration(16)
-        recyclerView.addItemDecoration(decoration)
+        if (decoration == null) {
+            decoration = SpacesItemDecoration(16)
+            recyclerView.addItemDecoration(decoration!!)
+        }
+
+        if (stickyHeadersEnabled) {
+            recyclerView.addItemDecoration(FlexibleItemDecoration(context)
+                    .addItemViewType(R.layout.item_header_seasons, 0, 0, 0, 0)
+                    .withSectionGapOffset(0)
+                    .withEdge(false))
+
+            adapter.setStickyHeaderElevation(5)
+                    ?.setDisplayHeadersAtStartUp(true)
+                    ?.setStickyHeaders(true)
+        }
 
         adapter.setAnimateChangesWithDiffUtil(true)
                 ?.setAnimateToLimit(10)
                 ?.setNotifyMoveOfFilteredItems(true)
                 ?.setNotifyChangeOfUnfilteredItems(true)
-                ?.setStickyHeaderElevation(5)
-                ?.setDisplayHeadersAtStartUp(true)
-                ?.setStickyHeaders(true)
 
         return adapter
+    }
+
+    fun <T : Nothing?> updateAdapter(mItems: List<T>) {
+        adapter.updateDataSet(mItems)
+        PLog.logThis(TAG, "updateAdapter", "Update: ${mItems.size}", LogLevel.INFO)
     }
 
     /**

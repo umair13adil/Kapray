@@ -12,7 +12,8 @@ import com.blackbox.apps.karay.models.enums.AdapterActions
 import com.blackbox.apps.karay.models.enums.WardrobeType
 import com.blackbox.apps.karay.models.rxbus.AppEvents
 import com.blackbox.apps.karay.models.rxbus.EventData
-import com.blackbox.apps.karay.ui.base.BaseFragment
+import com.blackbox.apps.karay.ui.base.FilterClothingData
+import com.blackbox.apps.karay.ui.base.FilterFragment
 import com.blackbox.apps.karay.ui.fragments.detail.DetailFragment
 import com.blackbox.apps.karay.utils.helpers.SearchEvents
 import com.blackbox.apps.karay.utils.helpers.SearchQuery
@@ -27,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_my_wardrobe.*
 import kotlinx.android.synthetic.main.fragment_recycler_view.*
 
 
-class MyWardrobeFragment : BaseFragment(), AdapterActions {
+class MyWardrobeFragment : FilterFragment(), AdapterActions {
 
     private lateinit var viewModel: PagesViewModel
     private val TAG = "MyWardrobeFragment"
@@ -52,14 +53,14 @@ class MyWardrobeFragment : BaseFragment(), AdapterActions {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(PagesViewModel::class.java)
+        viewModel.doOnStart()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (arguments?.getString(MyWardrobeFragment.ARG_TYPE))?.let {
-            PLog.logThis(TAG, "onViewCreated", "SArgs: ${it}", LogLevel.INFO)
 
+        (arguments?.getString(MyWardrobeFragment.ARG_TYPE))?.let {
             when (it) {
                 WardrobeType.ALL.type -> showListOfWomenClothing()
                 WardrobeType.IN_CLOSET.type -> showListOfWomenClothing(showByType = true, inCloset = true)
@@ -79,7 +80,6 @@ class MyWardrobeFragment : BaseFragment(), AdapterActions {
         RxBusBuilder.create(EventData::class.java)
                 .withMode(RxBusMode.Main)
                 .subscribe { bus ->
-                    PLog.logThis(TAG, "RxBusBuilder", bus.toString(), LogLevel.INFO)
                     when (bus.events) {
                         AppEvents.SYNC_COMPLETED -> {
                             PLog.logThis(TAG, "RxBusBuilder", viewModel.getSizeOfList().toString(), LogLevel.INFO)
@@ -93,18 +93,26 @@ class MyWardrobeFragment : BaseFragment(), AdapterActions {
         RxBusBuilder.create(SearchQuery::class.java)
                 .withMode(RxBusMode.Main)
                 .subscribe { bus ->
-                    PLog.logThis(TAG, "RxBusBuilder", bus.toString(), LogLevel.INFO)
                     when (bus.action) {
                         SearchEvents.CLEAR_SEARCH -> viewModel.clearFilter()
                         SearchEvents.SEARCH_AND_FILTER -> viewModel.filter(bus.query)
                         SearchEvents.SEARCH_QUERY_SUBMITTED -> viewModel.filter(bus.query)
                     }
                 }
+
+        RxBusBuilder.create(FilterClothingData::class.java)
+                .withMode(RxBusMode.Main)
+                .subscribe { bus ->
+
+                    if (bus.filterApplied) {
+                        getFilteredList(bus)
+                    } else {
+                        showListOfWomenClothing()
+                    }
+                }
     }
 
     private fun showListOfWomenClothing(showByType: Boolean = false, inCloset: Boolean = false) {
-
-        PLog.logThis(TAG, "showListOfWomenClothing", "Show List", LogLevel.INFO)
 
         showLoading()
 
@@ -116,7 +124,7 @@ class MyWardrobeFragment : BaseFragment(), AdapterActions {
 
         listOfClothing.subscribeBy(
                 onNext = {
-                    viewModel.setUpListAdapter(it, recycler_view, activity!!, adapterActions = this)
+                    viewModel.setUpListAdapter(it, recycler_view, activity!!, adapterActions = this, stickyHeaders = true)
                 },
                 onError = {
                     it.printStackTrace()
@@ -127,9 +135,25 @@ class MyWardrobeFragment : BaseFragment(), AdapterActions {
         )
     }
 
-    override fun onTaskClick(view: View?, position: Int) {
-        PLog.logThis(TAG, "onTaskClick", "onTaskClick $position", LogLevel.INFO)
+    private fun getFilteredList(filterClothingData: FilterClothingData) {
 
+        showLoading()
+
+        viewModel.getFilteredList(filterClothingData)
+                .subscribeBy(
+                        onNext = {
+                            viewModel.setUpListAdapter(it, recycler_view, activity!!, adapterActions = this, stickyHeaders = false)
+                        },
+                        onError = {
+                            it.printStackTrace()
+                        },
+                        onComplete = {
+                            hideLoading()
+                        }
+                )
+    }
+
+    override fun onTaskClick(view: View?, position: Int) {
         viewModel.getWomenClothingItem(position)?.let {
 
             val bundle = DetailFragment.bundleArgs(it)
@@ -140,5 +164,6 @@ class MyWardrobeFragment : BaseFragment(), AdapterActions {
     override fun onListLoaded(mItems: ArrayList<IFlexible<*>>) {
 
     }
+
 
 }

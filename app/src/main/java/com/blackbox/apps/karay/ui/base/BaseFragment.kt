@@ -6,6 +6,7 @@ import android.content.Context
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.blackbox.apps.karay.R
 import com.michaelflisar.rxbus2.interfaces.IRxBusQueue
 import com.michaelflisar.rxbus2.rx.RxDisposableManager
@@ -88,5 +89,9 @@ abstract class BaseFragment : Fragment(), IRxBusQueue {
 
     override fun getResumeObservable(): Publisher<Boolean> {
         return mResumedProcessor
+    }
+
+    fun goBack() {
+        Navigation.findNavController(view!!).navigateUp()
     }
 }

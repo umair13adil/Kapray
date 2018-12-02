@@ -1,8 +1,9 @@
 package com.blackbox.apps.karay.data.repositories.local
 
 import io.realm.Realm
+import io.realm.RealmModel
 import io.realm.RealmObject
-import io.realm.RealmResults
+import io.realm.kotlin.deleteFromRealm
 
 
 class RealmHelper {
@@ -42,6 +43,10 @@ class RealmHelper {
         return getRealmInstance().where(clazz).findAll()
     }
 
+    fun <T : RealmObject> findById(clazz: Class<T>, idFieldName: String, id: String): T? {
+        return getRealmInstance().where(clazz).equalTo(idFieldName, id).findFirst()
+    }
+
     fun <T : RealmObject> copyFromRealm(clazz: List<T>): List<T> {
         return getRealmInstance().copyFromRealm(clazz)
     }
@@ -49,6 +54,13 @@ class RealmHelper {
     fun <T : RealmObject> copyFromRealm(model: T): T {
         val realm = getRealmInstance()
         return realm.copyFromRealm(model)
+    }
+
+    fun <T : RealmModel> removeFromRealm(model: T) {
+        val realm = getRealmInstance()
+        realm.executeTransaction {
+            model.deleteFromRealm()
+        }
     }
 
 }

@@ -1,14 +1,20 @@
 package com.blackbox.apps.karay.utils
 
+import android.R
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Typeface
 import android.util.Base64
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import com.blackbox.apps.karay.utils.commons.Constants
+import io.reactivex.Observable
 import io.reactivex.annotations.NonNull
 import java.io.File
 import java.security.MessageDigest
@@ -68,5 +74,28 @@ fun generateKeyHash(context: Context) {
     } catch (ignored: NoSuchAlgorithmException) {
         Log.e("Facebook", ignored.message)
     }
+}
 
+fun <T> setUpSpinner(values: Array<T>, spinner: Spinner?, activity: Activity?): Observable<T> {
+
+    return Observable.create { emitter ->
+
+        val aa = ArrayAdapter(activity!!, R.layout.simple_spinner_item, values)
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        spinner?.adapter = aa
+        spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if (!emitter.isDisposed) {
+                    emitter.onNext(values[p2])
+                    emitter.onComplete()
+                }
+            }
+        }
+    }
 }

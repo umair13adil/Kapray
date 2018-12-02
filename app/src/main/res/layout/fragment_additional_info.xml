@@ -65,10 +65,37 @@
                 style="@style/TextTitleStyle.Small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/txt_enter_price" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_price"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/txt_optional"
+                android:inputType="numberDecimal"
+                android:imeOptions="actionNext" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextTitleStyle.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/txt_enter_season" />
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/input_season"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:hint="@string/txt_optional" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextTitleStyle.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_enter_size" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/input_size"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/margin_10"
@@ -87,6 +114,13 @@
                 android:layout_height="match_parent"
                 android:checked="false"
                 android:text="@string/txt_is_un_stitched" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/input_gift"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:checked="false"
+                android:text="@string/txt_is_a_gift" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_skip"

@@ -16,6 +16,10 @@
     <string name="endless_cancel">Cancelled by the user.</string>
     <string name="endless_error">An error occurred while loading more items.</string>
     <string name="search">Search</string>
+    <string name="txt_apply_filters">Apply Filters</string>
+    <string name="txt_cancel">Cancel</string>
+    <string name="txt_yes">Yes</string>
+    <string name="txt_no">No</string>
 
     <!--Errors-->
     <string name="error_camera_permissions">Camera permissions are required!</string>
@@ -52,10 +56,22 @@
     <string name="txt_add_additional_info">Add your dress\'s brand, date purchase, season info</string>
     <string name="txt_enter_brand_name">Enter brand name here</string>
     <string name="txt_enter_date_purchased">Enter date purchased</string>
+    <string name="txt_enter_price">Enter Price</string>
     <string name="txt_enter_season">Enter season info</string>
+    <string name="txt_enter_size">Enter Size info</string>
     <string name="txt_is_kept_away">Is Kept Away?</string>
     <string name="txt_is_un_stitched">Is Un-stitched?</string>
+    <string name="txt_is_a_gift">Is a Gift?</string>
     <string name="txt_add_info_later">You can always update info later.</string>
     <string name="txt_skip_save">Skip and Save</string>
+
+    <!--Filters-->
+    <string name="txt_filter_size">Size</string>
+    <string name="txt_added">Added</string>
+    <string name="txt_purchased">Purchased</string>
+    <string name="txt_season_name">Season</string>
+
+    <!--DetailFragment-->
+    <string name="txt_confirm_delete_post">Are you sure you want to delete this post?</string>
 
 </resources>

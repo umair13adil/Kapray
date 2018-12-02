@@ -7,22 +7,13 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.blackbox.apps.karay.R
 import com.blackbox.apps.karay.ui.base.BaseFragment
+import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_recycler_view.*
 
 
 class BrandsListFragment : BaseFragment() {
 
     private lateinit var viewModel: PagesViewModel
-
-    companion object {
-
-        fun newInstance(): BrandsListFragment {
-            val fragment = BrandsListFragment()
-            val args = Bundle()
-            fragment.arguments = args
-            return fragment
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_my_wardrobe, container, false)
@@ -38,7 +29,20 @@ class BrandsListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val brands = viewModel.getListOfWomenClothingBrands()
-        viewModel.setUpListAdapter(brands, recycler_view, activity!!)
+        showLoading()
+
+        viewModel.getListOfWomenClothingBrands()
+                .subscribeBy(
+                        onNext = {
+                            viewModel.setUpListAdapter(it, recycler_view, activity!!, stickyHeaders = false)
+                        },
+                        onError = {
+                            it.printStackTrace()
+                        },
+                        onComplete = {
+                            hideLoading()
+                        }
+                )
+
     }
 }

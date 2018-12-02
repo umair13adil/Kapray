@@ -1,23 +1,103 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
+    android:layout_gravity="top"
     android:layout_marginBottom="@dimen/margin_40"
-    android:layout_gravity="top">
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
-    <Button
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/heading_size"
+        style="@style/TextTitleStyle.Filter"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_empty"
-        android:backgroundTint="@color/red"
-        android:text="@string/app_name"
-        android:textColor="@color/colorPrimaryDark"/>
+        android:layout_marginTop="16dp"
+        android:text="@string/txt_filter_size" />
 
-    <Button
-        android:layout_width="wrap_content"
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/input_size"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/margin_10"
+        android:hint="@string/txt_optional" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/heading_added"
+        style="@style/TextTitleStyle.Filter"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_filter_list"
-        android:text="@string/app_name" />
+        android:layout_marginTop="16dp"
+        android:text="@string/txt_added" />
+
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/input_added"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/margin_10"
+        android:hint="@string/txt_optional" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/heading_purchased"
+        style="@style/TextTitleStyle.Filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/txt_purchased" />
+
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/input_purchased"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/margin_10"
+        android:hint="@string/txt_optional" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/heading_season"
+        style="@style/TextTitleStyle.Filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/txt_season_name" />
+
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/input_season"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/margin_10"
+        android:hint="@string/txt_optional" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/btn_apply"
+            style="@style/ButtonStyle.Filter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            android:layout_weight="0.5"
+            android:text="@string/txt_apply_filters" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            style="@style/ButtonStyle.Filter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            android:layout_weight="0.5"
+            android:text="@string/txt_cancel" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -7,22 +7,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import androidx.palette.graphics.Palette
 import com.blackbox.apps.karay.R
 import com.blackbox.apps.karay.models.clothing.WomenClothing
+import com.blackbox.apps.karay.models.enums.DialogCallback
 import com.blackbox.apps.karay.models.rxbus.AppEvents
 import com.blackbox.apps.karay.models.rxbus.EventData
 import com.blackbox.apps.karay.ui.base.BaseFragment
+import com.blackbox.apps.karay.utils.helpers.DialogsHelper
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.michaelflisar.rxbus2.RxBus
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.content_detail.*
 import kotlinx.android.synthetic.main.detail_layout.*
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 
 class DetailFragment : BaseFragment() {
@@ -98,7 +103,25 @@ class DetailFragment : BaseFragment() {
         txt_description?.text = clothingItem.date_purchased
 
         btn_back.setOnClickListener {
-            Navigation.findNavController(view!!).navigateUp()
+            goBack()
+        }
+
+        fab_delete.setOnClickListener {
+
+            DialogsHelper.showConfirmDeleteDialog(activity!!)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .debounce(3, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+                    .subscribeBy(
+                            onNext = { callback ->
+                                if (callback == DialogCallback.POSITIVE) {
+                                    if (clothingItem.id.isNotEmpty()) {
+                                        viewModel.deletePost(clothingItem.id)
+                                        goBack()
+                                    }
+                                }
+                            }
+                    )
         }
     }
 }

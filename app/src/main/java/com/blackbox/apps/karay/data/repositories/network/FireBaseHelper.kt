@@ -124,14 +124,20 @@ object FireBaseHelper {
         savePhotoInFireBaseStorage(uri, reference, postId)
     }
 
-    private fun updateImageURLInDB(imageDownloadPath: String, postId: String) {
+    private fun updateImageURLInDB(imageDownloadPath: String, postId: String, uri: Uri) {
 
         dbRef.child(WOMEN_CLOTHING_ROOT)
                 .child(postId)
                 .child("image_url")
                 .setValue(imageDownloadPath)
 
-        Log.i(TAG, "Updating image URL in firebase DB.")
+        dbRef.child(WOMEN_CLOTHING_ROOT)
+                .child(postId)
+                .child("file_name")
+                .setValue(uri.lastPathSegment)
+
+
+        Log.i(TAG, "Updating image URL in firebase DB. FileName: ${uri.lastPathSegment}")
     }
 
     private fun savePhotoInFireBaseStorage(uri: Uri, reference: StorageReference, postId: String) {
@@ -149,7 +155,7 @@ object FireBaseHelper {
             if (task.isSuccessful) {
                 val downloadUri = task.result
                 downloadUri?.let {
-                    updateImageURLInDB(it.toString(), postId)
+                    updateImageURLInDB(it.toString(), postId, uri)
                 }
             } else {
                 Log.e(TAG, "Unable to upload image to firebase storage.")
@@ -206,7 +212,7 @@ object FireBaseHelper {
     /**
      * This will retrieve data from FireBase database and sync with Realm DB.
      */
-    fun getWomenClothingInfoById(id:String): Observable<WomenClothing> {
+    fun getWomenClothingInfoById(id: String): Observable<WomenClothing> {
 
         return Observable.create { emitter ->
 
@@ -220,7 +226,7 @@ object FireBaseHelper {
 
                             data.getValue(WomenClothing::class.java)?.let { dbData ->
 
-                                PLog.logThis(TAG,"getWomenClothingInfoById", "Found: $dbData", LogLevel.INFO)
+                                PLog.logThis(TAG, "getWomenClothingInfoById", "Found: $dbData", LogLevel.INFO)
 
                                 if (!emitter.isDisposed) {
                                     emitter.onNext(dbData)
@@ -238,6 +244,57 @@ object FireBaseHelper {
                         }
                     }
                 })
+            }
+        }
+    }
+
+    /**
+     * This will delete data from FireBase database and sync with Realm DB.
+     */
+    fun deleteWomenClothingInfoById(id: String) {
+
+        val refWomenClothing = dbRef.child(WOMEN_CLOTHING_ROOT)
+        val fireBaseUser = getCurrentUser()
+
+        fireBaseUser?.let {
+            refWomenClothing.orderByKey().equalTo(id).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    for (data in dataSnapshot.children) {
+
+                        data.getValue(WomenClothing::class.java)?.let { clothingData ->
+                            deleteImageFileFromStorage(fireBaseUser.uid, clothingData.id, clothingData.file_name)
+                        }
+
+                        data.ref.removeValue()
+
+                        PLog.logThis(TAG, "deleteWomenClothingInfoById", "Deleted!", LogLevel.INFO)
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    PLog.logThis(TAG, "deleteWomenClothingInfoById", exception = databaseError.toException())
+                }
+            })
+        }
+    }
+
+    fun deleteImageFileFromStorage(userId: String, id: String, imageLink: String) {
+
+        val reference = storageRef
+                .child(DIRECTORY_WOMEN_CLOTHING_IMAGES)
+                .child(userId)
+
+        object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (ds in dataSnapshot.children) {
+                    reference.child(id).child(imageLink).delete()
+                    reference.child(id).delete()
+                    reference.child("$id/").delete()
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                PLog.logThis(TAG, "deleteImageFileFromStorage", exception = databaseError.toException())
             }
         }
     }

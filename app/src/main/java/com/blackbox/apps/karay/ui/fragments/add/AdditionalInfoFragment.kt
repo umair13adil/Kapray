@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatTextView
@@ -16,12 +15,14 @@ import com.blackbox.apps.karay.R
 import com.blackbox.apps.karay.models.brands.WomenLocalBrand
 import com.blackbox.apps.karay.models.clothing.WomenClothing
 import com.blackbox.apps.karay.models.enums.Seasons
+import com.blackbox.apps.karay.models.enums.Sizes
 import com.blackbox.apps.karay.models.rxbus.UserInput
 import com.blackbox.apps.karay.ui.base.BaseFragment
 import com.blackbox.apps.karay.utils.autoComplete.CustomAutoCompleteTextChangedListener
 import com.blackbox.apps.karay.utils.autoComplete.WomenBrandsLocalAdapter
 import com.blackbox.apps.karay.utils.commons.DateTimeUtils
 import com.blackbox.apps.karay.utils.setTypeface
+import com.blackbox.apps.karay.utils.setUpSpinner
 import com.michaelflisar.rxbus2.RxBusBuilder
 import com.michaelflisar.rxbus2.rx.RxBusMode
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
@@ -89,12 +90,15 @@ class AdditionalInfoFragment : BaseFragment(), DatePickerDialog.OnDateSetListene
         txt_h2.typeface = setTypeface(activity!!)
         btn_save.typeface = setTypeface(activity!!)
         input_date_purchased.typeface = setTypeface(activity!!)
+        input_price.typeface = setTypeface(activity!!)
         input_kept_away.typeface = setTypeface(activity!!)
         input_unstitched.typeface = setTypeface(activity!!)
+        input_gift.typeface = setTypeface(activity!!)
 
         setupAutoSuggestionsAdapter()
 
         setUpSeasonsSpinner()
+        setUpSizesSpinner()
 
         input_date_purchased.setOnFocusChangeListener { view, b ->
             if (view.hasFocus())
@@ -109,16 +113,26 @@ class AdditionalInfoFragment : BaseFragment(), DatePickerDialog.OnDateSetListene
             womenClothing.un_stitched = b
         }
 
+        input_gift.setOnCheckedChangeListener { compoundButton, b ->
+            womenClothing.isGift = b
+        }
+
         btn_skip.setOnClickListener {
-            viewModel.saveWomenClothingInfo(womenClothing)
-            redirectToHome()
+            saveInfo()
         }
 
         btn_save.setOnClickListener {
-            viewModel.saveWomenClothingInfo(womenClothing)
-            redirectToHome()
+            saveInfo()
         }
     }
+
+    private fun saveInfo(){
+        womenClothing.price = input_price.text.toString()
+        womenClothing.date_added = DateTimeUtils.getTimeFormatted(System.currentTimeMillis())
+        viewModel.saveWomenClothingInfo(womenClothing)
+        redirectToHome()
+    }
+
 
     private fun redirectToHome() {
         val navBuilder = NavOptions.Builder()
@@ -127,23 +141,19 @@ class AdditionalInfoFragment : BaseFragment(), DatePickerDialog.OnDateSetListene
     }
 
     private fun setUpSeasonsSpinner() {
-        val list_of_items = Seasons.values()
 
-        val aa = ArrayAdapter(activity!!, android.R.layout.simple_spinner_item, list_of_items)
-        // Set layout to use when the list of choices appear
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        // Set Adapter to Spinner
-        input_season?.adapter = aa
-        input_season?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        setUpSpinner(Seasons.values(), input_season, activity!!)
+                .doOnNext {
+                    womenClothing.season_info = it.value
+                }.subscribe()
+    }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
+    private fun setUpSizesSpinner() {
 
-            }
-
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                womenClothing.season_info = list_of_items[p2].value
-            }
-        }
+        setUpSpinner(Sizes.values(), input_size, activity!!)
+                .doOnNext {
+                    womenClothing.size_info = it.value
+                }.subscribe()
     }
 
     private fun setupAutoSuggestionsAdapter() {

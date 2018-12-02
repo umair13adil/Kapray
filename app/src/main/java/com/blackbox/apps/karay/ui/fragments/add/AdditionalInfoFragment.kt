@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.blackbox.apps.karay.R
 import com.blackbox.apps.karay.models.brands.WomenLocalBrand
@@ -27,7 +28,6 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_additional_info.*
 import java.util.*
-
 
 class AdditionalInfoFragment : BaseFragment(), DatePickerDialog.OnDateSetListener {
 
@@ -96,8 +96,9 @@ class AdditionalInfoFragment : BaseFragment(), DatePickerDialog.OnDateSetListene
 
         setUpSeasonsSpinner()
 
-        input_date_purchased.setOnClickListener {
-            showDatePicker()
+        input_date_purchased.setOnFocusChangeListener { view, b ->
+            if (view.hasFocus())
+                showDatePicker()
         }
 
         input_kept_away.setOnCheckedChangeListener { compoundButton, b ->
@@ -110,13 +111,19 @@ class AdditionalInfoFragment : BaseFragment(), DatePickerDialog.OnDateSetListene
 
         btn_skip.setOnClickListener {
             viewModel.saveWomenClothingInfo(womenClothing)
-            Navigation.findNavController(view!!).navigate(R.id.action_AdditionalInfoFragment_to_MainFragment)
+            redirectToHome()
         }
 
         btn_save.setOnClickListener {
             viewModel.saveWomenClothingInfo(womenClothing)
-            Navigation.findNavController(view!!).navigate(R.id.action_AdditionalInfoFragment_to_MainFragment)
+            redirectToHome()
         }
+    }
+
+    private fun redirectToHome() {
+        val navBuilder = NavOptions.Builder()
+        val navOptions = navBuilder.setLaunchSingleTop(true).build()
+        Navigation.findNavController(view!!).navigate(R.id.action_AdditionalInfoFragment_to_MainFragment, null, navOptions)
     }
 
     private fun setUpSeasonsSpinner() {

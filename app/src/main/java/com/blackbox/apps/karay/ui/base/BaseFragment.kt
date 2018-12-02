@@ -11,7 +11,7 @@ import com.michaelflisar.rxbus2.interfaces.IRxBusQueue
 import com.michaelflisar.rxbus2.rx.RxDisposableManager
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.processors.BehaviorProcessor
-import kotlinx.android.synthetic.main.progress_item.*
+import kotlinx.android.synthetic.main.layout_progress.*
 import org.reactivestreams.Publisher
 import javax.inject.Inject
 
@@ -31,28 +31,21 @@ abstract class BaseFragment : Fragment(), IRxBusQueue {
     // Commons
     // --------------
 
-    fun showLoading(view: View?) {
-        progress_bar?.visibility = View.VISIBLE
-        view?.visibility = View.GONE
-        progress_bar?.isIndeterminate = true
+    fun showLoading() {
+        progressDialog?.visibility = View.VISIBLE
+        progressDialog?.isIndeterminate = true
     }
 
-    fun hideLoading(view: View?) {
-
-        //Show layout with animation
-        view?.animate()
-                ?.alpha(1f)
-                ?.setDuration(resources.getInteger(R.integer.anim_duration_long).toLong())
-                ?.setListener(null)
+    fun hideLoading() {
 
         //Hide Progress Layout
-        progress_bar?.animate()
-                ?.translationY(progress_bar.height.toFloat())
+        progressDialog?.animate()
+                ?.translationY(progressDialog.height.toFloat())
                 ?.alpha(0.0f)
                 ?.setDuration(resources.getInteger(R.integer.anim_duration_long).toLong())
                 ?.setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator?) {
-                        progress_bar.visibility = View.GONE
+                        progressDialog.visibility = View.GONE
                     }
                 })
     }

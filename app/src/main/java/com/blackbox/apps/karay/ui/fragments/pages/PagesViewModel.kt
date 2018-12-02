@@ -13,52 +13,68 @@ import com.blackbox.apps.karay.ui.items.WomenLocalBrandItem
 import com.blackbox.apps.karay.utils.helpers.ListHelper
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
+import io.reactivex.Observable
+import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 class PagesViewModel @Inject constructor(private var app: Application, private var mainRepository: MainRepository) : ViewModel() {
 
 
+    private var listItemsCount = 0
     private var adapter: FlexibleAdapter<*>? = null
 
-    fun getListOfWomenClothing(inCloset: Boolean): ArrayList<IFlexible<*>> {
-        val list = mainRepository.getListOfWomenClothing(inCloset)
 
-        val mItems = arrayListOf<IFlexible<*>>()
+    fun getListOfWomenClothing(fetchByType: Boolean = false, inCloset: Boolean = false): Observable<ArrayList<IFlexible<*>>> {
 
-        list.forEach {
+        return Observable.create { emitter ->
 
-            val headerItem = SeasonsHeaderItem(it.season_info)
-            val item1 = WomenClothingItem(it, headerItem)
+            val mItems = arrayListOf<IFlexible<*>>()
+            var lastHeader = ""
 
-            //Add Item to List
-            mItems.add(item1)
-        }
-
-        return mItems
-    }
-
-    fun getListOfWomenClothing(): ArrayList<IFlexible<*>> {
-        val list = mainRepository.getListOfWomenClothing()
-
-        val mItems = arrayListOf<IFlexible<*>>()
-
-        var lastHeader = ""
-        list.forEach {
-
-            var headerItem: SeasonsHeaderItem? = null
-
-            if (lastHeader.isEmpty() || lastHeader != it.season_info) {
-                headerItem = SeasonsHeaderItem(it.season_info)
+            val listObservable: Observable<List<WomenClothing>> = if (fetchByType) {
+                mainRepository.getListOfWomenClothing(inCloset)
+            } else {
+                mainRepository.getListOfWomenClothing()
             }
 
-            val item1 = WomenClothingItem(it, headerItem)
-            //Add Item to List
-            mItems.add(item1)
+            listObservable.subscribeBy(
+                    onNext = { list ->
 
-            lastHeader = it.season_info
+                        //Set size of list
+                        listItemsCount = list.size
+
+                        list.sortedBy {
+                            it.season_info
+                        }.forEach { item ->
+                            var headerItem: SeasonsHeaderItem? = null
+
+                            if (lastHeader.isEmpty() || lastHeader != item.season_info) {
+                                headerItem = SeasonsHeaderItem(item.season_info)
+                            }
+
+                            val item1 = WomenClothingItem(item, headerItem)
+
+                            //Add Item to List
+                            mItems.add(item1)
+
+                            lastHeader = item.season_info
+                        }
+
+                        if (!emitter.isDisposed) {
+                            emitter.onNext(mItems)
+                            emitter.onComplete()
+                        }
+                    },
+                    onError = {
+                        it.printStackTrace()
+
+                        if (!emitter.isDisposed) {
+                            emitter.onError(it)
+                            emitter.onComplete()
+                        }
+                    }
+            )
         }
-
-        return mItems
     }
 
     fun getListOfWomenClothingBrands(): ArrayList<IFlexible<*>> {
@@ -82,9 +98,16 @@ class PagesViewModel @Inject constructor(private var app: Application, private v
         ListHelper.setAdapterListener(adapterActions)
     }
 
-    private fun filter(constraint: String) {
-        adapter?.setFilter(constraint)
-        adapter?.filterItems()
+    fun getSizeOfList(): Int {
+        return listItemsCount
+    }
+
+    fun filter(constraint: String) {
+        ListHelper.filter(constraint)
+    }
+
+    fun clearFilter() {
+        ListHelper.clearFilters()
     }
 
     fun getWomenClothingItem(position: Int): WomenClothing? {

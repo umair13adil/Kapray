@@ -4,6 +4,8 @@ import android.net.Uri
 import android.util.Log
 import com.blackbox.apps.karay.models.clothing.WomenClothing
 import com.blackbox.apps.karay.models.user.User
+import com.blackbox.plog.pLogs.PLog
+import com.blackbox.plog.pLogs.models.LogLevel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -186,6 +188,45 @@ object FireBaseHelper {
                         if (!emitter.isDisposed) {
                             emitter.onNext(list)
                             emitter.onComplete()
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+
+                        if (!emitter.isDisposed) {
+                            emitter.onError(databaseError.toException())
+                            emitter.onComplete()
+                        }
+                    }
+                })
+            }
+        }
+    }
+
+    /**
+     * This will retrieve data from FireBase database and sync with Realm DB.
+     */
+    fun getWomenClothingInfoById(id:String): Observable<WomenClothing> {
+
+        return Observable.create { emitter ->
+
+            val refWomenClothing = dbRef.child(WOMEN_CLOTHING_ROOT)
+            val fireBaseUser = getCurrentUser()
+
+            fireBaseUser?.let {
+                refWomenClothing.orderByKey().equalTo(id).addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        for (data in dataSnapshot.children) {
+
+                            data.getValue(WomenClothing::class.java)?.let { dbData ->
+
+                                PLog.logThis(TAG,"getWomenClothingInfoById", "Found: $dbData", LogLevel.INFO)
+
+                                if (!emitter.isDisposed) {
+                                    emitter.onNext(dbData)
+                                    emitter.onComplete()
+                                }
+                            }
                         }
                     }
 

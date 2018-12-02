@@ -14,7 +14,9 @@ open class WomenClothing @JvmOverloads constructor(var id: String = "",
                                                    var season_info: String = "",
                                                    var kept_away: Boolean = false,
                                                    var un_stitched: Boolean = false,
-                                                   var userId: String = ""
+                                                   var userId: String = "",
+                                                   var updatedOn: String = "",
+                                                   var deletedOn: String = ""
 ) : RealmObject(), Parcelable {
 
     constructor(parcel: Parcel) : this(

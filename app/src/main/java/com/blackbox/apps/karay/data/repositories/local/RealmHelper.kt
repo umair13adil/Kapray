@@ -2,6 +2,7 @@ package com.blackbox.apps.karay.data.repositories.local
 
 import io.realm.Realm
 import io.realm.RealmObject
+import io.realm.RealmResults
 
 
 class RealmHelper {

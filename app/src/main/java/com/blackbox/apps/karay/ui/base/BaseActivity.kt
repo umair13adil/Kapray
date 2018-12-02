@@ -1,11 +1,14 @@
 package com.blackbox.apps.karay.ui.base
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.blackbox.apps.karay.R
 import com.blackbox.apps.karay.models.brands.WomenLocalBrand
 import com.blackbox.apps.karay.utils.commons.RealmImporter
 import dagger.android.AndroidInjection
@@ -33,47 +36,29 @@ abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector {
         super.onCreate(savedInstanceState)
     }
 
-    fun showLoading(message: String) {
-        try {
-            card_progress?.visibility = View.VISIBLE
+    fun showLoading(message: String = "") {
+
+        if (message.isNotEmpty()) {
             txt_info_message?.visibility = View.VISIBLE
             txt_info_message?.text = message
-            progressDialogHorizontal?.visibility = View.GONE
-            progressDialog?.isIndeterminate = true
-            progressDialog?.visibility = View.VISIBLE
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
-    }
 
-    fun showProgressLoading(message: String, progress: Int?) {
-
-        try {
-            card_progress?.visibility = View.VISIBLE
-            txt_info_message?.visibility = View.VISIBLE
-            txt_info_message?.text = message
-            progressDialog?.visibility = View.GONE
-            progressDialogHorizontal?.max = 100
-            progressDialogHorizontal?.isIndeterminate = false
-            progressDialogHorizontal?.visibility = View.VISIBLE
-
-            if (progress != null) {
-                progressDialogHorizontal?.progress = progress
-            } else {
-                showLoading(message)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        progressDialog?.visibility = View.VISIBLE
+        progressDialog?.isIndeterminate = true
     }
 
     fun hideLoading() {
-        try {
-            //Hide Progress Layout
-            card_progress?.visibility = View.GONE
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+
+        //Hide Progress Layout
+        progressDialog?.animate()
+                ?.translationY(progressDialog.height.toFloat())
+                ?.alpha(0.0f)
+                ?.setDuration(resources.getInteger(R.integer.anim_duration_long).toLong())
+                ?.setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        progressDialog.visibility = View.GONE
+                    }
+                })
     }
 
     fun addLocalBrandsData() {

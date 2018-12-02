@@ -10,11 +10,6 @@ import com.michaelflisar.rxbus2.RxBus
 
 object SearchHelper {
 
-    //Search
-    const val SEARCH_AND_FILTER = "%filter1%"
-    const val CLEAR_SEARCH = "%clear1%"
-    const val SEARCH_QUERY_SUBMITTED = "%query1%"
-
     private var showMenu = true
 
     fun setMenuVisibility(show: Boolean) {
@@ -29,7 +24,7 @@ object SearchHelper {
             override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
 
                 //Send 'CLEAR SEARCH' value to clear filter
-                RxBus.get().send(SearchQuery("", CLEAR_SEARCH))
+                RxBus.get().send(SearchQuery("", SearchEvents.CLEAR_SEARCH))
 
                 return true
             }
@@ -57,7 +52,7 @@ object SearchHelper {
                     searchView.clearFocus()
 
                     //Send 'QUERY SUBMITTED' flag to call search API
-                    RxBus.get().send(SearchQuery(query, SEARCH_QUERY_SUBMITTED))
+                    RxBus.get().send(SearchQuery(query, SearchEvents.SEARCH_QUERY_SUBMITTED))
 
                     return false
                 }
@@ -65,7 +60,7 @@ object SearchHelper {
                 override fun onQueryTextChange(s: String): Boolean {
 
                     //Send search query to subscribers
-                    RxBus.get().send(SearchQuery(s, SEARCH_AND_FILTER))
+                    RxBus.get().send(SearchQuery(s, SearchEvents.SEARCH_AND_FILTER))
 
                     return false
                 }
@@ -75,6 +70,12 @@ object SearchHelper {
     }
 }
 
-data class SearchQuery(val query: String, val action: String) {
+data class SearchQuery(val query: String, val action: SearchEvents) {
 
+}
+
+enum class SearchEvents(val event:String){
+    SEARCH_AND_FILTER("%filter1%"),
+    CLEAR_SEARCH("%clear1%"),
+    SEARCH_QUERY_SUBMITTED("%query1%")
 }

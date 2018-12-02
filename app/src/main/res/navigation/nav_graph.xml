@@ -26,6 +26,66 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="wardrobeType"
+            app:argType="string"
+            android:defaultValue="ALL" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_in_closet"
+        android:name="com.blackbox.apps.karay.ui.fragments.pages.MyWardrobeFragment"
+        android:label="@string/page_in_closet"
+        app:popUpToInclusive="true"
+        tools:layout="@layout/fragment_my_wardrobe">
+
+        <action
+            android:id="@+id/action_MyWardrobeFragment_to_detailFragment"
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+        <action
+            android:id="@+id/action_MainFragment_to_AddNewFragment"
+            app:destination="@id/add_new_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="wardrobeType"
+            app:argType="string"
+            android:defaultValue="IN_CLOSET" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_kept_away"
+        android:name="com.blackbox.apps.karay.ui.fragments.pages.MyWardrobeFragment"
+        android:label="@string/page_kept_away"
+        app:popUpToInclusive="true"
+        tools:layout="@layout/fragment_my_wardrobe">
+
+        <action
+            android:id="@+id/action_MyWardrobeFragment_to_detailFragment"
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+        <action
+            android:id="@+id/action_MainFragment_to_AddNewFragment"
+            app:destination="@id/add_new_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="wardrobeType"
+            app:argType="string"
+            android:defaultValue="KEPT_AWAY" />
     </fragment>
 
     <!--<fragment

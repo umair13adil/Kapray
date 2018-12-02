@@ -133,21 +133,14 @@ object ListHelper : FlexibleAdapter.OnActionStateListener, FlexibleAdapter.OnIte
         }
     }
 
-    fun clearFilters(position: Int, delay: Long = 0) {
+    fun filter(constraint: String) {
+        adapter.setFilter(constraint)
+        adapter.filterItems()
+    }
 
-        Observable.create<Int> { it.onNext(position) }
-                .delay(delay, TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy(
-                        onNext = { pos ->
-                            //if (adapter?.hasFilter()!! && adapter?.getFilter(String::class.java)?.isNotEmpty()!!) {
-                            adapter.setFilter("")
-                            adapter.filterItems(200)
-                            //}
-                            scrollToPosition(position, delay = 800) //Scroll to previous position after 0.8 seconds delay
-                        }
-                )
+    fun clearFilters() {
+        adapter.setFilter("")
+        adapter.filterItems(200)
     }
 
     //List Adapter's Callback

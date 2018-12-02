@@ -1,10 +1,11 @@
 package com.blackbox.apps.karay.ui.activities
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
@@ -12,13 +13,21 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.blackbox.apps.karay.R
+import com.blackbox.apps.karay.models.rxbus.AppEvents
+import com.blackbox.apps.karay.models.rxbus.EventData
 import com.blackbox.apps.karay.ui.base.BaseActivity
 import com.blackbox.apps.karay.ui.fragments.add.AddNewFragment
+import com.blackbox.apps.karay.ui.fragments.detail.DetailFragment
 import com.blackbox.apps.karay.ui.fragments.main.MainViewModel
+import com.blackbox.apps.karay.utils.ColorUtils
 import com.blackbox.apps.karay.utils.createImageDirectories
 import com.blackbox.apps.karay.utils.helpers.CompressionHelper
 import com.blackbox.apps.karay.utils.helpers.SearchHelper
+import com.blackbox.plog.pLogs.PLog
+import com.blackbox.plog.pLogs.models.LogLevel
 import com.michaelflisar.rxbus2.RxBus
+import com.michaelflisar.rxbus2.RxBusBuilder
+import com.michaelflisar.rxbus2.rx.RxBusMode
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
@@ -54,26 +63,37 @@ class MainActivity : BaseActivity() {
 
         navController.addOnNavigatedListener { controller, destination ->
 
-            Log.i(TAG, "${controller.currentDestination?.label} , ${destination.label}")
-
-            if (controller.currentDestination?.id == R.id.main_fragment) {
-                showMenu = true
-                invalidateOptionsMenu()
-            } else if (controller.currentDestination?.id == R.id.fragment_brands_list) {
-                showMenu = false
-                invalidateOptionsMenu()
-                //TODO Hide Filter
-            } else if (controller.currentDestination?.id == R.id.detailFragment) {
-                showMenu = false
-            } else {
-                showMenu = false
-                invalidateOptionsMenu()
+            when {
+                controller.currentDestination?.id == R.id.fragment_my_wardrobe -> {
+                    setDefaultOptions()
+                }
+                controller.currentDestination?.id == R.id.fragment_brands_list -> {
+                    showMenu = false
+                    invalidateOptionsMenu()
+                    showToolBarOption(true)
+                }
+                controller.currentDestination?.id == R.id.detailFragment -> {
+                    showMenu = false
+                    showToolBarOption(false)
+                }
+                else -> setDefaultOptions()
             }
         }
 
 
         //Add Local Brands Data
         addLocalBrandsData()
+
+        RxBusBuilder.create(EventData::class.java)
+                .withMode(RxBusMode.Main)
+                .subscribe { bus ->
+                    PLog.logThis(TAG, "RxBusBuilder", bus.toString(), LogLevel.INFO)
+                    when (bus.events) {
+                        AppEvents.STYLE_ACTION_BAR -> {
+                            styleStatusBar()
+                        }
+                    }
+                }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -121,8 +141,11 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun setDefaultOptions() {
+        showMenu = true
+        invalidateOptionsMenu()
+        showToolBarOption(true)
+        styleStatusBar(setDefault = true)
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -146,7 +169,15 @@ class MainActivity : BaseActivity() {
                         )
             }
         }
-
     }
 
+    private fun styleStatusBar(setDefault: Boolean = false) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (!setDefault)
+                window.statusBarColor = ColorUtils.manipulateColor(DetailFragment.mPaletteColor, 0.32f)
+            else
+                window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimaryDark)
+        }
+    }
 }

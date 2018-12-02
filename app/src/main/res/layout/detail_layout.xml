@@ -48,6 +48,14 @@
                         android:scaleType="centerCrop"
                         android:gravity="center_vertical" />
 
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/btn_back"
+                        android:layout_width="@dimen/margin_55"
+                        android:layout_height="@dimen/margin_55"
+                        ads:srcCompat="@drawable/ic_arrow_back_black_24dp"
+                        android:elevation="@dimen/margin_5"
+                        android:background="@color/translucentBlack"/>
+
                 </RelativeLayout>
 
 

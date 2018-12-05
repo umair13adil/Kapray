@@ -112,19 +112,21 @@ object FireBaseHelper {
 
     private fun uploadImageToFireBase(imagePath: String, postId: String) {
         val userId = getCurrentUser()?.uid!!
-        val uri = Uri.fromFile(File(imagePath))
+        val file = File(imagePath)
+        val uri = Uri.fromFile(file)
+        val fileName = uri.lastPathSegment
 
         //Compose Reference
         val reference = storageRef
                 .child(DIRECTORY_WOMEN_CLOTHING_IMAGES)
                 .child(userId)
                 .child(postId)
-                .child(uri.lastPathSegment)
+                .child(fileName)
 
         savePhotoInFireBaseStorage(uri, reference, postId)
     }
 
-    private fun updateImageURLInDB(imageDownloadPath: String, postId: String, uri: Uri) {
+    private fun updateImageURLInDB(imageDownloadPath: String, postId: String, fileName: String) {
 
         dbRef.child(WOMEN_CLOTHING_ROOT)
                 .child(postId)
@@ -134,14 +136,15 @@ object FireBaseHelper {
         dbRef.child(WOMEN_CLOTHING_ROOT)
                 .child(postId)
                 .child("file_name")
-                .setValue(uri.lastPathSegment)
+                .setValue(fileName)
 
 
-        Log.i(TAG, "Updating image URL in firebase DB. FileName: ${uri.lastPathSegment}")
+        Log.i(TAG, "Updating image URL in firebase DB. FileName: $fileName")
     }
 
     private fun savePhotoInFireBaseStorage(uri: Uri, reference: StorageReference, postId: String) {
 
+        val fileName = uri.lastPathSegment
         val uploadTask = reference.putFile(uri)
 
         uploadTask.continueWithTask { task ->
@@ -155,7 +158,7 @@ object FireBaseHelper {
             if (task.isSuccessful) {
                 val downloadUri = task.result
                 downloadUri?.let {
-                    updateImageURLInDB(it.toString(), postId, uri)
+                    updateImageURLInDB(it.toString(), postId, fileName)
                 }
             } else {
                 Log.e(TAG, "Unable to upload image to firebase storage.")
@@ -278,24 +281,18 @@ object FireBaseHelper {
         }
     }
 
-    fun deleteImageFileFromStorage(userId: String, id: String, imageLink: String) {
+    fun deleteImageFileFromStorage(userId: String, id: String, fileName: String) {
 
         val reference = storageRef
                 .child(DIRECTORY_WOMEN_CLOTHING_IMAGES)
                 .child(userId)
+                .child(id)
+                .child(fileName)
 
-        object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (ds in dataSnapshot.children) {
-                    reference.child(id).child(imageLink).delete()
-                    reference.child(id).delete()
-                    reference.child("$id/").delete()
-                }
-            }
+        PLog.logThis(TAG, "deleteImageFileFromStorage", "Ref: ${reference.path}", LogLevel.INFO)
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                PLog.logThis(TAG, "deleteImageFileFromStorage", exception = databaseError.toException())
-            }
+        reference.delete().addOnSuccessListener {
+            PLog.logThis(TAG, "deleteImageFileFromStorage", "Image file deleted!", LogLevel.INFO)
         }
     }
 }

@@ -145,10 +145,10 @@ class MyWardrobeFragment : FilterFragment(), AdapterActions {
 
         if (show) {
             showFloatingActionButton(fab_filter)
-            img_empty_placeholder.visibility = View.GONE
+            img_empty_placeholder?.visibility = View.GONE
         } else {
             hideFloatingActionButton(fab_filter)
-            img_empty_placeholder.visibility = View.VISIBLE
+            img_empty_placeholder?.visibility = View.VISIBLE
 
             Glide.with(this)
                     .load(R.drawable.img_empty_list_placeholder)

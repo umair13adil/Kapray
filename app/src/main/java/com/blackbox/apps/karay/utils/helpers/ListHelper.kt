@@ -68,6 +68,10 @@ object ListHelper : FlexibleAdapter.OnActionStateListener, FlexibleAdapter.OnIte
         if (decoration == null) {
             decoration = SpacesItemDecoration(16)
             recyclerView.addItemDecoration(decoration!!)
+        } else {
+            if (recyclerView.itemDecorationCount <= 0) {
+                recyclerView.addItemDecoration(decoration!!)
+            }
         }
 
         if (stickyHeadersEnabled) {

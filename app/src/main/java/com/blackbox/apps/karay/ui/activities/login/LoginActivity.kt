@@ -11,6 +11,7 @@ import com.blackbox.apps.karay.ui.activities.MainActivity
 import com.blackbox.apps.karay.ui.base.BaseActivity
 import com.blackbox.apps.karay.utils.commons.Constants
 import com.blackbox.apps.karay.utils.commons.Preferences
+import com.blackbox.apps.karay.utils.generateKeyHash
 import com.blackbox.apps.karay.utils.platforms.FacebookSign
 import com.blackbox.apps.karay.utils.platforms.GoogleSign
 import com.blackbox.apps.karay.utils.platforms.LoginRequestResult
@@ -40,7 +41,7 @@ class LoginActivity : BaseActivity(), GoogleSign.GoogleSignInCallBack {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        //generateKeyHash(this)
+        generateKeyHash(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(LoginViewModel::class.java)
 
@@ -146,6 +147,10 @@ class LoginActivity : BaseActivity(), GoogleSign.GoogleSignInCallBack {
                 .setInterpolator(LinearOutSlowInInterpolator())
 
         TransitionManager.beginDelayedTransition(container_login, set)
-        txt_app_name.visibility = View.VISIBLE
+        app_logo.visibility = View.VISIBLE
+
+        Glide.with(this)
+                .load(R.drawable.ic_logo_empty)
+                .into(app_logo)
     }
 }

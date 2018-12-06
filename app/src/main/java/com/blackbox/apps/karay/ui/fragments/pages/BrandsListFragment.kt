@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.blackbox.apps.karay.R
 import com.blackbox.apps.karay.ui.base.BaseFragment
 import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.android.synthetic.main.fragment_my_wardrobe.*
 import kotlinx.android.synthetic.main.fragment_recycler_view.*
 
 
@@ -30,6 +31,8 @@ class BrandsListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         showLoading()
+
+        img_empty_placeholder?.visibility = View.GONE
 
         viewModel.getListOfWomenClothingBrands()
                 .subscribeBy(

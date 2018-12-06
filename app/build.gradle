@@ -40,6 +40,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.palette:palette:1.0.0'
 
+    //Animations
+    implementation "com.andkulikov:transitionseverywhere:1.8.1"
+
     implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha07'
     implementation 'android.arch.navigation:navigation-ui:1.0.0-alpha07'
     implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha07'

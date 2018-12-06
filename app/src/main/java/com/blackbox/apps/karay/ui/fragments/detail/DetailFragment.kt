@@ -100,7 +100,12 @@ class DetailFragment : BaseFragment() {
 
         //Set content in details section
         txt_title?.text = clothingItem.brand_name
-        txt_description?.text = clothingItem.date_purchased
+        txt_description?.text = "" +
+                "Purchased On: ${clothingItem.date_purchased}" +
+                "\nSeason: ${clothingItem.season_info}" +
+                "\nSize: ${clothingItem.size_info}" +
+                "\nPrice: ${clothingItem.price}" +
+                "\nAdded On: ${clothingItem.date_added}"
 
         btn_back.setOnClickListener {
             goBack()
@@ -123,5 +128,8 @@ class DetailFragment : BaseFragment() {
                             }
                     )
         }
+
+        //TODO
+        hideFloatingActionButton(fab_edit)
     }
 }

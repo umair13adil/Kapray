@@ -15,16 +15,20 @@ import androidx.navigation.ui.setupWithNavController
 import com.blackbox.apps.karay.R
 import com.blackbox.apps.karay.models.rxbus.AppEvents
 import com.blackbox.apps.karay.models.rxbus.EventData
+import com.blackbox.apps.karay.ui.activities.login.LoginActivity
 import com.blackbox.apps.karay.ui.base.BaseActivity
 import com.blackbox.apps.karay.ui.fragments.add.AddNewFragment
 import com.blackbox.apps.karay.ui.fragments.detail.DetailFragment
 import com.blackbox.apps.karay.ui.fragments.main.MainViewModel
 import com.blackbox.apps.karay.utils.ColorUtils
+import com.blackbox.apps.karay.utils.commons.Constants
+import com.blackbox.apps.karay.utils.commons.Preferences
 import com.blackbox.apps.karay.utils.createImageDirectories
 import com.blackbox.apps.karay.utils.helpers.CompressionHelper
 import com.blackbox.apps.karay.utils.helpers.SearchHelper
 import com.blackbox.plog.pLogs.PLog
 import com.blackbox.plog.pLogs.models.LogLevel
+import com.google.firebase.auth.FirebaseAuth
 import com.michaelflisar.rxbus2.RxBus
 import com.michaelflisar.rxbus2.RxBusBuilder
 import com.michaelflisar.rxbus2.rx.RxBusMode
@@ -116,6 +120,11 @@ class MainActivity : BaseActivity() {
         SearchHelper.setupSearchItem(searchItem, this)
         SearchHelper.setMenuVisibility(showMenu)
 
+        val logoutItem = menu.findItem(R.id.action_logout)
+        logoutItem.setOnMenuItemClickListener {
+            doLogout()
+        }
+
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -127,6 +136,14 @@ class MainActivity : BaseActivity() {
             R.id.fragment_brands_list -> doNavigation(item, R.id.fragment_brands_list)
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun doLogout(): Boolean {
+        FirebaseAuth.getInstance().signOut()
+        Preferences.getInstance().save(Constants.KEY_LOGIN, false)
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
+        return false
     }
 
     private fun doNavigation(item: MenuItem, id: Int): Boolean {

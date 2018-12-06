@@ -19,6 +19,7 @@ import com.blackbox.apps.karay.utils.helpers.SearchEvents
 import com.blackbox.apps.karay.utils.helpers.SearchQuery
 import com.blackbox.plog.pLogs.PLog
 import com.blackbox.plog.pLogs.models.LogLevel
+import com.bumptech.glide.Glide
 import com.michaelflisar.rxbus2.RxBusBuilder
 import com.michaelflisar.rxbus2.rx.RxBusMode
 import eu.davidea.flexibleadapter.items.IFlexible
@@ -124,7 +125,12 @@ class MyWardrobeFragment : FilterFragment(), AdapterActions {
 
         listOfClothing.subscribeBy(
                 onNext = {
-                    viewModel.setUpListAdapter(it, recycler_view, activity!!, adapterActions = this, stickyHeaders = true)
+                    if (it.isNotEmpty()) {
+                        showEmptyListPlaceholder(true)
+                        viewModel.setUpListAdapter(it, recycler_view, activity!!, adapterActions = this, stickyHeaders = true)
+                    } else {
+                        showEmptyListPlaceholder(false)
+                    }
                 },
                 onError = {
                     it.printStackTrace()
@@ -135,6 +141,21 @@ class MyWardrobeFragment : FilterFragment(), AdapterActions {
         )
     }
 
+    private fun showEmptyListPlaceholder(show: Boolean = false) {
+
+        if (show) {
+            showFloatingActionButton(fab_filter)
+            img_empty_placeholder.visibility = View.GONE
+        } else {
+            hideFloatingActionButton(fab_filter)
+            img_empty_placeholder.visibility = View.VISIBLE
+
+            Glide.with(this)
+                    .load(R.drawable.img_empty_list_placeholder)
+                    .into(img_empty_placeholder)
+        }
+    }
+
     private fun getFilteredList(filterClothingData: FilterClothingData) {
 
         showLoading()
@@ -142,7 +163,12 @@ class MyWardrobeFragment : FilterFragment(), AdapterActions {
         viewModel.getFilteredList(filterClothingData)
                 .subscribeBy(
                         onNext = {
-                            viewModel.setUpListAdapter(it, recycler_view, activity!!, adapterActions = this, stickyHeaders = false)
+                            if (it.isNotEmpty()) {
+                                showEmptyListPlaceholder(true)
+                                viewModel.setUpListAdapter(it, recycler_view, activity!!, adapterActions = this, stickyHeaders = false)
+                            } else {
+                                showEmptyListPlaceholder(false)
+                            }
                         },
                         onError = {
                             it.printStackTrace()
@@ -164,6 +190,5 @@ class MyWardrobeFragment : FilterFragment(), AdapterActions {
     override fun onListLoaded(mItems: ArrayList<IFlexible<*>>) {
 
     }
-
 
 }

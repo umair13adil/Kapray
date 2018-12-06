@@ -91,6 +91,8 @@ fun <T> setUpSpinner(values: Array<T>, spinner: Spinner?, activity: Activity?): 
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                hideKeyboard(activity)
+
                 if (!emitter.isDisposed) {
                     emitter.onNext(values[p2])
                     emitter.onComplete()

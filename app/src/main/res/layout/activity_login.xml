@@ -1,53 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container_login"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
-    tools:context=".ui.activities.login.LoginActivity"
-    android:layout_margin="@dimen/margin_25">
+    tools:context=".ui.activities.login.LoginActivity">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_180"
-            android:layout_gravity="top|center_horizontal"
-            android:src="@mipmap/ic_launcher" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_splash_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/img_splash"
+        android:scaleType="centerCrop"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/app_name"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/txt_size_28"
-            android:textStyle="bold" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="@dimen/margin_180"
+        android:src="@mipmap/ic_launcher"
+        android:visibility="gone" />
 
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/btn_facebook"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_55"
-            android:paddingTop="@dimen/margin_15"
-            android:paddingBottom="@dimen/margin_15"
-            android:layout_marginBottom="@dimen/margin_100"
-            android:layout_gravity="bottom"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_app_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:visibility="gone"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/txt_size_28"
+        android:textStyle="bold" />
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/btn_google"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_55"
-            android:layout_marginBottom="@dimen/margin_15"
-            android:layout_gravity="bottom"/>
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/btn_facebook"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_55"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/margin_100"
+        android:paddingTop="@dimen/margin_15"
+        android:paddingBottom="@dimen/margin_15" />
 
-        <ProgressBar
-            android:id="@+id/progress_bar1"
-            style="@style/Widget.AppCompat.ProgressBar"
-            android:layout_width="@dimen/margin_100"
-            android:layout_height="@dimen/margin_100"
-            android:indeterminate="true"
-            android:progress="@integer/anim_duration_long"
-            android:layout_gravity="center"
-            android:visibility="gone" />
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/btn_google"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_55"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/margin_15" />
+
+    <include layout="@layout/layout_progress"/>
 
 </FrameLayout>

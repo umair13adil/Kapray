@@ -21,6 +21,7 @@ import com.blackbox.apps.karay.ui.base.BaseFragment
 import com.blackbox.apps.karay.utils.autoComplete.CustomAutoCompleteTextChangedListener
 import com.blackbox.apps.karay.utils.autoComplete.WomenBrandsLocalAdapter
 import com.blackbox.apps.karay.utils.commons.DateTimeUtils
+import com.blackbox.apps.karay.utils.hideKeyboard
 import com.blackbox.apps.karay.utils.setTypeface
 import com.blackbox.apps.karay.utils.setUpSpinner
 import com.michaelflisar.rxbus2.RxBusBuilder
@@ -106,22 +107,27 @@ class AdditionalInfoFragment : BaseFragment(), DatePickerDialog.OnDateSetListene
         }
 
         input_kept_away.setOnCheckedChangeListener { compoundButton, b ->
+            hideKeyboard(activity!!)
             womenClothing.kept_away = b
         }
 
         input_unstitched.setOnCheckedChangeListener { compoundButton, b ->
+            hideKeyboard(activity!!)
             womenClothing.un_stitched = b
         }
 
         input_gift.setOnCheckedChangeListener { compoundButton, b ->
+            hideKeyboard(activity!!)
             womenClothing.isGift = b
         }
 
         btn_skip.setOnClickListener {
+            hideKeyboard(activity!!)
             saveInfo()
         }
 
         btn_save.setOnClickListener {
+            hideKeyboard(activity!!)
             saveInfo()
         }
     }
@@ -182,7 +188,6 @@ class AdditionalInfoFragment : BaseFragment(), DatePickerDialog.OnDateSetListene
 
     private fun refreshListSuggestions(input: String) {
         try {
-            Log.i(TAG, "Input: ${input}")
 
             Observable.fromIterable(listOfWomenLocalBrands)
                     .filter {
@@ -190,15 +195,7 @@ class AdditionalInfoFragment : BaseFragment(), DatePickerDialog.OnDateSetListene
                     }
                     .toList()
                     .map {
-
                         setupAdapter(it)
-
-                        Log.i(TAG, "New\n Size: ${it.size}")
-
-                        it.forEach {
-                            Log.i(TAG, "Filtered: ${it.brand}\n")
-                        }
-
                         myAdapter.notifyDataSetChanged()
                     }
                     .subscribe()

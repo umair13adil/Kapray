@@ -20,6 +20,9 @@
     <string name="txt_cancel">Cancel</string>
     <string name="txt_yes">Yes</string>
     <string name="txt_no">No</string>
+    <string name="txt_logging_in">Logging in..Please wait..</string>
+    <string name="txt_logging_in_failed">Unable to log you in at this time.</string>
+    <string name="txt_logout">Logout</string>
 
     <!--Errors-->
     <string name="error_camera_permissions">Camera permissions are required!</string>

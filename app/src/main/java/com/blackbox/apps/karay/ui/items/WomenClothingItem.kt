@@ -16,7 +16,7 @@ import eu.davidea.viewholders.FlexibleViewHolder
 import kotlinx.android.synthetic.main.item_women_clothing.view.*
 import java.io.File
 
-class WomenClothingItem(val womenClothing: WomenClothing, val headerItem:SeasonsHeaderItem?) : AbstractSectionableItem<WomenClothingItem.ViewHolder, SeasonsHeaderItem>(headerItem), IFilterable<String> {
+class WomenClothingItem(val womenClothing: WomenClothing, val headerItem: SeasonsHeaderItem?) : AbstractSectionableItem<WomenClothingItem.ViewHolder, SeasonsHeaderItem>(headerItem), IFilterable<String> {
 
     init {
         this.header = headerItem
@@ -49,7 +49,7 @@ class WomenClothingItem(val womenClothing: WomenClothing, val headerItem:Seasons
     }
 
     override fun filter(constraint: String?): Boolean {
-        return womenClothing.season_info.toLowerCase() == constraint?.toLowerCase()!!
+        return womenClothing.brand_name.toLowerCase().contains(constraint?.toLowerCase()!!)
     }
 
     override fun createViewHolder(view: View?, adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?): ViewHolder? {

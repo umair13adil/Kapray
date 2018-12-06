@@ -16,7 +16,7 @@
         android:max="100"
         android:progress="50"
         android:secondaryProgress="100"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_anchorGravity="left|start" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -25,10 +25,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="@dimen/margin_10"
         android:layout_marginTop="@dimen/margin_30"
-        android:layout_marginRight="@dimen/margin_10"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorWhite"
+        android:background="@color/translucentBlack"
+        android:padding="@dimen/margin_25"
         android:textSize="@dimen/txt_size_14"
         android:visibility="gone" />
 </FrameLayout>

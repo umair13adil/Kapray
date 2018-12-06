@@ -57,6 +57,7 @@ abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 ?.setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator?) {
                         progressDialog.visibility = View.GONE
+                        txt_info_message.visibility = View.GONE
                     }
                 })
     }

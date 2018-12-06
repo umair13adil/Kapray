@@ -9,7 +9,6 @@ import com.blackbox.apps.karay.models.enums.Sizes
 import com.blackbox.apps.karay.models.rxbus.AppEvents
 import com.blackbox.apps.karay.models.rxbus.EventData
 import com.blackbox.apps.karay.ui.base.FilterClothingData
-import com.blackbox.apps.karay.utils.commons.Constants
 import com.blackbox.plog.pLogs.PLog
 import com.blackbox.plog.pLogs.models.LogLevel
 import com.michaelflisar.rxbus2.RxBus
@@ -194,8 +193,10 @@ class MainRepository @Inject constructor(private var db: RealmHelper, private va
         item?.let {
 
             //Delete from Storage
-            val imageFileName = Constants.imagesCapturedPath + "${it.file_name}.jpg"
-            val file = File(imageFileName)
+            val imageFilePath = it.image
+            PLog.logThis(TAG,"deletePost","File Path: $imageFilePath", LogLevel.INFO)
+
+            val file = File(imageFilePath)
             if (file.exists()) {
                 file.delete()
             }

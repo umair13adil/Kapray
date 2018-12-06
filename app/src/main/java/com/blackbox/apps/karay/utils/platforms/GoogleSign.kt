@@ -4,11 +4,15 @@ import android.content.Intent
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.blackbox.apps.karay.R
+
 
 class GoogleSign(private val context: FragmentActivity, val googleSignInCallBack: GoogleSignInCallBack) {
 
@@ -22,7 +26,9 @@ class GoogleSign(private val context: FragmentActivity, val googleSignInCallBack
     private fun getConfigDefaultLogin() {
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(context.getString(R.string.default_web_client_id))
                 .requestEmail()
+                .requestId()
                 .build()
 
         mGoogleApiClient = GoogleApiClient.Builder(context)
@@ -40,14 +46,15 @@ class GoogleSign(private val context: FragmentActivity, val googleSignInCallBack
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
 
         if (requestCode == RC_SIGN_IN) {
-            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            if (result.isSuccess) {
-                val account = result.signInAccount
+            val result = GoogleSignIn.getSignedInAccountFromIntent(data)
 
+            try {
+                val account = result.getResult(ApiException::class.java)
                 account?.let {
                     fireBaseAuthWithGoogle(it)
                 }
-            } else {
+
+            } catch (e: ApiException) {
                 googleSignInCallBack.onLoginFailed()
             }
         }
@@ -63,7 +70,7 @@ class GoogleSign(private val context: FragmentActivity, val googleSignInCallBack
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(context) { task ->
-                    if (!task.isSuccessful) {
+                    if (task.isSuccessful) {
                         googleSignInCallBack.onLoginSuccess()
                     } else {
                         googleSignInCallBack.onLoginFailed()

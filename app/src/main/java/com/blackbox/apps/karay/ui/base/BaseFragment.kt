@@ -4,10 +4,12 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.view.View
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.blackbox.apps.karay.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.michaelflisar.rxbus2.interfaces.IRxBusQueue
 import com.michaelflisar.rxbus2.rx.RxDisposableManager
 import dagger.android.support.AndroidSupportInjection
@@ -15,6 +17,7 @@ import io.reactivex.processors.BehaviorProcessor
 import kotlinx.android.synthetic.main.layout_progress.*
 import org.reactivestreams.Publisher
 import javax.inject.Inject
+
 
 abstract class BaseFragment : Fragment(), IRxBusQueue {
 
@@ -46,7 +49,7 @@ abstract class BaseFragment : Fragment(), IRxBusQueue {
                 ?.setDuration(resources.getInteger(R.integer.anim_duration_long).toLong())
                 ?.setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator?) {
-                        progressDialog.visibility = View.GONE
+                        progressDialog?.visibility = View.GONE
                     }
                 })
     }
@@ -59,7 +62,7 @@ abstract class BaseFragment : Fragment(), IRxBusQueue {
                 ?.setDuration(resources.getInteger(R.integer.anim_duration_long).toLong())
                 ?.setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator?) {
-                        view.visibility = View.GONE
+                        view?.visibility = View.GONE
                     }
                 })
     }
@@ -93,5 +96,26 @@ abstract class BaseFragment : Fragment(), IRxBusQueue {
 
     fun goBack() {
         Navigation.findNavController(view!!).navigateUp()
+    }
+
+    fun hideFloatingActionButton(fab: FloatingActionButton?) {
+        val params = fab?.layoutParams as CoordinatorLayout.LayoutParams
+        val behavior = params.behavior as FloatingActionButton.Behavior?
+
+        if (behavior != null) {
+            behavior.isAutoHideEnabled = false
+        }
+
+        fab.hide()
+    }
+
+    fun showFloatingActionButton(fab: FloatingActionButton?) {
+        fab?.show()
+        val params = fab?.layoutParams as CoordinatorLayout.LayoutParams
+        val behavior = params.behavior as FloatingActionButton.Behavior?
+
+        if (behavior != null) {
+            behavior.isAutoHideEnabled = true
+        }
     }
 }

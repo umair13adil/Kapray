@@ -10,4 +10,7 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         android:title="@string/search"/>
 
+    <item
+        android:id="@+id/action_logout"
+        android:title="@string/txt_logout" />
 </menu>

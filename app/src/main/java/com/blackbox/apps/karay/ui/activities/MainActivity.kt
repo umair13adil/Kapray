@@ -25,6 +25,7 @@ import com.blackbox.apps.karay.utils.commons.Constants
 import com.blackbox.apps.karay.utils.commons.Preferences
 import com.blackbox.apps.karay.utils.createImageDirectories
 import com.blackbox.apps.karay.utils.helpers.CompressionHelper
+import com.blackbox.apps.karay.utils.helpers.PermissionsHelper
 import com.blackbox.apps.karay.utils.helpers.SearchHelper
 import com.blackbox.plog.pLogs.PLog
 import com.blackbox.plog.pLogs.models.LogLevel
@@ -36,6 +37,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.concurrent.TimeUnit
 
 class MainActivity : BaseActivity() {
 
@@ -47,6 +49,9 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        checkStoragePermissions()
+        checkCameraPermissions()
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
 
@@ -196,5 +201,37 @@ class MainActivity : BaseActivity() {
             else
                 window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimaryDark)
         }
+    }
+
+    private fun checkStoragePermissions() {
+        //Request for storage permissions then start camera
+        PermissionsHelper.requestStoragePermissions(this)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .debounce(1, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+                .subscribeBy(
+                        onNext = { callback ->
+
+                        },
+                        onError = {
+
+                        }
+                )
+    }
+
+    private fun checkCameraPermissions() {
+        //Request for camera permissions and then open camera
+        PermissionsHelper.requestCameraPermissions(this)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .debounce(1, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+                .subscribeBy(
+                        onNext = { callback ->
+
+                        },
+                        onError = {
+
+                        }
+                )
     }
 }

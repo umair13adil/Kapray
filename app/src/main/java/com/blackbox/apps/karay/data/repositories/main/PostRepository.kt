@@ -34,6 +34,24 @@ class PostRepository @Inject constructor(private var db: RealmHelper, private va
                 )
     }
 
+    fun updateWomenClothing(womenClothing: WomenClothing) {
+
+        //Add to DB
+        db.update(womenClothing)
+
+        //Update post to DB once post is uploaded to FireBase
+        fb.updateWomenClothingRefInFireBaseDB(womenClothing)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(
+                        onNext = {
+                            db.update(it)
+                        },
+                        onError = {
+                            it.printStackTrace()
+                        }
+                )
+    }
+
     fun getBrandLogoURLByName(brandName: String): String? {
         val realm = db.getRealmInstance()
         return realm.where(WomenLocalBrand::class.java).contains("brand", brandName).findFirst()?.logo_url

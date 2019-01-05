@@ -16,8 +16,8 @@ android {
         applicationId "com.blackbox.apps.karay"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -64,6 +64,8 @@ dependencies {
     //Image Loader
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    kapt "android.arch.lifecycle:compiler:1.0.0"
+    kapt 'com.github.bumptech.glide:compiler:4.8.0'
 
     //Flexible Adapter
     implementation 'eu.davidea:flexible-adapter:5.1.0'
@@ -99,6 +101,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.0.5'
     implementation 'com.google.firebase:firebase-database:16.0.5'
     implementation 'com.google.firebase:firebase-storage:16.0.5'
+    implementation 'com.firebaseui:firebase-ui-storage:4.3.1'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.6'
 
     //Login Platforms

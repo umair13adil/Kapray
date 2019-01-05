@@ -69,12 +69,15 @@ class GoogleSign(private val context: FragmentActivity, val googleSignInCallBack
         val auth = FirebaseAuth.getInstance()
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         auth.signInWithCredential(credential)
-                .addOnCompleteListener(context) { task ->
-                    if (task.isSuccessful) {
-                        googleSignInCallBack.onLoginSuccess()
-                    } else {
-                        googleSignInCallBack.onLoginFailed()
-                    }
+                .addOnSuccessListener {
+                    googleSignInCallBack.onLoginSuccess()
+                }
+                .addOnCanceledListener {
+
+                }
+                .addOnFailureListener {
+                    it.printStackTrace()
+                    googleSignInCallBack.onLoginFailed()
                 }
     }
 

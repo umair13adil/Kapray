@@ -45,15 +45,15 @@
                         android:id="@+id/img_header"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:gravity="center_vertical" />
+                        android:gravity="center_vertical"
+                        android:scaleType="centerCrop" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/btn_back"
                         android:layout_width="@dimen/margin_55"
                         android:layout_height="@dimen/margin_55"
-                        ads:srcCompat="@drawable/ic_arrow_back_black_24dp"
-                        android:background="@color/translucentWhite"/>
+                        android:background="@color/translucentWhite"
+                        ads:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
                 </RelativeLayout>
 
@@ -72,8 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginRight="@dimen/margin_16"
-            android:layout_marginBottom="@dimen/margin_100"
+            android:layout_margin="@dimen/margin_16"
             android:scaleType="center"
             android:visibility="visible"
             app:backgroundTint="@color/colorPrimaryDark"
@@ -87,7 +86,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/margin_16"
+            android:layout_marginRight="@dimen/margin_16"
+            android:layout_marginBottom="@dimen/margin_100"
             android:scaleType="center"
             android:visibility="visible"
             app:backgroundTint="@color/colorPrimaryDark"
@@ -98,5 +98,6 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+    <include layout="@layout/layout_progress" />
 
 </FrameLayout>

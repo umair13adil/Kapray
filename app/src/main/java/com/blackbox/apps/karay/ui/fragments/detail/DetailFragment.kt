@@ -7,13 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.palette.graphics.Palette
 import com.blackbox.apps.karay.R
+import com.blackbox.apps.karay.data.repositories.network.FireBaseHelper
 import com.blackbox.apps.karay.models.clothing.WomenClothing
 import com.blackbox.apps.karay.models.enums.DialogCallback
 import com.blackbox.apps.karay.models.rxbus.AppEvents
 import com.blackbox.apps.karay.models.rxbus.EventData
 import com.blackbox.apps.karay.ui.base.BaseFragment
+import com.blackbox.apps.karay.ui.fragments.add.AddNewFragment
+import com.blackbox.apps.karay.utils.GlideApp
 import com.blackbox.apps.karay.utils.helpers.DialogsHelper
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -78,34 +82,68 @@ class DetailFragment : BaseFragment() {
         toolbar_layout.setExpandedTitleColor(ContextCompat.getColor(activity!!, android.R.color.transparent))
         toolbar_layout.setStatusBarScrimColor(ContextCompat.getColor(activity!!, android.R.color.transparent))
 
-        Glide.with(activity!!)
-                .asBitmap()
-                .load(File(clothingItem.image))
-                .listener(object : RequestListener<Bitmap> {
-                    override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                        if (resource != null) {
-                            val p = Palette.from(resource).generate()
-                            // Use generated instance
-                            mPaletteColor = p.getMutedColor(ContextCompat.getColor(activity!!, R.color.colorAccent))
-                            RxBus.get().send(EventData(AppEvents.STYLE_ACTION_BAR))
-                        }
-                        return false
-                    }
+        //If is URL
+        if (clothingItem.image.contains("https:")) {
 
-                    override fun onLoadFailed(e: GlideException?, model: Any?, target: com.bumptech.glide.request.target.Target<Bitmap>?, isFirstResource: Boolean): Boolean {
-                        return false
+            FireBaseHelper.getWomenClothingImageById(clothingItem.id)
+                    .doOnSubscribe {
+                        showLoading()
                     }
-                })
-                .into(img_header)
+                    .subscribeBy(
+                            onNext = { ref ->
+
+                                GlideApp.with(activity!!)
+                                        .asBitmap()
+                                        .load(ref)
+                                        .listener(object : RequestListener<Bitmap> {
+                                            override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                                                if (resource != null) {
+                                                    val p = Palette.from(resource).generate()
+                                                    // Use generated instance
+                                                    mPaletteColor = p.getMutedColor(ContextCompat.getColor(activity!!, R.color.colorAccent))
+                                                    RxBus.get().send(EventData(AppEvents.STYLE_ACTION_BAR))
+                                                }
+                                                hideLoading()
+                                                return false
+                                            }
+
+                                            override fun onLoadFailed(e: GlideException?, model: Any?, target: com.bumptech.glide.request.target.Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                                                hideLoading()
+                                                return false
+                                            }
+                                        })
+                                        .into(img_header)
+                            },
+                            onError = {
+                                hideLoading()
+                                it.printStackTrace()
+                            }
+                    )
+        } else {
+
+            Glide.with(activity!!)
+                    .asBitmap()
+                    .load(File(clothingItem.image))
+                    .listener(object : RequestListener<Bitmap> {
+                        override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            if (resource != null) {
+                                val p = Palette.from(resource).generate()
+                                // Use generated instance
+                                mPaletteColor = p.getMutedColor(ContextCompat.getColor(activity!!, R.color.colorAccent))
+                                RxBus.get().send(EventData(AppEvents.STYLE_ACTION_BAR))
+                            }
+                            return false
+                        }
+
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: com.bumptech.glide.request.target.Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                            return false
+                        }
+                    })
+                    .into(img_header)
+        }
 
         //Set content in details section
         txt_title?.text = clothingItem.brand_name
-        txt_description?.text = "" +
-                "Purchased On: ${clothingItem.date_purchased}" +
-                "\nSeason: ${clothingItem.season_info}" +
-                "\nSize: ${clothingItem.size_info}" +
-                "\nPrice: ${clothingItem.price}" +
-                "\nAdded On: ${clothingItem.date_added}"
 
         btn_back.setOnClickListener {
             goBack()
@@ -129,7 +167,27 @@ class DetailFragment : BaseFragment() {
                     )
         }
 
-        //TODO
-        hideFloatingActionButton(fab_edit)
+        fab_edit.setOnClickListener {
+            val args = AddNewFragment.bundleArgs(clothingItem)
+            Navigation.findNavController(view!!).navigate(R.id.action_detailFragment_to_AddNewFragment, args)
+        }
+
+        showHideViews()
+    }
+
+    private fun showHideViews(){
+        txt_description?.text = "" +
+                "Season: ${clothingItem.season_info}" +
+                "\nSize: ${clothingItem.size_info}"
+
+        if(clothingItem.date_purchased.isNotEmpty()){
+            txt_description?.append("\nPurchased On: ${clothingItem.date_purchased}")
+        }
+
+        if(clothingItem.price.isNotEmpty()){
+            txt_description?.append("\nPrice: ${clothingItem.price}")
+        }
+
+        txt_description?.append("\nAdded On: ${clothingItem.date_added}")
     }
 }

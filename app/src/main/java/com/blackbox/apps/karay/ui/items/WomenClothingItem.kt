@@ -5,7 +5,9 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.blackbox.apps.karay.R
+import com.blackbox.apps.karay.data.repositories.network.FireBaseHelper
 import com.blackbox.apps.karay.models.clothing.WomenClothing
+import com.blackbox.apps.karay.utils.GlideApp
 import com.blackbox.apps.karay.utils.setTypeface
 import com.bumptech.glide.Glide
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -13,6 +15,7 @@ import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFilterable
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
+import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.item_women_clothing.view.*
 import java.io.File
 
@@ -60,9 +63,25 @@ class WomenClothingItem(val womenClothing: WomenClothing, val headerItem: Season
 
         val mContext = viewHolder.brandLogo.context
 
-        Glide.with(mContext)
-                .load(File(womenClothing.image))
-                .into(viewHolder.clothingImage)
+        //If is URL
+        if (womenClothing.image.contains("https:")) {
+
+            FireBaseHelper.getWomenClothingImageById(womenClothing.id)
+                    .subscribeBy(
+                            onNext = {
+                                GlideApp.with(mContext)
+                                        .load(it)
+                                        .into(viewHolder.clothingImage)
+                            },
+                            onError = {
+                                it.printStackTrace()
+                            }
+                    )
+        } else {
+            Glide.with(mContext)
+                    .load(File(womenClothing.image))
+                    .into(viewHolder.clothingImage)
+        }
 
         if (womenClothing.brand_logo_url.isNotEmpty()) {
 

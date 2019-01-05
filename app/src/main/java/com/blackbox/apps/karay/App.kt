@@ -15,9 +15,6 @@ import io.realm.RealmConfiguration
 import javax.inject.Inject
 
 
-
-
-
 /**
  * Created by umair on 17/07/2017.
  */
@@ -33,7 +30,8 @@ class App : Application(), HasActivityInjector {
         FirebaseApp.initializeApp(this)
         Preferences.init(this)
 
-        Fabric.with(this, Crashlytics())
+        if (!BuildConfig.DEBUG)
+            Fabric.with(this, Crashlytics())
 
         Realm.init(this)
         Realm.setDefaultConfiguration(realmConfig)

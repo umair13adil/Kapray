@@ -21,6 +21,7 @@ import com.blackbox.apps.karay.ui.base.BaseFragment
 import com.blackbox.apps.karay.utils.autoComplete.CustomAutoCompleteTextChangedListener
 import com.blackbox.apps.karay.utils.autoComplete.WomenBrandsLocalAdapter
 import com.blackbox.apps.karay.utils.commons.DateTimeUtils
+import com.blackbox.apps.karay.utils.getPositionForValue
 import com.blackbox.apps.karay.utils.hideKeyboard
 import com.blackbox.apps.karay.utils.setTypeface
 import com.blackbox.apps.karay.utils.setUpSpinner
@@ -39,14 +40,22 @@ class AdditionalInfoFragment : BaseFragment(), DatePickerDialog.OnDateSetListene
 
     lateinit var myAdapter: ArrayAdapter<WomenLocalBrand>
     lateinit var listOfWomenLocalBrands: List<WomenLocalBrand>
-    private val womenClothing = WomenClothing()
+    private var womenClothing = WomenClothing()
+    private var isEditing = false
 
     companion object {
         private const val ARG_IMAGE_PATH = "image_path"
+        private const val ARG_CLOTHING = "clothing"
 
         fun bundleArgs(string: String): Bundle {
             return Bundle().apply {
                 this.putString(ARG_IMAGE_PATH, string)
+            }
+        }
+
+        fun bundleArgs(womenClothing: WomenClothing): Bundle {
+            return Bundle().apply {
+                this.putParcelable(ARG_CLOTHING, womenClothing)
             }
         }
     }
@@ -65,10 +74,22 @@ class AdditionalInfoFragment : BaseFragment(), DatePickerDialog.OnDateSetListene
 
         arguments?.let {
             val image_path = it.getString(ARG_IMAGE_PATH)
-            womenClothing.image = image_path
 
-            //Set Temp Id, it will be updated once post is stored in FireBase
-            womenClothing.id = womenClothing.image.hashCode().toString()
+            image_path?.let {
+
+                womenClothing.image = image_path
+
+                //Set Temp Id, it will be updated once post is stored in FireBase
+                womenClothing.id = womenClothing.image.hashCode().toString()
+            }
+
+            val clothing = it.getParcelable(ARG_CLOTHING) as? WomenClothing
+            clothing?.let {
+
+                isEditing = true
+
+                womenClothing = it
+            }
         }
 
         setContent()
@@ -130,12 +151,42 @@ class AdditionalInfoFragment : BaseFragment(), DatePickerDialog.OnDateSetListene
             hideKeyboard(activity!!)
             saveInfo()
         }
+
+        setData()
+    }
+
+    private fun setData(){
+
+        if(womenClothing.price.isNotEmpty()){
+            input_price.setText(womenClothing.price)
+        }
+
+        if(womenClothing.brand_name.isNotEmpty()){
+            input_women_brand_name.setText(womenClothing.brand_name)
+        }
+
+        if(womenClothing.date_purchased.isNotEmpty()){
+            input_date_purchased.setText(womenClothing.date_purchased)
+        }
+
+        input_kept_away.isChecked = womenClothing.kept_away
+        input_unstitched.isChecked = womenClothing.un_stitched
+        input_gift.isChecked = womenClothing.isGift
+
+        input_season.setSelection(getPositionForValue(Seasons.values(),womenClothing.season_info))
+        input_size.setSelection(getPositionForValue(Sizes.values(),womenClothing.size_info))
     }
 
     private fun saveInfo(){
         womenClothing.price = input_price.text.toString()
         womenClothing.date_added = DateTimeUtils.getTimeFormatted(System.currentTimeMillis())
-        viewModel.saveWomenClothingInfo(womenClothing)
+
+        if(!isEditing) {
+            viewModel.saveWomenClothingInfo(womenClothing)
+        }else{
+            viewModel.updateWomenClothingInfo(womenClothing)
+        }
+
         redirectToHome()
     }
 

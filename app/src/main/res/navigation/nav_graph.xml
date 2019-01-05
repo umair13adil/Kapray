@@ -156,6 +156,15 @@
         android:name="com.blackbox.apps.karay.ui.fragments.detail.DetailFragment"
         app:popUpToInclusive="true"
         tools:layout="@layout/detail_layout">
+
+        <action
+            android:id="@+id/action_detailFragment_to_AddNewFragment"
+            app:destination="@id/add_new_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
     </fragment>
 
 </navigation>

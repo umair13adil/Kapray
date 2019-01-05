@@ -16,6 +16,10 @@ class AddNewViewModel @Inject constructor(private var postRepository: PostReposi
         return postRepository.addNewWomenClothing(womenClothing)
     }
 
+    fun updateWomenClothingInfo(womenClothing: WomenClothing) {
+        return postRepository.updateWomenClothing(womenClothing)
+    }
+
     fun getLogoURL(name: String): String? {
         return postRepository.getBrandLogoURLByName(name)
     }

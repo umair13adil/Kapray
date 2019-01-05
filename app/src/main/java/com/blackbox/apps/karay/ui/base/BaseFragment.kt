@@ -95,7 +95,9 @@ abstract class BaseFragment : Fragment(), IRxBusQueue {
     }
 
     fun goBack() {
-        Navigation.findNavController(view!!).navigateUp()
+        view?.let {
+            Navigation.findNavController(it).navigateUp()
+        }
     }
 
     fun hideFloatingActionButton(fab: FloatingActionButton?) {

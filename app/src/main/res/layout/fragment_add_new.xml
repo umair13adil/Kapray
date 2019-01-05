@@ -45,6 +45,8 @@
             android:layout_marginBottom="@dimen/margin_25"
             android:text="@string/txt_retake_photo"
             android:visibility="gone" />
+
+        <include layout="@layout/layout_progress"/>
     </FrameLayout>
 
     <androidx.appcompat.widget.AppCompatButton

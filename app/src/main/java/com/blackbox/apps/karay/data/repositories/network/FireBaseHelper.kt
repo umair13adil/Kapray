@@ -110,6 +110,50 @@ object FireBaseHelper {
         }
     }
 
+    /**
+     * Update Women's Clothing info in FireBase DB
+     */
+    fun updateWomenClothingRefInFireBaseDB(womenClothing: WomenClothing): Observable<WomenClothing> {
+
+        return Observable.create { emitter ->
+
+            val refWomenClothing = dbRef.child(WOMEN_CLOTHING_ROOT)
+            val fireBaseUser = getCurrentUser()
+
+            if (fireBaseUser != null) {
+                val userId = fireBaseUser.uid
+                womenClothing.userId = userId
+
+                val postId = refWomenClothing.push().key!!
+                womenClothing.id = postId
+
+                deleteImageFileFromStorage(userId, womenClothing.id, womenClothing.file_name)
+
+                //Save Image to FireBase Storage
+                uploadImageToFireBase(womenClothing.image, postId)
+
+                refWomenClothing.child(postId).setValue(womenClothing).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Log.i(TAG, "Women clothing info updated in DB.")
+
+                        if (!emitter.isDisposed) {
+                            emitter.onNext(womenClothing)
+                            emitter.onComplete()
+                        }
+
+                    } else {
+                        Log.e(TAG, "Unable to save info to FireBase DB.")
+
+                        if (!emitter.isDisposed) {
+                            emitter.onError(Throwable("Unable to save info to FireBase DB."))
+                            emitter.onComplete()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private fun uploadImageToFireBase(imagePath: String, postId: String) {
         val userId = getCurrentUser()?.uid!!
         val file = File(imagePath)
@@ -139,30 +183,36 @@ object FireBaseHelper {
                 .setValue(fileName)
 
 
-        Log.i(TAG, "Updating image URL in firebase DB. FileName: $fileName")
+        PLog.logThis(TAG, "updateImageURLInDB", "Updating image URL in firebase DB. FileName: $fileName", LogLevel.INFO)
     }
 
     private fun savePhotoInFireBaseStorage(uri: Uri, reference: StorageReference, postId: String) {
 
-        val fileName = uri.lastPathSegment
-        val uploadTask = reference.putFile(uri)
+        try {
+            val fileName = uri.lastPathSegment
+            val uploadTask = reference.putFile(uri)
 
-        uploadTask.continueWithTask { task ->
+            uploadTask.continueWithTask { task ->
 
-            if (!task.isSuccessful) {
-                throw task.exception!!
-            }
-
-            return@continueWithTask reference.downloadUrl
-        }.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val downloadUri = task.result
-                downloadUri?.let {
-                    updateImageURLInDB(it.toString(), postId, fileName)
+                if (!task.isSuccessful) {
+                    PLog.logThis(TAG, "savePhotoInFireBaseStorage", "Unable to upload image to firebase storage. Not successful.", LogLevel.ERROR)
+                    throw task.exception!!
                 }
-            } else {
-                Log.e(TAG, "Unable to upload image to firebase storage.")
+
+                return@continueWithTask reference.downloadUrl
+            }.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val downloadUri = task.result
+                    downloadUri?.let {
+                        updateImageURLInDB(it.toString(), postId, fileName)
+                    }
+                } else {
+                    PLog.logThis(TAG, "savePhotoInFireBaseStorage", "Unable to upload image to firebase storage.", LogLevel.ERROR)
+                }
             }
+        }catch (e:Exception){
+            e.printStackTrace()
+            PLog.logThis(TAG, "savePhotoInFireBaseStorage", exception = e)
         }
     }
 
@@ -234,6 +284,58 @@ object FireBaseHelper {
                                 if (!emitter.isDisposed) {
                                     emitter.onNext(dbData)
                                     emitter.onComplete()
+                                }
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+
+                        if (!emitter.isDisposed) {
+                            emitter.onError(databaseError.toException())
+                            emitter.onComplete()
+                        }
+                    }
+                })
+            }
+        }
+    }
+
+
+    /**
+     * This will retrieve data clothing image reference.
+     */
+    fun getWomenClothingImageById(id: String): Observable<StorageReference> {
+
+        return Observable.create { emitter ->
+
+            val refWomenClothing = dbRef.child(WOMEN_CLOTHING_ROOT)
+            val fireBaseUser = getCurrentUser()
+
+
+            fireBaseUser?.let {
+                refWomenClothing.orderByKey().equalTo(id).addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        for (data in dataSnapshot.children) {
+
+                            data.getValue(WomenClothing::class.java)?.let { dbData ->
+
+                                PLog.logThis(TAG, "getWomenClothingImageById", "Found: $dbData", LogLevel.INFO)
+
+                                fireBaseUser.let {
+                                    //Compose Reference
+                                    val reference = storageRef
+                                            .child(DIRECTORY_WOMEN_CLOTHING_IMAGES)
+                                            .child(it.uid)
+                                            .child(dbData.id)
+                                            .child(dbData.file_name)
+
+                                    PLog.logThis(TAG, "getWomenClothingImageById", "Found: $reference", LogLevel.INFO)
+
+                                    if (!emitter.isDisposed) {
+                                        emitter.onNext(reference)
+                                        emitter.onComplete()
+                                    }
                                 }
                             }
                         }

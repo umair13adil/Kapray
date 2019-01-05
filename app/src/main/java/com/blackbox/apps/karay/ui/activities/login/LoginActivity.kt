@@ -12,6 +12,7 @@ import com.blackbox.apps.karay.ui.base.BaseActivity
 import com.blackbox.apps.karay.utils.commons.Constants
 import com.blackbox.apps.karay.utils.commons.Preferences
 import com.blackbox.apps.karay.utils.generateKeyHash
+import com.blackbox.apps.karay.utils.helpers.PermissionsHelper
 import com.blackbox.apps.karay.utils.platforms.FacebookSign
 import com.blackbox.apps.karay.utils.platforms.GoogleSign
 import com.blackbox.apps.karay.utils.platforms.LoginRequestResult
@@ -26,6 +27,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_login.*
+import java.util.concurrent.TimeUnit
 
 
 class LoginActivity : BaseActivity(), GoogleSign.GoogleSignInCallBack {
@@ -40,6 +42,10 @@ class LoginActivity : BaseActivity(), GoogleSign.GoogleSignInCallBack {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        //Check permissions
+        checkStoragePermissions()
+        checkCameraPermissions()
 
         generateKeyHash(this)
 
@@ -93,10 +99,10 @@ class LoginActivity : BaseActivity(), GoogleSign.GoogleSignInCallBack {
                         onNext = {
                             hideLoading()
 
-                            if (it == LoginRequestResult.LOGIN_SUCCESS) {
-                                signIn()
-                            } else if (it == LoginRequestResult.LOGIN_FAILED) {
-                                showToast(getString(R.string.txt_logging_in_failed), this)
+                            when (it) {
+                                LoginRequestResult.LOGIN_SUCCESS -> signIn()
+                                LoginRequestResult.LOGIN_FAILED -> showToast(getString(R.string.txt_logging_in_failed), this)
+                                LoginRequestResult.LOGIN_CANCELLED -> showToast(getString(R.string.txt_logging_in_cancelled), this)
                             }
                         },
                         onError = {
@@ -152,5 +158,37 @@ class LoginActivity : BaseActivity(), GoogleSign.GoogleSignInCallBack {
         Glide.with(this)
                 .load(R.drawable.ic_logo_empty)
                 .into(app_logo)
+    }
+
+    private fun checkStoragePermissions() {
+        //Request for storage permissions then start camera
+        PermissionsHelper.requestStoragePermissions(this)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .debounce(1, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+                .subscribeBy(
+                        onNext = { callback ->
+
+                        },
+                        onError = {
+
+                        }
+                )
+    }
+
+    private fun checkCameraPermissions() {
+        //Request for camera permissions and then open camera
+        PermissionsHelper.requestCameraPermissions(this)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .debounce(1, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+                .subscribeBy(
+                        onNext = { callback ->
+
+                        },
+                        onError = {
+
+                        }
+                )
     }
 }

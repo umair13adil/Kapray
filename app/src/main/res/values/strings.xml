@@ -22,6 +22,7 @@
     <string name="txt_no">No</string>
     <string name="txt_logging_in">Logging in..Please wait..</string>
     <string name="txt_logging_in_failed">Unable to log you in at this time.</string>
+    <string name="txt_logging_in_cancelled">Login was cancelled..</string>
     <string name="txt_logout">Logout</string>
 
     <!--Errors-->

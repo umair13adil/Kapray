@@ -15,6 +15,7 @@ import java.util.*
 
 class FacebookSign(private val mActivity: Activity) {
 
+    private val TAG = "FacebookSign"
     private val mCallbackManager: CallbackManager = CallbackManager.Factory.create()
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
@@ -37,17 +38,20 @@ class FacebookSign(private val mActivity: Activity) {
                             val credential = FacebookAuthProvider.getCredential(loginResults.accessToken.token)
 
                             auth.signInWithCredential(credential)
-                                    .addOnCompleteListener(mActivity) { task ->
-                                        if (task.isSuccessful) {
-                                            emitter.onNext(LoginRequestResult.LOGIN_SUCCESS)
-                                        } else {
-                                            emitter.onNext(LoginRequestResult.LOGIN_FAILED)
-                                        }
+                                    .addOnSuccessListener {
+                                        emitter.onNext(LoginRequestResult.LOGIN_SUCCESS)
+                                    }
+                                    .addOnCanceledListener {
+                                        emitter.onNext(LoginRequestResult.LOGIN_CANCELLED)
+                                    }
+                                    .addOnFailureListener {
+                                        it.printStackTrace()
+                                        emitter.onNext(LoginRequestResult.LOGIN_FAILED)
                                     }
                         }
 
                         override fun onCancel() {
-                            emitter.onNext(LoginRequestResult.LOGIN_FAILED)
+                            emitter.onNext(LoginRequestResult.LOGIN_CANCELLED)
                         }
 
                         override fun onError(e: FacebookException) {

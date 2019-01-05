@@ -101,3 +101,14 @@ fun <T> setUpSpinner(values: Array<T>, spinner: Spinner?, activity: Activity?): 
         }
     }
 }
+
+fun <T> getPositionForValue(values: Array<T>, match: String): Int {
+
+    values.forEachIndexed { index, t ->
+        if (t == match) {
+            return index
+        }
+    }
+
+    return 0
+}

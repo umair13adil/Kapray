@@ -1,5 +1,7 @@
 package com.blackbox.apps.karay.ui.activities
 
+import android.app.Activity.RESULT_CANCELED
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
